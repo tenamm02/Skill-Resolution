@@ -5,6 +5,8 @@ import os
 
 def scrape_website(url):
     response = requests.get(url)
+    print(response.status_code)  # Should be 200
+    print(response.content[:1000])  # Print first 1000 characters of the response content
     soup = BeautifulSoup(response.content, 'html.parser')
     
     # Find all article cards
