@@ -11,7 +11,7 @@ import os
 # Set up the Selenium WebDriver with Service
 def scrape_website_selenium(url):
     # Specify the path to your chromedriver
-    service = Service('/Users/michaeltenam/Downloads/chromedriver-mac-x64/chromedriver')
+    service = Service('/Users/michaeltenam/Downloads/chromedriver-mac-arm64/chromedriver')
     driver = webdriver.Chrome(service=service)
     driver.get(url)
 
