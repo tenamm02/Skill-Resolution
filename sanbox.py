@@ -7,32 +7,29 @@ Original file is located at
     https://colab.research.google.com/drive/1ZzJUNNivdrIOysP-uF59-cgrkNbEhlXf
 """
 
-
-
 import requests
+import arxiv  # You'll need to install this library using pip
 
-def fetch_wikipedia_content(query):
+def fetch_arxiv_content(query):
     """
-    Fetches the summary of a Wikipedia page for a given query.
+    Fetches the summary of an arXiv paper for a given query.
 
     Parameters:
-    - query: The search term to query Wikipedia for.
+    - query: The search term to query arXiv for.
 
     Returns:
-    A string containing the summary of the Wikipedia page.
+    A string containing the summary of the arXiv paper.
     """
-    URL = f"https://en.wikipedia.org/api/rest_v1/page/summary/{query}"
-    response = requests.get(URL)
+    search = arxiv.Search(
+      query = query,
+      max_results = 1,
+      sort_by = arxiv.SortCriterion.Relevance
+    )
 
-    if response.status_code == 200:
-        data = response.json()
-        print(data)
-        return data['extract']
-    else:
-        return "Could not fetch data from Wikipedia."
+    for result in search.results():
+        return result.summary
 
 from transformers import pipeline, set_seed
-
 
 def analyze_with_gpt2(content):
     """
@@ -73,11 +70,11 @@ def analyze_with_gpt2(content):
 
 def main():
     query = input("Enter a topic to generate a course plan: ")
-    wiki_content = fetch_wikipedia_content(query)
-    print("\nFetching Wikipedia content... Done.\n")
+    arxiv_content = fetch_arxiv_content(query)
+    print("\nFetching arXiv content... Done.\n")
 
     print("Generating course plan using GPT-2...\n")
-    course_plan = analyze_with_gpt2(wiki_content[:1000])  # We limit the content to avoid overwhelming GPT-2
+    course_plan = analyze_with_gpt2(arxiv_content[:1000])  # We limit the content to avoid overwhelming GPT-2
     print(course_plan)
 
 if __name__ == "__main__":
