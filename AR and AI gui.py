@@ -3,9 +3,8 @@ from tkinter import scrolledtext, messagebox
 import webbrowser
 import requests
 import os
-from transformers import GPT2Tokenizer, GPT2LMHeadModel
-import arxiv
 import wikipedia
+from transformers import GPT2Tokenizer, GPT2LMHeadModel
 
 # Set the Sketchfab API token as an environment variable
 os.environ['SKETCHFAB_API_TOKEN'] = '0e57c8a592a44347b8c9cf9cbee7bc5a'
@@ -21,42 +20,17 @@ class ARSketchfabApp:
         for i in range(8):  # Adjust the range as needed
             master.grid_rowconfigure(i, weight=1)
 
-        # Widgets for AR Learning Content Generator
-        self.query_label = tk.Label(master, text="Enter a topic to generate a course plan:")
-        self.query_entry = tk.Entry(master)
-        self.generate_button = tk.Button(master, text="Generate Learning Content",
-                                         command=self.generate_learning_content)
-        self.course_plan_label = tk.Label(master, text="Learning Content:")
-        self.course_plan_output = scrolledtext.ScrolledText(master, width=60, height=10, wrap=tk.WORD)
-
-        # Widgets for Sketchfab Model Viewer
-        self.search_label = tk.Label(master, text="Search for a free 3D model:")
+        # Widgets for Search and Learning Content
+        self.search_label = tk.Label(master, text="Enter a topic to search and generate learning content:")
         self.search_entry = tk.Entry(master)
-        self.search_button = tk.Button(master, text="Search", command=self.search_free_models)
+        self.search_button = tk.Button(master, text="Search & Generate", command=self.search_and_generate)
         self.results_text = scrolledtext.ScrolledText(master, width=60, height=10, wrap=tk.WORD)
 
-        # Layout widgets for AR Learning Content Generator
-        self.query_label.grid(row=0, column=0, padx=10, pady=5, sticky="nsew")
-        self.query_entry.grid(row=0, column=1, padx=10, pady=5, sticky="nsew")
-        self.generate_button.grid(row=1, column=0, columnspan=2, padx=10, pady=10, sticky="nsew")
-        self.course_plan_label.grid(row=2, column=0, padx=10, pady=5, sticky="nsew")
-        self.course_plan_output.grid(row=3, column=0, padx=10, pady=5, columnspan=2, sticky="nsew")
-
-        # Layout widgets for Sketchfab Model Viewer
-        self.search_label.grid(row=4, column=0, padx=10, pady=5, sticky="nsew")
-        self.search_entry.grid(row=4, column=1, padx=10, pady=5, sticky="nsew")
-        self.search_button.grid(row=5, column=0, columnspan=2, padx=10, pady=10, sticky="nsew")
-        self.results_text.grid(row=6, column=0, padx=10, pady=5, columnspan=2, sticky="nsew")
-
-    def fetch_arxiv_content(self, query):
-        search = arxiv.Search(
-            query=query,
-            max_results=1,
-            sort_by=arxiv.SortCriterion.Relevance
-        )
-
-        for result in search.results():
-            return result.summary
+        # Layout widgets for Search and Learning Content
+        self.search_label.grid(row=0, column=0, padx=10, pady=5, sticky="nsew")
+        self.search_entry.grid(row=0, column=1, padx=10, pady=5, sticky="nsew")
+        self.search_button.grid(row=1, column=0, columnspan=2, padx=10, pady=10, sticky="nsew")
+        self.results_text.grid(row=2, column=0, padx=10, pady=5, columnspan=2, sticky="nsew")
 
     def fetch_wikipedia_content(self, query):
         try:
@@ -97,26 +71,21 @@ class ARSketchfabApp:
 
         return generated_text
 
-    def generate_learning_content(self):
-        query = self.query_entry.get()
-
-        # Fetch content from arXiv
-        arxiv_content = self.fetch_arxiv_content(query)
+    def search_and_generate(self):
+        query = self.search_entry.get()
 
         # Fetch content from Wikipedia
         wikipedia_content = self.fetch_wikipedia_content(query)
 
-        if arxiv_content:
-            self.course_plan_output.delete("1.0", tk.END)
-            learning_content = self.generate_text_with_gpt2(arxiv_content[:1000], max_length=500)
-            self.course_plan_output.insert(tk.END, "From arXiv:\n" + learning_content + "\n\n")
-        else:
-            messagebox.showwarning("No Results", "No arXiv content found for the given query.")
-
         if wikipedia_content:
-            self.course_plan_output.insert(tk.END, "From Wikipedia:\n" + wikipedia_content)
+            self.results_text.delete("1.0", tk.END)
+            learning_content = self.generate_text_with_gpt2(wikipedia_content[:1000], max_length=500)
+            self.results_text.insert(tk.END, "From Wikipedia:\n" + learning_content + "\n\n")
         else:
             messagebox.showwarning("No Results", "No Wikipedia content found for the given query.")
+
+        # Fetch free 3D models from Sketchfab
+        self.search_free_models()
 
     def search_free_models(self):
         query = self.search_entry.get()
@@ -138,7 +107,7 @@ class ARSketchfabApp:
         # Check if request was successful
         if response.status_code == 200:
             # Display search results
-            self.results_text.delete('1.0', tk.END)
+            self.results_text.insert(tk.END, "\n\nFree 3D Models from Sketchfab:\n")
             for result in response.json()['results']:
                 self.results_text.insert(tk.END, f"Name: {result['name']}\n")
                 self.results_text.insert(tk.END, f"URL: {result['viewerUrl']}\n")
@@ -150,8 +119,7 @@ class ARSketchfabApp:
                 self.results_text.insert(tk.END, "\n")
         else:
             # Display error message if request was unsuccessful
-            self.results_text.delete('1.0', tk.END)
-            self.results_text.insert(tk.END, f"Error: Unable to fetch search results. Status code: {response.status_code}")
+            self.results_text.insert(tk.END, f"\n\nError: Unable to fetch search results from Sketchfab. Status code: {response.status_code}")
 
     def view_model(self, url):
         webbrowser.open_new(url)

@@ -1,7 +1,13 @@
 import tkinter as tk
 from tkinter import scrolledtext, messagebox
-from transformers import GPT2Tokenizer, GPT2LMHeadModel
+import webbrowser
+import requests
+import os
 import wikipedia
+from transformers import GPT2Tokenizer, GPT2LMHeadModel
+
+# Set the Sketchfab API token as an environment variable
+os.environ['SKETCHFAB_API_TOKEN'] = '0e57c8a592a44347b8c9cf9cbee7bc5a'
 
 class ARSketchfabApp:
     def __init__(self, master):
@@ -14,13 +20,15 @@ class ARSketchfabApp:
         for i in range(8):  # Adjust the range as needed
             master.grid_rowconfigure(i, weight=1)
 
-        self.query_label = tk.Label(master, text="Enter a topic or model name:")
-        self.query_entry = tk.Entry(master)
-        self.search_button = tk.Button(master, text="Search", command=self.generate_learning_content)
+        # Widgets for Search and Learning Content
+        self.search_label = tk.Label(master, text="Enter a topic to search and generate learning content:")
+        self.search_entry = tk.Entry(master)
+        self.search_button = tk.Button(master, text="Search & Generate", command=self.search_and_generate)
         self.results_text = scrolledtext.ScrolledText(master, width=60, height=10, wrap=tk.WORD)
 
-        self.query_label.grid(row=0, column=0, padx=10, pady=5, sticky="nsew")
-        self.query_entry.grid(row=0, column=1, padx=10, pady=5, sticky="nsew")
+        # Layout widgets for Search and Learning Content
+        self.search_label.grid(row=0, column=0, padx=10, pady=5, sticky="nsew")
+        self.search_entry.grid(row=0, column=1, padx=10, pady=5, sticky="nsew")
         self.search_button.grid(row=1, column=0, columnspan=2, padx=10, pady=10, sticky="nsew")
         self.results_text.grid(row=2, column=0, padx=10, pady=5, columnspan=2, sticky="nsew")
 
@@ -39,56 +47,7 @@ class ARSketchfabApp:
             # Handle other errors
             return "Error fetching Wikipedia content: " + str(e)
 
-    def generate_learning_content(self):
-        query = self.query_entry.get()
-
-        # Fetch content from Wikipedia
-        wikipedia_content = self.fetch_wikipedia_content(query)
-
-        if wikipedia_content:
-            # Define the structure of the learning content
-            content_structure = f"""
-            How a Course Functions for {query}:
-            1. User Onboarding:
-                • Users begin by taking the skill assessment and choosing their preferred topics.
-            2. Initial Course Delivery:
-                • The AI presents the first set of personalized content and AR experiences to the user through the platform interface.
-            3. User Interaction:
-                • As users interact with the course materials and AR simulations, the system captures their responses and engagement levels.
-            4. Adaptive Learning:
-                • The AI analyzes the captured data to continuously adjust the difficulty and type of content presented, ensuring the course remains challenging yet achievable.
-            5. Continuous Assessment:
-                • Throughout the course, users are assessed through quizzes and interactive prompts to measure progress.
-            6. Feedback Loop:
-                • Users can provide feedback on content and prompts, which the AI uses to refine the course further.
-            7. Course Completion:
-                Upon finishing the course, users receive a summary of their performance, along with any applicable certifications or badges.
-            """
-
-            # Use GPT-2 to generate the learning content based on the structure and Wikipedia content
-            generated_content = self.generate_text_with_gpt2(wikipedia_content)
-
-            # Split the generated content into sections based on the headings in the structure
-            sections = []
-            for heading in content_structure.split("\n\n"):
-                if heading.strip():  # Skip empty lines
-                    heading_text = heading.split("\n")[0].strip()  # Extract the heading text
-                    section_start = generated_content.find(heading_text)
-                    if section_start != -1:
-                        section_end = generated_content.find("\n\n", section_start + len(heading_text))
-                        if section_end != -1:
-                            sections.append(generated_content[section_start:section_end].strip())
-
-            # Reorganize the sections according to the structure
-            structured_content = "\n\n".join(sections)
-
-            # Display the structured content
-            self.results_text.delete('1.0', tk.END)
-            self.results_text.insert(tk.END, structured_content)
-        else:
-            messagebox.showwarning("No Results", "No Wikipedia content found for the given query.")
-
-    def generate_text_with_gpt2(self, prompt):
+    def generate_text_with_gpt2(self, prompt, max_length=200, num_return_sequences=1):
         tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
         model = GPT2LMHeadModel.from_pretrained("gpt2")
 
@@ -96,21 +55,74 @@ class ARSketchfabApp:
 
         output = model.generate(
             input_ids=input_ids,
-            max_length=1000,  # Adjust max_length to 1000
+            max_length=max_length,
+            num_return_sequences=num_return_sequences,
             pad_token_id=tokenizer.eos_token_id,
-            num_return_sequences=1,
-            no_repeat_ngram_size=2,
+            bos_token_id=tokenizer.bos_token_id,
+            do_sample=True,
             top_k=50,
             top_p=0.95,
             temperature=1.0,
-            do_sample=True,
-            num_beams=5,
+            num_beams=1,
             early_stopping=True
         )
 
         generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
 
         return generated_text
+
+    def search_and_generate(self):
+        query = self.search_entry.get()
+
+        # Fetch content from Wikipedia
+        wikipedia_content = self.fetch_wikipedia_content(query)
+
+        if wikipedia_content:
+            self.results_text.delete("1.0", tk.END)
+            learning_content = self.generate_text_with_gpt2(wikipedia_content[:1000], max_length=500)
+            self.results_text.insert(tk.END, "From Wikipedia:\n" + learning_content + "\n\n")
+        else:
+            messagebox.showwarning("No Results", "No Wikipedia content found for the given query.")
+
+        # Fetch free 3D models from Sketchfab
+        self.search_free_models()
+
+    def search_free_models(self):
+        query = self.search_entry.get()
+
+        # Define Sketchfab API endpoint
+        api_endpoint = 'https://api.sketchfab.com/v3/search'
+
+        # Set up request parameters
+        params = {
+            'type': 'models',
+            'q': query,
+            'price': 'free',  # Filter for free models only
+            'token': os.environ['SKETCHFAB_API_TOKEN']
+        }
+
+        # Send GET request to Sketchfab API
+        response = requests.get(api_endpoint, params=params)
+
+        # Check if request was successful
+        if response.status_code == 200:
+            # Display search results
+            self.results_text.insert(tk.END, "\n\nFree 3D Models from Sketchfab:\n")
+            for result in response.json()['results']:
+                self.results_text.insert(tk.END, f"Name: {result['name']}\n")
+                self.results_text.insert(tk.END, f"URL: {result['viewerUrl']}\n")
+                self.results_text.insert(tk.END, f"Description: {result['description']}\n\n")
+
+                # Add a button to view the model
+                view_button = tk.Button(self.results_text, text="View Model", command=lambda url=result['viewerUrl']: self.view_model(url))
+                self.results_text.window_create(tk.END, window=view_button)
+                self.results_text.insert(tk.END, "\n")
+        else:
+            # Display error message if request was unsuccessful
+            self.results_text.insert(tk.END, f"\n\nError: Unable to fetch search results from Sketchfab. Status code: {response.status_code}")
+
+    def view_model(self, url):
+        webbrowser.open_new(url)
 
 def main():
     root = tk.Tk()
