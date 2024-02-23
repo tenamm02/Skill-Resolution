@@ -4,7 +4,10 @@ import webbrowser
 import requests
 import os
 import wikipedia
-from transformers import GPT2Tokenizer, GPT2LMHeadModel
+import json
+
+# Set the Mistral API endpoint
+MISTRAL_API_URL = 'http://localhost:11434/api/generate'
 
 # Set the Sketchfab API token as an environment variable
 os.environ['SKETCHFAB_API_TOKEN'] = '0e57c8a592a44347b8c9cf9cbee7bc5a'
@@ -24,7 +27,7 @@ class ARSketchfabApp:
         self.search_label = tk.Label(master, text="Enter a topic to search and generate learning content:")
         self.search_entry = tk.Entry(master)
         self.search_button = tk.Button(master, text="Search & Generate", command=self.search_and_generate)
-        self.results_text = scrolledtext.ScrolledText(master, width=60, height=10, wrap=tk.WORD)
+        self.results_text = scrolledtext.ScrolledText(master, width=60, height=20, wrap=tk.WORD)
 
         # Layout widgets for Search and Learning Content
         self.search_label.grid(row=0, column=0, padx=10, pady=5, sticky="nsew")
@@ -47,29 +50,24 @@ class ARSketchfabApp:
             # Handle other errors
             return "Error fetching Wikipedia content: " + str(e)
 
-    def generate_text_with_gpt2(self, prompt, max_length=200, num_return_sequences=1):
-        tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
-        model = GPT2LMHeadModel.from_pretrained("gpt2")
+    def generate_text_with_mistral(self, prompt):
+        data = {
+            "model": "mistral",
+            "prompt": prompt
+        }
 
-        input_ids = tokenizer.encode(prompt, return_tensors="pt")
+        response = requests.post(MISTRAL_API_URL, json=data)
 
-        output = model.generate(
-            input_ids=input_ids,
-            max_length=max_length,
-            num_return_sequences=num_return_sequences,
-            pad_token_id=tokenizer.eos_token_id,
-            bos_token_id=tokenizer.bos_token_id,
-            do_sample=True,
-            top_k=50,
-            top_p=0.95,
-            temperature=1.0,
-            num_beams=1,
-            early_stopping=True
-        )
-
-        generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
-
-        return generated_text
+        if response.status_code == 200:
+            try:
+                response_lines = response.content.decode('utf-8').strip().split('\n')
+                generated_text = ' '.join(
+                    item.get('response', '') for item in (json.loads(line) for line in response_lines))
+                return generated_text
+            except Exception as e:
+                return f"Error parsing Mistral API response: {str(e)}"
+        else:
+            return f"Error generating text with Mistral API. Status code: {response.status_code}"
 
     def search_and_generate(self):
         query = self.search_entry.get()
@@ -79,8 +77,8 @@ class ARSketchfabApp:
 
         if wikipedia_content:
             self.results_text.delete("1.0", tk.END)
-            learning_content = self.generate_text_with_gpt2(wikipedia_content[:1000], max_length=500)
-            self.results_text.insert(tk.END, "From Wikipedia:\n" + learning_content + "\n\n")
+            learning_content = self.generate_text_with_mistral(wikipedia_content[:1000])
+            self.results_text.insert(tk.END, "Learning Content from Wikipedia:\n" + learning_content + "\n\n")
         else:
             messagebox.showwarning("No Results", "No Wikipedia content found for the given query.")
 
