@@ -1,118 +1,95 @@
-import json
 import tkinter as tk
-from tkinter import scrolledtext, messagebox, ttk
-from fake_course_generator import generate_fake_course
+from tkinter import ttk, scrolledtext, messagebox
+import requests
+import os
+import json
 
-class AugmentedRealityApp:
+# Define a color scheme and styles
+BACKGROUND_COLOR = "#333333"  # Dark gray
+TEXT_COLOR = "#FFFFFF"  # White
+BUTTON_COLOR = "#1E90FF"  # Dodger blue
+ENTRY_BG = "#555555"  # Darker gray
+FONT = ("Arial", 12)  # Define a font
+
+# Configure style
+style = ttk.Style()
+style.theme_use('default')
+style.configure('TEntry', foreground=TEXT_COLOR, fieldbackground=ENTRY_BG, font=FONT)
+style.configure('TButton', background=BUTTON_COLOR, font=FONT)
+style.configure('TLabel', background=BACKGROUND_COLOR, foreground=TEXT_COLOR, font=FONT)
+style.configure('TFrame', background=BACKGROUND_COLOR)
+
+# Set the Mistral API endpoint
+MISTRAL_API_URL = 'http://localhost:11434/api/generate'
+# Set the Sketchfab API token as an environment variable
+os.environ['SKETCHFAB_API_TOKEN'] = '0e57c8a592a44347b8c9cf9cbee7bc5a'
+
+class ARSketchfabApp:
     def __init__(self, master):
         self.master = master
-        master.title("AR Learning Content Generator")
+        master.title("AR Learning Content Generator & Sketchfab Model Viewer")
         master.state('zoomed')  # Maximize the window
-        
-        # Configure the grid to expand and fill the space
-        master.grid_columnconfigure(0, weight=1)
-        for i in range(8):  # Adjust the range as needed
-            master.grid_rowconfigure(i, weight=1)
+        master.configure(bg=BACKGROUND_COLOR)
 
-        self.chat_text = scrolledtext.ScrolledText(master, width=60, height=10, wrap=tk.WORD)
-        self.level_label = tk.Label(master, text="Enter your current level of knowledge:")
-        self.knowledge_level = tk.Scale(master, from_=0, to=2, orient=tk.HORIZONTAL, showvalue=0, tickinterval=1, resolution=1)
-        self.label_var = tk.StringVar()
-        self.label_display = tk.Label(master, textvariable=self.label_var)
-        self.generate_button = tk.Button(master, text="Generate Learning Content", command=self.generate_ar_content)
-        self.ar_content_label = tk.Label(master, text="Learning Content:")
-        self.ar_output = tk.Label(master, text="", wraplength=400, justify="left")
-        self.link_to_ar_button = tk.Button(master, text="Link to AR", command=self.open_ar_link)
+        # Create main frame
+        main_frame = ttk.Frame(master)
+        main_frame.grid(sticky='nsew', padx=10, pady=10)
+        master.grid_columnconfigure(0, weight=1)
+        master.grid_rowconfigure(0, weight=1)
+
+        # Configure the grid to expand and fill the space
+        for i in range(2):
+            main_frame.grid_columnconfigure(i, weight=1)
+            main_frame.grid_rowconfigure(i, weight=1)
+
+        # Widgets for Search and Learning Content
+        self.search_label = ttk.Label(main_frame, text="Enter a topic:")
+        self.search_entry = ttk.Entry(main_frame)
+        self.skill_label = ttk.Label(main_frame, text="Specific Skill:")
+        self.skill_entry = ttk.Entry(main_frame)
+        self.skill_level_label = ttk.Label(main_frame, text="Skill Level:")
+        self.skill_level_entry = ttk.Entry(main_frame)
+        self.search_button = ttk.Button(main_frame, text="Generate Content", command=self.generate_content)
+        self.results_text = scrolledtext.ScrolledText(main_frame, wrap=tk.WORD, font=FONT, fg=TEXT_COLOR, bg=ENTRY_BG)
 
         # Layout widgets
-        self.chat_text.grid(row=0, column=0, padx=10, pady=10, columnspan=2, sticky="nsew")
-        self.level_label.grid(row=1, column=0, padx=10, pady=5, sticky="nsew")
-        self.knowledge_level.grid(row=2, column=0, padx=10, pady=5, sticky="nsew")
-        self.label_display.grid(row=3, column=0, padx=10, pady=5, sticky="nsew")
-        self.generate_button.grid(row=4, column=0, padx=10, pady=10, sticky="nsew")
-        self.ar_content_label.grid(row=5, column=0, padx=10, pady=5, sticky="nsew")
-        self.ar_output.grid(row=6, column=0, padx=10, pady=5, columnspan=2, sticky="nsew")
-        self.link_to_ar_button.grid(row=7, column=0, padx=10, pady=10, sticky="nsew")
+        self.search_label.grid(row=0, column=0, padx=10, pady=5, sticky="ew")
+        self.search_entry.grid(row=0, column=1, padx=10, pady=5, sticky="ew")
+        self.skill_label.grid(row=1, column=0, padx=10, pady=5, sticky="ew")
+        self.skill_entry.grid(row=1, column=1, padx=10, pady=5, sticky="ew")
+        self.skill_level_label.grid(row=2, column=0, padx=10, pady=5, sticky="ew")
+        self.skill_level_entry.grid(row=2, column=1, padx=10, pady=5, sticky="ew")
+        self.search_button.grid(row=3, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
+        self.results_text.grid(row=4, column=0, columnspan=2, padx=10, pady=5, sticky="nsew")
 
-        # Initialize label display and course data
-        self.update_label(self.knowledge_level.get())
-        self.fake_course_data = None
+    def generate_text_with_mistral(self, topic, specific_skill, skill_level):
+        prompt = f"Generate a module for {topic} focusing on {specific_skill}. Include a mix of text, multimedia, and AR-based activities tailored for {skill_level} skill level. Design interactive prompts and exercises to enhance understanding and engagement. Incorporate gamification elements like points and badges for achievements."
+        data = {"model": "mistral", "prompt": prompt}
+        response = requests.post(MISTRAL_API_URL, json=data)
+        if response.status_code == 200:
+            try:
+                response_lines = response.content.decode('utf-8').strip().split('\n')
+                generated_text = ' '.join(item.get('response', '') for item in (json.loads(line) for line in response_lines))
+                return generated_text
+            except Exception as e:
+                return f"Error parsing Mistral API response: {str(e)}"
+        else:
+            return f"Error generating text with Mistral API. Status code: {response.status_code}"
 
-        # Call the update_label method when the knowledge level changes
-        self.knowledge_level.config(command=self.update_label)
-
-        # Initialize label display and course data
-        self.update_label(self.knowledge_level.get())
-        self.fake_course_data = None
-        
-    def open_ar_link(self):
-        # Add functionality to open the AR link here
-        # For now, just showing a messagebox as a placeholder
-        messagebox.showinfo("Link to AR", "This will link to the AR content.")
-
-    def update_label(self, value):
-        labels = ["New", "Moderate", "Strong"]
-        self.label_var.set(f"Selected Level: {labels[int(value)]}")
-
-    def generate_ar_content(self):
-        chat_input = self.chat_text.get("1.0", tk.END).strip()
-        knowledge_level = self.knowledge_level.get()
-        self.generate_ar_content_backend(chat_input, knowledge_level)
-        self.display_course_content()
-
-    def generate_ar_content_backend(self, chat_input, knowledge_level):
-        fake_course_json = generate_fake_course()
-        self.fake_course_data = json.loads(fake_course_json)
-        # You may update the UI with the course title or other details here if needed
-
-    def display_course_content(self):
-        self.course_window = tk.Toplevel(self.master)
-        self.course_window.title("Course Content")
-
-        # Make the course window full screen
-        self.course_window.state('zoomed')
-
-        # Display course title and description from fake_course_data
-        course_title = self.fake_course_data["course_title"]
-        course_description = self.fake_course_data["course_description"]
-        self.course_title_label = tk.Label(self.course_window, text=course_title)
-        self.course_title_label.pack()
-        self.course_description_label = tk.Label(self.course_window, text=course_description)
-        self.course_description_label.pack()
-
-        # Treeview for modules and lessons
-        self.course_tree = ttk.Treeview(self.course_window)
-        self.course_tree.pack(expand=True, fill='both')
-
-        # Populate Treeview with modules and lessons
-        for module in self.fake_course_data['modules']:
-            module_id = self.course_tree.insert('', 'end', text=module['module_title'])
-            for lesson in module['lessons']:
-                self.course_tree.insert(module_id, 'end', text=lesson['lesson_title'])
-
-        # Text area for displaying selected lesson content
-        self.lesson_content_text = tk.Text(self.course_window, wrap='word')
-        self.lesson_content_text.pack(expand=True, fill='both')
-
-        # Bind the Treeview select event
-        self.course_tree.bind('<<TreeviewSelect>>', self.on_lesson_select)
-
-    def on_lesson_select(self, event):
-        selected_item = self.course_tree.selection()[0]
-        lesson_title = self.course_tree.item(selected_item, 'text')
-
-        # Clear previous content
-        self.lesson_content_text.delete('1.0', tk.END)
-
-        # Display content for selected lesson
-        for module in self.fake_course_data['modules']:
-            for lesson in module['lessons']:
-                if lesson['lesson_title'] == lesson_title:
-                    self.lesson_content_text.insert(tk.END, lesson['lesson_content'])
+    def generate_content(self):
+        topic = self.search_entry.get()
+        specific_skill = self.skill_entry.get()
+        skill_level = self.skill_level_entry.get()
+        generated_content = self.generate_text_with_mistral(topic, specific_skill, skill_level)
+        if generated_content:
+            self.results_text.delete("1.0", tk.END)
+            self.results_text.insert(tk.END, "Generated Content:\n" + generated_content)
+        else:
+            messagebox.showwarning("No Results", "No content generated for the given query.")
 
 def main():
     root = tk.Tk()
-    app = AugmentedRealityApp(root)
+    app = ARSketchfabApp(root)
     root.mainloop()
 
 if __name__ == "__main__":
