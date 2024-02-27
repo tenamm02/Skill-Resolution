@@ -4,6 +4,10 @@ from tkinter import ttk, scrolledtext, messagebox
 import requests
 import os
 import json
+import random
+import nltk
+nltk.download('punkt')
+from nltk.tokenize import sent_tokenize
 
 # Define a color scheme and styles
 BACKGROUND_COLOR = "#333333"  # Dark gray
@@ -24,6 +28,22 @@ style.configure('TFrame', background=BACKGROUND_COLOR)
 MISTRAL_API_URL = 'http://localhost:11434/api/generate'
 # Set the Sketchfab API token as an environment variable
 os.environ['SKETCHFAB_API_TOKEN'] = '0e57c8a592a44347b8c9cf9cbee7bc5a'
+
+def extract_key_sentences(content, num_questions=5):
+    # Tokenize the content into sentences
+    sentences = sent_tokenize(content)
+    # Filter sentences that contain a question mark, which are likely questions
+    question_sentences = [sentence for sentence in sentences if '?' in sentence]
+    # If there aren't enough questions, fill in the remaining slots with the last sentences
+    if len(question_sentences) < num_questions:
+        question_sentences += sentences[-(num_questions - len(question_sentences)):]
+    # Select the first 'num_questions' questions
+    key_sentences = question_sentences[:num_questions]
+    return key_sentences
+
+def create_distractor(correct_answer):
+    # This is a placeholder. Implement your logic to create a plausible distractor.
+    return "Distractor"
 
 class ARSketchfabApp:
     def __init__(self, master):
@@ -92,12 +112,7 @@ class ARSketchfabApp:
         """
         # Implementation as previously discussed
         quizzes = [
-            {
-                "question": "What is the primary purpose of HTML?",
-                "options": ["Structure web content", "Style web pages", "Interactivity", "Data storage"],
-                "correct_answer": "Structure web content"
-            },
-            # More questions
+
         ]
         return quizzes
 
@@ -182,15 +197,32 @@ class ARSketchfabApp:
         else:
             return f"Error generating text with Mistral API. Status code: {response.status_code}"
 
+    def generate_quiz_based_on_content(self, content):
+        key_sentences = extract_key_sentences(content)
+        self.structured_quiz = []
+        for sentence in key_sentences:
+            question = f"What is described by: '{sentence}'?"
+            correct_answer = sentence
+            distractors = [create_distractor(correct_answer) for _ in range(3)]
+            options = distractors + [correct_answer]
+            random.shuffle(options)
+            self.structured_quiz.append({
+                "question": question,
+                "options": options,
+                "correct_answer": correct_answer
+            })
     def generate_content(self):
         topic = self.search_entry.get()
         specific_skill = self.skill_entry.get()
         skill_level = self.skill_level_entry.get()
         generated_content = self.generate_text_with_mistral(topic, specific_skill, skill_level)
+        generated_content = self.generate_text_with_mistral(self.search_entry.get(), self.skill_entry.get(),
+                                                            self.skill_level_entry.get())
         if generated_content:
             self.results_text.delete("1.0", tk.END)
             self.results_text.insert(tk.END, "Generated Content:\n" + generated_content)
-            self.display_quiz_button()  # Call to display the "Generate Quiz" button
+            self.display_quiz_button()
+            self.generate_quiz_based_on_content(generated_content)  # Call this to generate the quiz
         else:
             messagebox.showwarning("No Results", "No content generated for the given query.")
 

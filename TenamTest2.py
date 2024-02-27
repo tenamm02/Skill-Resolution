@@ -30,8 +30,15 @@ MISTRAL_API_URL = 'http://localhost:11434/api/generate'
 os.environ['SKETCHFAB_API_TOKEN'] = '0e57c8a592a44347b8c9cf9cbee7bc5a'
 
 def extract_key_sentences(content, num_questions=5):
+    # Tokenize the content into sentences
     sentences = sent_tokenize(content)
-    key_sentences = sentences[:num_questions]
+    # Filter sentences that contain a question mark, which are likely questions
+    question_sentences = [sentence for sentence in sentences if '?' in sentence]
+    # If there aren't enough questions, fill in the remaining slots with the last sentences
+    if len(question_sentences) < num_questions:
+        question_sentences += sentences[-(num_questions - len(question_sentences)):]
+    # Select the first 'num_questions' questions
+    key_sentences = question_sentences[:num_questions]
     return key_sentences
 
 def create_distractor(correct_answer):
@@ -105,12 +112,7 @@ class ARSketchfabApp:
         """
         # Implementation as previously discussed
         quizzes = [
-            {
-                "question": "What is the primary purpose of HTML?",
-                "options": ["Structure web content", "Style web pages", "Interactivity", "Data storage"],
-                "correct_answer": "Structure web content"
-            },
-            # More questions
+
         ]
         return quizzes
 
@@ -180,15 +182,26 @@ class ARSketchfabApp:
         self.results_text.delete("1.0", tk.END)
         self.results_text.insert(tk.END, "Generated Article:\n" + article_content)
 
-
     def generate_text_with_mistral(self, topic, specific_skill, skill_level):
-        prompt = f"Generate a module for {topic} focusing on {specific_skill}. Include a mix of text, multimedia, and AR-based activities tailored for {skill_level} skill level. Design interactive prompts and exercises to enhance understanding and engagement. Incorporate gamification elements like points and badges for achievements."
+        # Updated prompt to include detailed course structure and elements
+        prompt = f"""Create a comprehensive, self-paced online course titled "The Ultimate {topic} Journey". This course should be structured into multiple modules, each focusing on a key aspect of {topic}. Begin with a captivating introduction that outlines the course objectives and how users will benefit from it. Each module should include:
+
+    - A clear explanation of the module's topic, with text and multimedia content such as images, infographics, and videos.
+    - Interactive elements like quizzes at the end of each section to reinforce learning.
+    - Practical exercises and hands-on projects that users can complete to apply what they've learned.
+    - Gamification features, such as awarding stars for module completion and points for exercise submissions.
+    - A progress tracker that visually displays the user's progress through the course and the stars earned.
+    - A conclusion that summarizes the key takeaways and encourages further exploration.
+
+    Ensure the content is adaptive, providing simpler explanations and foundational tasks for beginners, and more complex challenges and in-depth discussions for advanced users. Incorporate real-world examples and case studies to illustrate practical applications of {topic}. The course should engage users, keeping them motivated with a mix of challenging, informative, and entertaining content tailored for {skill_level} skill level."""
+
         data = {"model": "mistral", "prompt": prompt}
         response = requests.post(MISTRAL_API_URL, json=data)
         if response.status_code == 200:
             try:
                 response_lines = response.content.decode('utf-8').strip().split('\n')
-                generated_text = ' '.join(item.get('response', '') for item in (json.loads(line) for line in response_lines))
+                generated_text = ' '.join(
+                    item.get('response', '') for item in (json.loads(line) for line in response_lines))
                 return generated_text
             except Exception as e:
                 return f"Error parsing Mistral API response: {str(e)}"
