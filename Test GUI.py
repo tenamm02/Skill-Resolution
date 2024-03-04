@@ -111,8 +111,8 @@ class AugmentedRealityApp:
                     self.lesson_content_text.insert(tk.END, lesson['lesson_content'])
 
 def main():
-    root = tk.Tk()
-    app = AugmentedRealityApp(root)
+    root = tk.Tk()  # Create the root window first
+    app = ARSketchfabApp(root)  # Pass the root window to your application
     root.mainloop()
 
 if __name__ == "__main__":
