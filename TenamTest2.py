@@ -8,6 +8,89 @@ import random
 import nltk
 nltk.download('punkt')
 from nltk.tokenize import sent_tokenize
+import sqlite3
+
+def setup_database():
+    conn = sqlite3.connect('learning_content.db')
+    cursor = conn.cursor()
+    # Create tables for topics, course contents, and quizzes
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS topics (
+        id INTEGER PRIMARY KEY,
+        topic TEXT NOT NULL,
+        skill TEXT,
+        skill_level TEXT
+    )
+    ''')
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS course_contents (
+        id INTEGER PRIMARY KEY,
+        topic_id INTEGER NOT NULL,
+        content TEXT NOT NULL,
+        FOREIGN KEY(topic_id) REFERENCES topics(id)
+    )
+    ''')
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS quizzes (
+        id INTEGER PRIMARY KEY,
+        content_id INTEGER NOT NULL,
+        question TEXT NOT NULL,
+        correct_answer TEXT NOT NULL,
+        distractors TEXT NOT NULL,
+        FOREIGN KEY(content_id) REFERENCES course_contents(id)
+    )
+    ''')
+    conn.commit()
+    conn.close()
+
+def insert_topic(topic, skill, skill_level):
+    conn = sqlite3.connect('learning_content.db')
+    cursor = conn.cursor()
+    cursor.execute('INSERT INTO topics (topic, skill, skill_level) VALUES (?, ?, ?)', (topic, skill, skill_level))
+    topic_id = cursor.lastrowid
+    conn.commit()
+    conn.close()
+    return topic_id
+
+def insert_content(topic_id, content):
+    conn = sqlite3.connect('learning_content.db')
+    cursor = conn.cursor()
+    cursor.execute('INSERT INTO course_contents (topic_id, content) VALUES (?, ?)', (topic_id, content))
+    content_id = cursor.lastrowid
+    conn.commit()
+    conn.close()
+    return content_id
+
+def insert_quiz(content_id, question, correct_answer, distractors):
+    conn = sqlite3.connect('learning_content.db')
+    cursor = conn.cursor()
+    distractors_text = json.dumps(distractors)  # Convert list to JSON string for storage
+    cursor.execute('INSERT INTO quizzes (content_id, question, correct_answer, distractors) VALUES (?, ?, ?, ?)',
+                   (content_id, question, correct_answer, distractors_text))
+    conn.commit()
+    conn.close()
+
+def fetch_quizzes(content_id):
+    conn = sqlite3.connect('learning_content.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT question, correct_answer, distractors FROM quizzes WHERE content_id = ?', (content_id,))
+    quizzes = [{'question': row[0], 'correct_answer': row[1], 'distractors': json.loads(row[2])} for row in cursor.fetchall()]
+    conn.close()
+    return quizzes
+
+def search_similar_topics(topic, skill, skill_level):
+    conn = sqlite3.connect('learning_content.db')
+    cursor = conn.cursor()
+    # Using simple LIKE query for demonstration; adapt as needed for more sophistication
+    query = """
+    SELECT id, topic, skill, skill_level FROM topics
+    WHERE topic LIKE ? OR skill LIKE ? OR skill_level LIKE ?
+    """
+    cursor.execute(query, (f'%{topic}%', f'%{skill}%', f'%{skill_level}%'))
+    results = cursor.fetchall()
+    conn.close()
+    return results
+
 
 # Define a color scheme and styles
 BACKGROUND_COLOR = "#333333"  # Dark gray
@@ -222,22 +305,40 @@ class ARSketchfabApp:
                 "options": options,
                 "correct_answer": correct_answer
             })
+
     def generate_content(self):
         topic = self.search_entry.get()
         specific_skill = self.skill_entry.get()
         skill_level = self.skill_level_entry.get()
-        generated_content = self.generate_text_with_mistral(topic, specific_skill, skill_level)
-        generated_content = self.generate_text_with_mistral(self.search_entry.get(), self.skill_entry.get(),
-                                                            self.skill_level_entry.get())
-        if generated_content:
-            self.results_text.delete("1.0", tk.END)
-            self.results_text.insert(tk.END, "Generated Content:\n" + generated_content)
-            self.display_quiz_button()
-            self.generate_quiz_based_on_content(generated_content)  # Call this to generate the quiz
+
+        # Search for similar topics
+        similar_topics = search_similar_topics(topic, specific_skill, skill_level)
+
+        if similar_topics:
+            # If similar topics exist, choose how to use them. This is a simplified example.
+            # You could fetch the content associated with these topics and display it,
+            # or compare the content's similarity more thoroughly before deciding.
+            messagebox.showinfo("Similar Content Found", "Similar content already exists in the database.")
+            # Fetch and display the first similar topic's content for demonstration
+            content_id = similar_topics[0][0]  # Assuming the first column is the ID
+            quizzes = fetch_quizzes(content_id)  # Assuming quizzes are related to content
+            # Display quizzes or content as needed
         else:
-            messagebox.showwarning("No Results", "No content generated for the given query.")
+            # No similar content found, proceed to generate new content
+            topic_id = insert_topic(topic, specific_skill, skill_level)
+            generated_content = self.generate_text_with_mistral(topic, specific_skill, skill_level)
+            if generated_content:
+                content_id = insert_content(topic_id, generated_content)
+                self.results_text.delete("1.0", tk.END)
+                self.results_text.insert(tk.END, "Generated Content:\n" + generated_content)
+                self.display_quiz_button()
+                self.generate_quiz_based_on_content(generated_content, content_id)  # Pass content_id to link quizzes
+            else:
+                messagebox.showwarning("No Results", "No content generated for the given query.")
+
 
 def main():
+    setup_database()  # Ensure the database is set up
     root = tk.Tk()
     app = ARSketchfabApp(root)
     root.mainloop()
