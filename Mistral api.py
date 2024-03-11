@@ -92,8 +92,8 @@ class ARSketchfabApp:
 
     def generate_text_with_mistral(self, topic, specific_skill, skill_level):
         # Updated prompt to include detailed course structure and elements
-        prompt = f"""Create a comprehensive, self-paced online course titled "The Ultimate {topic} Journey". This course should be structured into multiple modules, each focusing on a key aspect of {topic}. Begin with a captivating introduction that outlines the course objectives and how users will benefit from it. Each module should include:
-
+        prompt = f"""Create a comprehensive, self-paced online course titled "The Ultimate {topic} Journey". This course should be structured into multiple modules, each focusing on a key aspect of {topic}, specifically {specific_skill}. Begin with a captivating introduction that outlines the course objectives and how users will benefit from it. Each module should include:
+        
     - A clear explanation of the module's topic, with text and multimedia content such as images, infographics, and videos.
     - Interactive elements like quizzes at the end of each section to reinforce learning.
     - Practical exercises and hands-on projects that users can complete to apply what they've learned.
@@ -116,8 +116,8 @@ class ARSketchfabApp:
         else:
             return f"Error generating text with Mistral API. Status code: {response.status_code}"
 
-    def generate_quiz(self, topic):
-        prompt = f"Generate a quiz for {topic} with 5 multiple-choice questions, each having 4 options."
+    def generate_quiz(self, topic, specific_skil):
+        prompt = f"Generate a quiz for {topic}, specifically {specific_skill} with 5 multiple-choice questions, each having 4 options."
         data = {"model": "mistral", "prompt": prompt}
         return self.post_request_to_mistral(data)
 
