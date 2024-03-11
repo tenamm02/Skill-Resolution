@@ -91,18 +91,10 @@ class ARSketchfabApp:
         return self.post_request_to_mistral(data)
 
     def generate_text_with_mistral(self, topic, specific_skill, skill_level):
-        # Updated prompt to include detailed course structure and elements
-        prompt = f"""Create a comprehensive, self-paced online course titled "The Ultimate {topic} Journey". This course should be structured into multiple modules, each focusing on a key aspect of {topic}, specifically {specific_skill}. Begin with a captivating introduction that outlines the course objectives and how users will benefit from it. Each module should include:
-        
-    - A clear explanation of the module's topic, with text and multimedia content such as images, infographics, and videos.
-    - Interactive elements like quizzes at the end of each section to reinforce learning.
-    - Practical exercises and hands-on projects that users can complete to apply what they've learned.
-    - Gamification features, such as awarding stars for module completion and points for exercise submissions.
-    - A progress tracker that visually displays the user's progress through the course and the stars earned.
-    - A conclusion that summarizes the key takeaways and encourages further exploration.
-
-    Ensure the content is adaptive, providing simpler explanations and foundational tasks for beginners, and more complex challenges and in-depth discussions for advanced users. Incorporate real-world examples and case studies to illustrate practical applications of {topic}. The course should engage users, keeping them motivated with a mix of challenging, informative, and entertaining content tailored for {skill_level} skill level."""
-
+        # Prompt for module-based content
+        prompt = f"""Create a self-paced online course titled "Introduction to {topic}" structured into multiple modules, each focusing on a key aspect of {specific_skill}. 
+    \
+        """
         data = {"model": "mistral", "prompt": prompt}
         response = requests.post(MISTRAL_API_URL, json=data)
         if response.status_code == 200:
