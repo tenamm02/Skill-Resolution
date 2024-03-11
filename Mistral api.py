@@ -116,8 +116,8 @@ class ARSketchfabApp:
         else:
             return f"Error generating text with Mistral API. Status code: {response.status_code}"
 
-    def generate_quiz(self, topic, specific_skil):
-        prompt = f"Generate a quiz for {topic}, specifically {specific_skill} with 5 multiple-choice questions, each having 4 options."
+    def generate_quiz(self, topic, specific_skill):
+        prompt = f"make me a quiz about {topic} focusing on {specific_skill} with 5 multiple-choice questions, each having 4 options., put the answer key at the bottom"
         data = {"model": "mistral", "prompt": prompt}
         return self.post_request_to_mistral(data)
 
@@ -138,16 +138,19 @@ class ARSketchfabApp:
         topic = self.search_entry.get()
         specific_skill = self.skill_entry.get()
         skill_level = self.skill_level_entry.get()
+
         generated_content = self.generate_text_with_mistral(topic, specific_skill, skill_level)
         if generated_content:
             self.results_text.delete("1.0", tk.END)
             self.results_text.insert(tk.END, "Generated Content:\n" + generated_content)
         else:
             messagebox.showwarning("No Results", "No content generated for the given query.")
+        return specific_skill
 
     def generate_quiz_window(self):
         topic = self.search_entry.get()
-        quiz_text = self.generate_quiz(topic)
+        specific_skill = self.skill_entry.get()
+        quiz_text = self.generate_quiz(topic, specific_skill)
 
         if quiz_text:
             quiz_window = tk.Toplevel(self.master)
