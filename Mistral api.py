@@ -144,49 +144,41 @@ class ARSketchfabApp:
             return f"Error with Mistral API. Status code: {response.status_code}"
 
     def generate_quiz_window(self):
-    topic = self.search_entry.get()
-    specific_skill = self.skill_entry.get()
-    quiz_text = self.generate_quiz(topic, specific_skill)
+        topic = self.search_entry.get()
+        specific_skill = self.skill_entry.get()
+        quiz_text = self.generate_quiz(topic, specific_skill)
 
-    if quiz_text:
-        quiz_window = tk.Toplevel(self.master)
-        quiz_window.title("Generated Quiz")
-        quiz_window.geometry("600x400")
-        quiz_window.configure(bg=BACKGROUND_COLOR)
+        if quiz_text:
+            quiz_window = tk.Toplevel(self.master)
+            quiz_window.title("Generated Quiz")
+            quiz_window.geometry("600x400")
+            quiz_window.configure(bg=BACKGROUND_COLOR)
 
-        # Split quiz text into individual questions
-        questions = quiz_text.strip().split("\n\n")
-        print("Quiz text:")
-        print(quiz_text)
-        for i, question in enumerate(questions, start=1):
-            print(f"Question {i}: {question}")
+            # Split quiz text into individual questions
+            questions = quiz_text.strip().split("\n\n")
+            for i, question in enumerate(questions, start=1):
+                question_label = ttk.Label(quiz_window, text=f"Question {i}:", background=BACKGROUND_COLOR, foreground=TEXT_COLOR, font=FONT)
+                question_label.pack(pady=5, anchor="w")
 
-            question_label = ttk.Label(quiz_window, text=f"Question {i}:", background=BACKGROUND_COLOR, foreground=TEXT_COLOR, font=FONT)
-            question_label.pack(pady=5, anchor="w")
+                # Extract question and options
+                lines = question.strip().split('\n')
+                question_text = lines[0]  # First line is the question
+                options = [line.strip() for line in lines[1:] if line.strip().startswith(("A.", "B.", "C.", "D."))]  # Filter options
 
-            # Extract question and options
-            lines = question.strip().split('\n')
-            question_text = lines[0]  # First line is the question
-            options = [line.strip() for line in lines[1:] if line.strip().startswith(("A.", "B.", "C.", "D."))]  # Filter options
+                # Create question label
+                ttk.Label(quiz_window, text=question_text, background=BACKGROUND_COLOR, foreground=TEXT_COLOR, font=FONT).pack(pady=5, anchor="w")
 
-            print("Question text:", question_text)
-            print("Options:", options)
+                # Create radio buttons for options
+                option_var = tk.StringVar()
+                for j, option in enumerate(options):
+                    ttk.Radiobutton(quiz_window, text=option[3:], variable=option_var, value=chr(65 + j), background=BACKGROUND_COLOR, foreground=TEXT_COLOR, font=FONT).pack(pady=2, anchor="w")
 
-            # Create question label
-            ttk.Label(quiz_window, text=question_text, background=BACKGROUND_COLOR, foreground=TEXT_COLOR, font=FONT).pack(pady=5, anchor="w")
+                ttk.Separator(quiz_window, orient="horizontal").pack(fill="x", pady=10, padx=5)
 
-            # Create radio buttons for options
-            option_var = tk.StringVar()
-            for j, option in enumerate(options):
-                ttk.Radiobutton(quiz_window, text=option[3:], variable=option_var, value=chr(65 + j), background=BACKGROUND_COLOR, foreground=TEXT_COLOR, font=FONT).pack(pady=2, anchor="w")
-
-            ttk.Separator(quiz_window, orient="horizontal").pack(fill="x", pady=10, padx=5)
-
-        # Button to submit quiz
-        ttk.Button(quiz_window, text="Submit", command=lambda: self.submit_quiz(quiz_text)).pack(pady=10)
-    else:
-        messagebox.showwarning("No Results", "No quiz generated for the given topic.")
-
+            # Button to submit quiz
+            ttk.Button(quiz_window, text="Submit", command=lambda: self.submit_quiz(quiz_text)).pack(pady=10)
+        else:
+            messagebox.showwarning("No Results", "No quiz generated for the given topic.")
 
 def main():
     root = tk.Tk()
