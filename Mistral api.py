@@ -48,6 +48,51 @@ def extract_key_sentences(content, num_questions=5):
     return key_sentences
 
 
+def post_request_to_mistral(data):
+    response = requests.post(MISTRAL_API_URL, json=data)
+    if response.status_code == 200:
+        try:
+            response_lines = response.content.decode('utf-8').strip().split('\n')
+            generated_text = ' '.join(
+                item.get('response', '') for item in (json.loads(line) for line in response_lines))
+            return generated_text
+        except Exception as e:
+            return f"Error parsing Mistral API response: {str(e)}"
+    else:
+        return f"Error with Mistral API. Status code: {response.status_code}"
+
+
+def generate_quiz(topic, specific_skill):
+    prompt = f"make me a quiz about {topic} focusing on {specific_skill} with 5 multiple-choice questions, each having 4 options., put the answers at the buttom of all 5 questions"
+    data = {"model": "mistral", "prompt": prompt}
+    return post_request_to_mistral(data)
+
+
+def generate_text_with_mistral(topic, specific_skill, skill_level):
+    # Prompt for module-based content
+    prompt = f"""Create a self-paced online course titled "Introduction to {topic}" structured into multiple modules, each focusing on a key aspect of {specific_skill}. 
+
+    """
+    data = {"model": "mistral", "prompt": prompt}
+    response = requests.post(MISTRAL_API_URL, json=data)
+    if response.status_code == 200:
+        try:
+            response_lines = response.content.decode('utf-8').strip().split('\n')
+            generated_text = ' '.join(
+                item.get('response', '') for item in (json.loads(line) for line in response_lines))
+            return generated_text
+        except Exception as e:
+            return f"Error parsing Mistral API response: {str(e)}"
+    else:
+        return f"Error generating text with Mistral API. Status code: {response.status_code}"
+
+
+def generate_article_with_mistral(topic):
+    prompt = f"Generate an in-depth article about {topic}."
+    data = {"model": "mistral", "prompt": prompt}
+    return post_request_to_mistral(data)
+
+
 class ARSketchfabApp:
     def __init__(self, master):
         self.master = master
@@ -102,90 +147,18 @@ class ARSketchfabApp:
         specific_skill = self.skill_entry.get()
         skill_level = self.skill_level_combobox.get()  # Update this line to use the Combobox's value
 
-        generated_content = self.generate_text_with_mistral(topic, specific_skill, skill_level)
+        generated_content = generate_text_with_mistral(topic, specific_skill, skill_level)
         if generated_content:
             self.results_text.delete("1.0", tk.END)
             self.results_text.insert(tk.END, "Generated Content:\n" + generated_content)
         else:
             messagebox.showwarning("No Results", "No content generated for the given query.")
 
-    def generate_article_with_mistral(self, topic):
-        prompt = f"Generate an in-depth article about {topic}."
-        data = {"model": "mistral", "prompt": prompt}
-        return self.post_request_to_mistral(data)
-
-    def generate_text_with_mistral(self, topic, specific_skill, skill_level):
-        # Prompt for module-based content
-        prompt = f"""Create a self-paced online course titled "Introduction to {topic}" structured into multiple modules, each focusing on a key aspect of {specific_skill}. 
-    \
-        """
-        data = {"model": "mistral", "prompt": prompt}
-        response = requests.post(MISTRAL_API_URL, json=data)
-        if response.status_code == 200:
-            try:
-                response_lines = response.content.decode('utf-8').strip().split('\n')
-                generated_text = ' '.join(
-                    item.get('response', '') for item in (json.loads(line) for line in response_lines))
-                return generated_text
-            except Exception as e:
-                return f"Error parsing Mistral API response: {str(e)}"
-        else:
-            return f"Error generating text with Mistral API. Status code: {response.status_code}"
-
-    def generate_quiz(self, topic, specific_skill):
-        prompt = f"make me a quiz about {topic} focusing on {specific_skill} with 5 multiple-choice questions, each having 4 options., put the answers at the buttom of all 5 questions"
-        data = {"model": "mistral", "prompt": prompt}
-        return self.post_request_to_mistral(data)
-
-    def post_request_to_mistral(self, data):
-        response = requests.post(MISTRAL_API_URL, json=data)
-        if response.status_code == 200:
-            try:
-                response_lines = response.content.decode('utf-8').strip().split('\n')
-                generated_text = ' '.join(
-                    item.get('response', '') for item in (json.loads(line) for line in response_lines))
-                return generated_text
-            except Exception as e:
-                return f"Error parsing Mistral API response: {str(e)}"
-        else:
-            return f"Error with Mistral API. Status code: {response.status_code}"
-
     def generate_quiz_window(self):
         topic = self.search_entry.get()
         specific_skill = self.skill_entry.get()
-        quiz_text = self.generate_quiz(topic, specific_skill)
-
-        if quiz_text:
-            quiz_window = tk.Toplevel(self.master)
-            quiz_window.title("Generated Quiz")
-            quiz_window.geometry("600x400")
-            quiz_window.configure(bg=BACKGROUND_COLOR)
-
-            # Split quiz text into individual questions
-            questions = quiz_text.strip().split("\n\n")
-            for i, question in enumerate(questions, start=1):
-                question_label = ttk.Label(quiz_window, text=f"Question {i}:", background=BACKGROUND_COLOR, foreground=TEXT_COLOR, font=FONT)
-                question_label.pack(pady=5, anchor="w")
-
-                # Extract question and options
-                lines = question.strip().split('\n')
-                question_text = lines[0]  # First line is the question
-                options = [line.strip() for line in lines[1:] if line.strip().startswith(("A.", "B.", "C.", "D."))]  # Filter options
-
-                # Create question label
-                ttk.Label(quiz_window, text=question_text, background=BACKGROUND_COLOR, foreground=TEXT_COLOR, font=FONT).pack(pady=5, anchor="w")
-
-                # Create radio buttons for options
-                option_var = tk.StringVar()
-                for j, option in enumerate(options):
-                    ttk.Radiobutton(quiz_window, text=option[3:], variable=option_var, value=chr(65 + j), background=BACKGROUND_COLOR, foreground=TEXT_COLOR, font=FONT).pack(pady=2, anchor="w")
-
-                ttk.Separator(quiz_window, orient="horizontal").pack(fill="x", pady=10, padx=5)
-
-            # Button to submit quiz
-            ttk.Button(quiz_window, text="Submit", command=lambda: self.submit_quiz(quiz_text)).pack(pady=10)
-        else:
-            messagebox.showwarning("No Results", "No quiz generated for the given topic.")
+        quiz_text = generate_quiz(topic, specific_skill)
+        print(quiz_text)
 
     def submit_quiz(self, quiz_text):
         # Implement submission of the quiz
