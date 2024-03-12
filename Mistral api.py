@@ -76,7 +76,6 @@ class ARSketchfabApp:
         self.skill_levels = ["Beginning", "Intermediate", "Expert"]
         self.skill_level_combobox = ttk.Combobox(main_frame, values=self.skill_levels, state="readonly")
         self.skill_level_combobox.current(0)  # Default to the first entry
-        self.skill_level_entry = ttk.Entry(main_frame)
 
         self.search_button = ttk.Button(main_frame, text="Generate Content", command=self.generate_content)
         self.results_text = scrolledtext.ScrolledText(main_frame, wrap=tk.WORD, font=FONT, fg=TEXT_COLOR,
@@ -101,6 +100,7 @@ class ARSketchfabApp:
         topic = self.search_entry.get()
         specific_skill = self.skill_entry.get()
         skill_level = self.skill_level_combobox.get()  # Update this line to use the Combobox's value
+
     def generate_article_with_mistral(self, topic):
         prompt = f"Generate an in-depth article about {topic}."
         data = {"model": "mistral", "prompt": prompt}
@@ -142,65 +142,49 @@ class ARSketchfabApp:
         else:
             return f"Error with Mistral API. Status code: {response.status_code}"
 
-    def generate_content(self):
+    def generate_quiz_window(self):
         topic = self.search_entry.get()
         specific_skill = self.skill_entry.get()
-        skill_level = self.skill_level_entry.get()
+        quiz_text = self.generate_quiz(topic, specific_skill)
 
-        generated_content = self.generate_text_with_mistral(topic, specific_skill, skill_level)
-        if generated_content:
-            self.results_text.delete("1.0", tk.END)
-            self.results_text.insert(tk.END, "Generated Content:\n" + generated_content)
+        if quiz_text:
+            quiz_window = tk.Toplevel(self.master)
+            quiz_window.title("Generated Quiz")
+            quiz_window.geometry("600x400")
+            quiz_window.configure(bg=BACKGROUND_COLOR)
+
+            # Split quiz text into individual questions
+            questions = quiz_text.strip().split("\n\n")
+            for i, question in enumerate(questions, start=1):
+                question_label = ttk.Label(quiz_window, text=f"Question {i}:", background=BACKGROUND_COLOR, foreground=TEXT_COLOR, font=FONT)
+                question_label.pack(pady=5, anchor="w")
+
+                # Extract question and options
+                lines = question.strip().split('\n')
+                question_text = lines[0]  # First line is the question
+                options = [line.strip()[3:] for line in lines[1:] if line.strip().startswith(("A.", "B.", "C.", "D."))]  # Filter options
+
+                # Create question label
+                ttk.Label(quiz_window, text=question_text, background=BACKGROUND_COLOR, foreground=TEXT_COLOR, font=FONT).pack(pady=5, anchor="w")
+
+                # Create radio buttons for options
+                option_var = tk.StringVar()
+                for j, option in enumerate(options):
+                    ttk.Radiobutton(quiz_window, text=option, variable=option_var, value=chr(65 + j), background=BACKGROUND_COLOR, foreground=TEXT_COLOR, font=FONT).pack(pady=2, anchor="w")
+
+                ttk.Separator(quiz_window, orient="horizontal").pack(fill="x", pady=10, padx=5)
+
+            # Button to submit quiz
+            ttk.Button(quiz_window, text="Submit", command=lambda: self.submit_quiz(quiz_text)).pack(pady=10)
         else:
-            messagebox.showwarning("No Results", "No content generated for the given query.")
-        return specific_skill
-
-    def generate_quiz_window(self):
-    topic = self.search_entry.get()
-    specific_skill = self.skill_entry.get()
-    quiz_text = self.generate_quiz(topic, specific_skill)
-
-    if quiz_text:
-        quiz_window = tk.Toplevel(self.master)
-        quiz_window.title("Generated Quiz")
-        quiz_window.geometry("600x400")
-        quiz_window.configure(bg=BACKGROUND_COLOR)
-
-        # Split quiz text into individual questions
-        questions = quiz_text.strip().split("\n\n")
-        for i, question in enumerate(questions, start=1):
-            question_label = ttk.Label(quiz_window, text=f"Question {i}:", background=BACKGROUND_COLOR, foreground=TEXT_COLOR, font=FONT)
-            question_label.pack(pady=5, anchor="w")
-
-            # Extract question and options
-            lines = question.strip().split('\n')
-            question_text = lines[0]  # First line is the question
-            options = [line.strip() for line in lines[1:] if line.strip().startswith(("A.", "B.", "C.", "D."))]  # Filter options
-
-            # Create question label
-            ttk.Label(quiz_window, text=question_text, background=BACKGROUND_COLOR, foreground=TEXT_COLOR, font=FONT).pack(pady=5, anchor="w")
-
-            # Create radio buttons for options
-            option_var = tk.StringVar()
-            for j, option in enumerate(options):
-                option_text = option.strip()[3:]  # Remove the leading "A. ", "B. ", etc.
-                ttk.Radiobutton(quiz_window, text=option_text, variable=option_var, value=chr(65 + j), background=BACKGROUND_COLOR, foreground=TEXT_COLOR, font=FONT).pack(pady=2, anchor="w")
-
-            ttk.Separator(quiz_window, orient="horizontal").pack(fill="x", pady=10, padx=5)
-
-        # Button to submit quiz
-        ttk.Button(quiz_window, text="Submit", command=lambda: self.submit_quiz(quiz_text)).pack(pady=10)
-    else:
-        messagebox.showwarning("No Results", "No quiz generated for the given topic.")
-
-
+            messagebox.showwarning("No Results", "No quiz generated for the given topic.")
 
 def main():
     root = tk.Tk()
     app = ARSketchfabApp(root)
     root.mainloop()
 
-
 if __name__ == "__main__":
     main()
+
 
