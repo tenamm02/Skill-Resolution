@@ -7,6 +7,7 @@ import nltk
 from nltk.tokenize import sent_tokenize
 
 nltk.download('punkt')
+
 def list_strip(lst):
     return [item.strip() for item in lst]
 
@@ -162,7 +163,7 @@ class ARSketchfabApp:
                 # Extract question and options
                 lines = question.strip().split('\n')
                 question_text = lines[0]  # First line is the question
-                options = [line.strip()[3:] for line in lines[1:] if line.strip().startswith(("A.", "B.", "C.", "D."))]  # Filter options
+                options = [line.strip() for line in lines[1:] if line.strip().startswith(("A.", "B.", "C.", "D."))]  # Filter options
 
                 # Create question label
                 ttk.Label(quiz_window, text=question_text, background=BACKGROUND_COLOR, foreground=TEXT_COLOR, font=FONT).pack(pady=5, anchor="w")
@@ -170,7 +171,7 @@ class ARSketchfabApp:
                 # Create radio buttons for options
                 option_var = tk.StringVar()
                 for j, option in enumerate(options):
-                    ttk.Radiobutton(quiz_window, text=option, variable=option_var, value=chr(65 + j), background=BACKGROUND_COLOR, foreground=TEXT_COLOR, font=FONT).pack(pady=2, anchor="w")
+                    ttk.Radiobutton(quiz_window, text=option[3:], variable=option_var, value=chr(65 + j), background=BACKGROUND_COLOR, foreground=TEXT_COLOR, font=FONT).pack(pady=2, anchor="w")
 
                 ttk.Separator(quiz_window, orient="horizontal").pack(fill="x", pady=10, padx=5)
 
@@ -186,5 +187,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
