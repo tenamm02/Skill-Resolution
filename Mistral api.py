@@ -98,16 +98,16 @@ class ARSketchfabApp:
 
     # Remember to update methods that use the skill level to retrieve the value from the Combobox
     def generate_content(self):
-    topic = self.search_entry.get()
-    specific_skill = self.skill_entry.get()
-    skill_level = self.skill_level_combobox.get()  # Update this line to use the Combobox's value
+        topic = self.search_entry.get()
+        specific_skill = self.skill_entry.get()
+        skill_level = self.skill_level_combobox.get()  # Update this line to use the Combobox's value
 
-    generated_content = self.generate_text_with_mistral(topic, specific_skill, skill_level)
-    if generated_content:
-        self.results_text.delete("1.0", tk.END)
-        self.results_text.insert(tk.END, "Generated Content:\n" + generated_content)
-    else:
-        messagebox.showwarning("No Results", "No content generated for the given query.")
+        generated_content = self.generate_text_with_mistral(topic, specific_skill, skill_level)
+        if generated_content:
+            self.results_text.delete("1.0", tk.END)
+            self.results_text.insert(tk.END, "Generated Content:\n" + generated_content)
+        else:
+            messagebox.showwarning("No Results", "No content generated for the given query.")
 
     def generate_article_with_mistral(self, topic):
         prompt = f"Generate an in-depth article about {topic}."
