@@ -156,27 +156,42 @@ class ARSketchfabApp:
         return specific_skill
 
     def generate_quiz_window(self):
-        topic = self.search_entry.get()
-        specific_skill = self.skill_entry.get()
-        quiz_text = self.generate_quiz(topic, specific_skill)
+    topic = self.search_entry.get()
+    specific_skill = self.skill_entry.get()
+    quiz_text = self.generate_quiz(topic, specific_skill)
 
-        if quiz_text:
-            quiz_window = tk.Toplevel(self.master)
-            quiz_window.title("Generated Quiz")
-            quiz_window.geometry("600x400")
-            quiz_window.configure(bg=BACKGROUND_COLOR)
+    if quiz_text:
+        quiz_window = tk.Toplevel(self.master)
+        quiz_window.title("Generated Quiz")
+        quiz_window.geometry("600x400")
+        quiz_window.configure(bg=BACKGROUND_COLOR)
 
-            quiz_textbox = scrolledtext.ScrolledText(quiz_window, wrap=tk.WORD, font=FONT, fg=TEXT_COLOR, bg=ENTRY_BG)
-            quiz_textbox.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
-            quiz_textbox.insert(tk.END, "Generated Quiz:\n\n")
+        # Split quiz text into individual questions
+        questions = quiz_text.strip().split("\n\n")
+        for i, question in enumerate(questions, start=1):
+            question_label = ttk.Label(quiz_window, text=f"Question {i}:", background=BACKGROUND_COLOR, foreground=TEXT_COLOR, font=FONT)
+            question_label.pack(pady=5, anchor="w")
 
-            # Split quiz text into individual questions
-            questions = quiz_text.strip().split("\n\n")
-            for i, question in enumerate(questions, start=1):
-                quiz_textbox.insert(tk.END, f"Question {i}:\n")
-                quiz_textbox.insert(tk.END, question + "\n\n")
-        else:
-            messagebox.showwarning("No Results", "No quiz generated for the given topic.")
+            # Extract question and options
+            lines = question.strip().split('\n')
+            question_text = lines[0]  # First line is the question
+            options = [line.strip() for line in lines[1:] if line.strip().startswith(("A.", "B.", "C.", "D."))]  # Filter options
+
+            # Create question label
+            ttk.Label(quiz_window, text=question_text, background=BACKGROUND_COLOR, foreground=TEXT_COLOR, font=FONT).pack(pady=5, anchor="w")
+
+            # Create radio buttons for options
+            option_var = tk.StringVar()
+            for j, option in enumerate(options):
+                option_text = option.strip()[3:]  # Remove the leading "A. ", "B. ", etc.
+                ttk.Radiobutton(quiz_window, text=option_text, variable=option_var, value=chr(65 + j), background=BACKGROUND_COLOR, foreground=TEXT_COLOR, font=FONT).pack(pady=2, anchor="w")
+
+            ttk.Separator(quiz_window, orient="horizontal").pack(fill="x", pady=10, padx=5)
+
+        # Button to submit quiz
+        ttk.Button(quiz_window, text="Submit", command=lambda: self.submit_quiz(quiz_text)).pack(pady=10)
+    else:
+        messagebox.showwarning("No Results", "No quiz generated for the given topic.")
 
 
 
