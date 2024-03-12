@@ -163,67 +163,22 @@ class ARSketchfabApp:
         if quiz_text:
             quiz_window = tk.Toplevel(self.master)
             quiz_window.title("Generated Quiz")
+            quiz_window.geometry("600x400")
             quiz_window.configure(bg=BACKGROUND_COLOR)
 
-            # Set up scrolling
-            canvas = tk.Canvas(quiz_window, bg=BACKGROUND_COLOR)
-            scrollbar = tk.Scrollbar(quiz_window, orient="vertical", command=canvas.yview)
-            scrollable_frame = ttk.Frame(canvas)
+            quiz_textbox = scrolledtext.ScrolledText(quiz_window, wrap=tk.WORD, font=FONT, fg=TEXT_COLOR, bg=ENTRY_BG)
+            quiz_textbox.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+            quiz_textbox.insert(tk.END, "Generated Quiz:\n\n")
 
-            # Configure canvas
-            canvas.configure(yscrollcommand=scrollbar.set)
-            canvas.bind(
-                "<Configure>",
-                lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
-            )
-
-            # Pack scrollbar and canvas, then create a window for the scrollable frame
-            scrollbar.pack(side="right", fill="y")
-            canvas.pack(fill="both", expand=True)
-            canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
-
-            self.var_list = []  # To keep track of variables for radio buttons
-            self.correct_answers = []  # To store correct answers
-
+            # Split quiz text into individual questions
             questions = quiz_text.strip().split("\n\n")
+            for i, question in enumerate(questions, start=1):
+                quiz_textbox.insert(tk.END, f"Question {i}:\n")
+                quiz_textbox.insert(tk.END, question + "\n\n")
+        else:
+            messagebox.showwarning("No Results", "No quiz generated for the given topic.")
 
-            for question_block in questions:
-                lines = question_block.split('\n')
-                question = lines[0]
-                options = lines[1:-2]
 
-                ttk.Label(scrollable_frame, text=question, background=BACKGROUND_COLOR, foreground=TEXT_COLOR,
-                          font=FONT).pack(padx=10, pady=5)
-
-                var = tk.StringVar()
-                self.var_list.append(var)
-
-                for option in options:
-                    ttk.Radiobutton(scrollable_frame, text=option.strip(), variable=var, value=option.strip(),
-                                    style="TRadiobutton").pack(anchor='w')
-
-                answer_line = lines[-2]
-                correct_answer = answer_line.split('** Answer:**')[-1].strip()
-                self.correct_answers.append(correct_answer)
-
-            ttk.Button(scrollable_frame, text="Submit Answers", command=lambda: self.check_answers(quiz_window)).pack(
-                pady=20)
-
-    def check_answers(self, quiz_window):
-        score = 0
-        for var, correct_answer in zip(self.var_list, self.correct_answers):
-            if var.get() == correct_answer:
-                score += 1
-
-        result_message = f"Your score: {score}/{len(self.correct_answers)}"
-        messagebox.showinfo("Quiz Results", result_message, parent=quiz_window)
-
-        # Optionally, display which questions were answered correctly/incorrectly
-        for i, (var, correct_answer) in enumerate(zip(self.var_list, self.correct_answers), start=1):
-            if var.get() == correct_answer:
-                print(f"Question {i}: Correct")
-            else:
-                print(f"Question {i}: Incorrect")
 
 def main():
     root = tk.Tk()
