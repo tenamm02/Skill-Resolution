@@ -1,0 +1,39 @@
+ Question   1 :  What  does  the  ac ron ym  " Py thon "  originally  stand  for  in  the  context  of  programming ? 
+ A )  Program ming  Years  Of  Test ing  And  Hier archy 
+ B )  Program ming  With  Typ ing  And  Object s 
+ C )  Program ming  Y ield s  True  Oh m ' s  Law 
+ D )  Program ming ,  Yet  Another  Tool kit 
+ 
+ An swer   1 :  D .  Python ,  as  its  name  suggests ,  was  intended  to  be  a  simple ,  easy - to - use  programming  language . 
+ 
+ Question   2 :  Which  of  the  following  is  not  a  built - in  data  type  in  Python ? 
+ A )  list 
+ B )  dictionary 
+ C )  int 
+ D )  string 
+ 
+ An swer   2 :  C .  In  Python ,  ' int '  stands  for  integer  and  is  a  built - in  data  type . 
+ 
+ Question   3 :  What  does  the  " pass "  statement  do  in  Python ? 
+ A )  It  creates  an  empty  list 
+ B )  It  creates  an  empty  dictionary 
+ C )  It  causes  an  infinite  loop 
+ D )  It  is  a  null  operation ,  used  when  a  statement  is  required  but  no  code  needs  to  be  executed 
+ 
+ An swer   3 :  D .  The  ' pass '  statement  is  used  as  a  placeholder  and  has  no  effect  by  itself . 
+ 
+ Question   4 :  Which  of  the  following  operators  in  Python  does  the  ar ith metic  division ? 
+ A )  %  ( Mod ulus ) 
+ B )  //  ( F loor  Division ) 
+ C )  *  ( Multi plication ) 
+ D )  /  ( Ar ith metic  Division ) 
+ 
+ An swer   4 :  D .  The  forward  sl ash  '/ '  is  used  for  ar ith metic  division  in  Python . 
+ 
+ Question   5 :  Which  of  the  following  keywords  is  not  used  to  control  flow  in  Python ? 
+ A )  if 
+ B )  elif 
+ C )  else 
+ D )  while 
+ 
+ An swer   5 :  A .  While  the  ' if ',  ' elif ',  and  ' else '  statements  are  used  for  cond itional  statements ,  the  keyword  ' while '  is  used  to  create  loops  in  Python . 

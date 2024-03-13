@@ -159,6 +159,9 @@ class ARSketchfabApp:
         specific_skill = self.skill_entry.get()
         quiz_text = generate_quiz(topic, specific_skill)
         print(quiz_text)
+        with open("Testdoc.txt", "w") as file:
+            file.write(quiz_text)
+        file.close()
 
     def submit_quiz(self, quiz_text):
         # Implement submission of the quiz
