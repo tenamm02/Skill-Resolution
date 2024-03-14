@@ -5,6 +5,12 @@ import os
 import json
 import nltk
 from nltk.tokenize import sent_tokenize
+import subprocess
+
+# Define the path to the script you want to run
+script_path = 'Quiz parser (1).py'
+
+# Run the script
 
 nltk.download('punkt')
 
@@ -162,7 +168,7 @@ class ARSketchfabApp:
         with open("Testdoc.txt", "w") as file:
             file.write(quiz_text)
         file.close()
-
+        subprocess.run(['python', script_path])
     def submit_quiz(self, quiz_text):
         # Implement submission of the quiz
         pass

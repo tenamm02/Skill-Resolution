@@ -9,7 +9,7 @@ current_question = {}
 options = []
 
 # Add your file path here
-file_path = "/home/christopherseccafico/Downloads/Testdoc.txt"
+file_path = "Testdoc.txt"
 
 # Open the file and read line by line
 with open(file_path, "r") as file:

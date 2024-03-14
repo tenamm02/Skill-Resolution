@@ -1,39 +1,39 @@
- Question   1 :  What  does  the  ac ron ym  " Py thon "  originally  stand  for  in  the  context  of  programming ? 
- A )  Program ming  Years  Of  Test ing  And  Hier archy 
- B )  Program ming  With  Typ ing  And  Object s 
- C )  Program ming  Y ield s  True  Oh m ' s  Law 
- D )  Program ming ,  Yet  Another  Tool kit 
+ Question   1 :  Which  of  the  following  is  not  a  data  type  in  Python ? 
  
- An swer   1 :  D .  Python ,  as  its  name  suggests ,  was  intended  to  be  a  simple ,  easy - to - use  programming  language . 
+ A )  Integer 
+ B )  List 
+ C )  String 
+ D )  Dictionary 
+ An swer :  C .  While  strings  are  indeed  a  data  type  in  Python ,  they  are  often  considered  a  separate  category  due  to  their  unique  features  and  behaviors . 
  
- Question   2 :  Which  of  the  following  is  not  a  built - in  data  type  in  Python ? 
- A )  list 
- B )  dictionary 
- C )  int 
- D )  string 
+ Question   2 :  What  does  the  ` print () `  function  return  in  Python ? 
  
- An swer   2 :  C .  In  Python ,  ' int '  stands  for  integer  and  is  a  built - in  data  type . 
+ A )  None 
+ B )  An  integer 
+ C )  A  list 
+ D )  A  string 
+ An swer :  A .  The  ` print () `  function  returns  the  value  ` None `. 
  
- Question   3 :  What  does  the  " pass "  statement  do  in  Python ? 
- A )  It  creates  an  empty  list 
- B )  It  creates  an  empty  dictionary 
- C )  It  causes  an  infinite  loop 
- D )  It  is  a  null  operation ,  used  when  a  statement  is  required  but  no  code  needs  to  be  executed 
+ Question   3 :  In  a  for  loop ,  which  keyword  is  used  to  access  the  current  item  being  iter ated  over ? 
  
- An swer   3 :  D .  The  ' pass '  statement  is  used  as  a  placeholder  and  has  no  effect  by  itself . 
+ A )  next () 
+ B )  get () 
+ C )  index () 
+ D )  current 
+ An swer :  D .  However ,  Python  does  not  have  a  built - in  variable  ` current `  for  access ing  the  current  item  in  a  for  loop .  Instead ,  you  can  assign  it  to  a  variable  within  the  for  loop  ( for  example ,  ` item ` ). 
  
- Question   4 :  Which  of  the  following  operators  in  Python  does  the  ar ith metic  division ? 
- A )  %  ( Mod ulus ) 
- B )  //  ( F loor  Division ) 
- C )  *  ( Multi plication ) 
- D )  /  ( Ar ith metic  Division ) 
+ Question   4 :  What  does  the  ` range () `  function  generate  in  Python ? 
  
- An swer   4 :  D .  The  forward  sl ash  '/ '  is  used  for  ar ith metic  division  in  Python . 
+ A )  A  list  of  strings 
+ B )  An  empty  list 
+ C )  A  sequence  of  numbers 
+ D )  A  dictionary 
+ An swer :  C .  The  ` range () `  function  generates  a  sequence  of  numbers  that  can  be  used  as  an  iter able  in  loops  or  other  context s  where  enumer ation  is  required . 
  
- Question   5 :  Which  of  the  following  keywords  is  not  used  to  control  flow  in  Python ? 
- A )  if 
- B )  elif 
- C )  else 
- D )  while 
+ Question   5 :  Which  keyword  is  used  to  define  a  custom  exception  in  Python ? 
  
- An swer   5 :  A .  While  the  ' if ',  ' elif ',  and  ' else '  statements  are  used  for  cond itional  statements ,  the  keyword  ' while '  is  used  to  create  loops  in  Python . 
+ A )  try 
+ B )  except 
+ C )  finally 
+ D )  raise 
+ An swer :  D .  The  ` raise `  keyword  is  used  to  define  and  raise  a  custom  exception  in  Python . 
