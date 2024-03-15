@@ -6,12 +6,13 @@ import json
 import nltk
 from nltk.tokenize import sent_tokenize
 import subprocess
+import webbrowser
 
 # Define the path to the script you want to run
 script_path = 'Quiz parser (1).py'
 
 # Run the script
-
+os.environ['SKETCHFAB_API_TOKEN'] = '0e57c8a592a44347b8c9cf9cbee7bc5a'
 nltk.download('punkt')
 
 def list_strip(lst):
@@ -76,9 +77,23 @@ def generate_quiz(topic, specific_skill):
 
 def generate_text_with_mistral(topic, specific_skill, skill_level):
     # Prompt for module-based content
-    prompt = f"""Create a self-paced online course titled "Introduction to {topic}" structured into multiple modules, each focusing on a key aspect of {specific_skill}. 
+    prompt = prompt = f"""
+As a virtual mentor, I'm here to guide you through the fascinating world of {topic}. Today, we'll dive into the essentials of {specific_skill}, a crucial aspect of {topic} that offers a range of possibilities and applications. 
 
-    """
+1. **Introduction to {specific_skill}**: Let's start with a broad overview. What is {specific_skill}, and why is it important in the context of {topic}? We'll explore its significance and the fundamental concepts that underpin {specific_skill}.
+
+2. **Key Concepts and Principles**: Understanding the building blocks of {specific_skill} is essential. I'll break down the core concepts for you, using clear explanations and relatable examples to make sure you grasp the basics.
+
+3. **Practical Applications**: Knowing how to apply {specific_skill} in real-world scenarios is where things get exciting. I'll introduce you to some common applications of {specific_skill} within {topic}, showing you how it's used to solve problems, enhance projects, or create new opportunities.
+
+4. **Interactive Exercise**: Let's put theory into practice. I'll guide you through a simple exercise designed to give you hands-on experience with {specific_skill}. This activity will help solidify your understanding and give you a taste of what you can achieve.
+
+5. **Further Exploration**: Now that you've got the basics down, where can you go from here? I'll point you towards additional resources and advanced topics in {specific_skill} for those eager to learn more and take their skills to the next level.
+
+Ready to get started? Let's embark on this educational journey together and unlock the potential of {specific_skill} in the vast landscape of {topic}.
+"""
+
+
     data = {"model": "mistral", "prompt": prompt}
     response = requests.post(MISTRAL_API_URL, json=data)
     if response.status_code == 200:
@@ -111,7 +126,8 @@ class ARSketchfabApp:
         main_frame.grid(sticky='nsew', padx=10, pady=10)
         master.grid_columnconfigure(0, weight=1)
         master.grid_rowconfigure(0, weight=1)
-
+        self.results_text = scrolledtext.ScrolledText(main_frame, wrap=tk.WORD, font=FONT, fg=TEXT_COLOR,
+                                                      bg=ENTRY_BG)
         # Configure the grid to expand and fill the space
         for i in range(2):
             main_frame.grid_columnconfigure(i, weight=1)
@@ -123,8 +139,8 @@ class ARSketchfabApp:
         self.skill_label = ttk.Label(main_frame, text="Specific Skill:")
         self.skill_entry = ttk.Entry(main_frame)
         self.skill_level_label = ttk.Label(main_frame, text="Skill Level:")
+        self.AR_Button_button = ttk.Button(main_frame, text="Generate AR", command=self.search_free_models)
 
-        # Define skill levels and create a Combobox for skill level selection
         self.skill_levels = ["Beginning", "Intermediate", "Expert"]
         self.skill_level_combobox = ttk.Combobox(main_frame, values=self.skill_levels, state="readonly")
         self.skill_level_combobox.current(0)  # Default to the first entry
@@ -141,8 +157,9 @@ class ARSketchfabApp:
         self.skill_level_label.grid(row=2, column=0, padx=10, pady=5, sticky="ew")
         self.skill_level_combobox.grid(row=2, column=1, padx=10, pady=5, sticky="ew")
         self.search_button.grid(row=3, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
-        self.results_text.grid(row=4, column=0, columnspan=2, padx=10, pady=5, sticky="nsew")
 
+        self.results_text.grid(row=4, column=0, columnspan=2, padx=10, pady=5, sticky="nsew")
+        self.AR_Button_button.grid(row=7, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
         # Button to generate quiz
         self.quiz_button = ttk.Button(main_frame, text="Generate Quiz", command=self.generate_quiz_window)
         self.quiz_button.grid(row=5, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
@@ -173,6 +190,49 @@ class ARSketchfabApp:
         # Implement submission of the quiz
         pass
 
+    def search_free_models(self):
+        query = self.search_entry.get()
+
+        # Define Sketchfab API endpoint
+        api_endpoint = 'https://api.sketchfab.com/v3/search'
+
+        # Set up request parameters
+        params = {
+            'type': 'models',
+            'q': query,
+            'price': 'free',
+            'token': os.environ['SKETCHFAB_API_TOKEN']
+        }
+
+        # Send GET request to Sketchfab API
+        response = requests.get(api_endpoint, params=params)
+
+        # Check if request was successful
+        if response.status_code == 200:
+            # Clear previous search results
+            self.results_text.delete("1.0", tk.END)
+
+            self.results_text.insert(tk.END, "\n\nFree 3D Models from Sketchfab:\n")
+            for result in response.json()['results']:
+                # Insert model information
+                self.results_text.insert(tk.END, f"Name: {result['name']}\n")
+                self.results_text.insert(tk.END, f"URL: {result['viewerUrl']}\n")
+                self.results_text.insert(tk.END, f"Description: {result['description']}\n\n")
+
+                # Add a button to view the model
+                # It's tricky to manage lambda functions in loops due to variable scoping issues.
+                # Make sure the lambda captures the current URL value correctly.
+                view_button = tk.Button(self.results_text, text="View Model",
+                                        command=lambda url=result['viewerUrl']: self.view_model(url))
+                self.results_text.window_create(tk.END, window=view_button)
+                self.results_text.insert(tk.END, "\n")
+        else:
+            # Display error message if request was unsuccessful
+            self.results_text.insert(tk.END,
+                                     f"\n\nError: Unable to fetch search results from Sketchfab. Status code: {response.status_code}")
+
+    def view_model(self, url):
+        webbrowser.open_new(url)
 def main():
     root = tk.Tk()
     app = ARSketchfabApp(root)
