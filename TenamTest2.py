@@ -1,96 +1,25 @@
 import tkinter as tk
-from functools import partial
 from tkinter import ttk, scrolledtext, messagebox
 import requests
 import os
 import json
-import random
 import nltk
-nltk.download('punkt')
 from nltk.tokenize import sent_tokenize
-import sqlite3
+import subprocess
+import webbrowser
 
-def setup_database():
-    conn = sqlite3.connect('learning_content.db')
-    cursor = conn.cursor()
-    # Create tables for topics, course contents, and quizzes
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS topics (
-        id INTEGER PRIMARY KEY,
-        topic TEXT NOT NULL,
-        skill TEXT,
-        skill_level TEXT
-    )
-    ''')
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS course_contents (
-        id INTEGER PRIMARY KEY,
-        topic_id INTEGER NOT NULL,
-        content TEXT NOT NULL,
-        FOREIGN KEY(topic_id) REFERENCES topics(id)
-    )
-    ''')
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS quizzes (
-        id INTEGER PRIMARY KEY,
-        content_id INTEGER NOT NULL,
-        question TEXT NOT NULL,
-        correct_answer TEXT NOT NULL,
-        distractors TEXT NOT NULL,
-        FOREIGN KEY(content_id) REFERENCES course_contents(id)
-    )
-    ''')
-    conn.commit()
-    conn.close()
+# Define the path to the script you want to run
+script_path = 'Quiz parser (1).py'
 
-def insert_topic(topic, skill, skill_level):
-    conn = sqlite3.connect('learning_content.db')
-    cursor = conn.cursor()
-    cursor.execute('INSERT INTO topics (topic, skill, skill_level) VALUES (?, ?, ?)', (topic, skill, skill_level))
-    topic_id = cursor.lastrowid
-    conn.commit()
-    conn.close()
-    return topic_id
+# Run the script
+os.environ['SKETCHFAB_API_TOKEN'] = '0e57c8a592a44347b8c9cf9cbee7bc5a'
+nltk.download('punkt')
 
-def insert_content(topic_id, content):
-    conn = sqlite3.connect('learning_content.db')
-    cursor = conn.cursor()
-    cursor.execute('INSERT INTO course_contents (topic_id, content) VALUES (?, ?)', (topic_id, content))
-    content_id = cursor.lastrowid
-    conn.commit()
-    conn.close()
-    return content_id
+def list_strip(lst):
+    return [item.strip() for item in lst]
 
-def insert_quiz(content_id, question, correct_answer, distractors):
-    conn = sqlite3.connect('learning_content.db')
-    cursor = conn.cursor()
-    distractors_text = json.dumps(distractors)  # Convert list to JSON string for storage
-    cursor.execute('INSERT INTO quizzes (content_id, question, correct_answer, distractors) VALUES (?, ?, ?, ?)',
-                   (content_id, question, correct_answer, distractors_text))
-    conn.commit()
-    conn.close()
-
-def fetch_quizzes(content_id):
-    conn = sqlite3.connect('learning_content.db')
-    cursor = conn.cursor()
-    cursor.execute('SELECT question, correct_answer, distractors FROM quizzes WHERE content_id = ?', (content_id,))
-    quizzes = [{'question': row[0], 'correct_answer': row[1], 'distractors': json.loads(row[2])} for row in cursor.fetchall()]
-    conn.close()
-    return quizzes
-
-def search_similar_topics(topic, skill, skill_level):
-    conn = sqlite3.connect('learning_content.db')
-    cursor = conn.cursor()
-    # Using simple LIKE query for demonstration; adapt as needed for more sophistication
-    query = """
-    SELECT id, topic, skill, skill_level FROM topics
-    WHERE topic LIKE ? OR skill LIKE ? OR skill_level LIKE ?
-    """
-    cursor.execute(query, (f'%{topic}%', f'%{skill}%', f'%{skill_level}%'))
-    results = cursor.fetchall()
-    conn.close()
-    return results
-
+def list_rstrip(lst, char="-"):
+    return [item.rstrip(char) for item in lst]
 
 # Define a color scheme and styles
 BACKGROUND_COLOR = "#333333"  # Dark gray
@@ -112,6 +41,7 @@ MISTRAL_API_URL = 'http://localhost:11434/api/generate'
 # Set the Sketchfab API token as an environment variable
 os.environ['SKETCHFAB_API_TOKEN'] = '0e57c8a592a44347b8c9cf9cbee7bc5a'
 
+
 def extract_key_sentences(content, num_questions=5):
     # Tokenize the content into sentences
     sentences = sent_tokenize(content)
@@ -124,9 +54,65 @@ def extract_key_sentences(content, num_questions=5):
     key_sentences = question_sentences[:num_questions]
     return key_sentences
 
-def create_distractor(correct_answer):
-    # This is a placeholder. Implement your logic to create a plausible distractor.
-    return "Distractor"
+
+def post_request_to_mistral(data):
+    response = requests.post(MISTRAL_API_URL, json=data)
+    if response.status_code == 200:
+        try:
+            response_lines = response.content.decode('utf-8').strip().split('\n')
+            generated_text = ' '.join(
+                item.get('response', '') for item in (json.loads(line) for line in response_lines))
+            return generated_text
+        except Exception as e:
+            return f"Error parsing Mistral API response: {str(e)}"
+    else:
+        return f"Error with Mistral API. Status code: {response.status_code}"
+
+
+def generate_quiz(topic, specific_skill):
+    prompt = f"make me a quiz about {topic} focusing on {specific_skill} with 5 multiple-choice questions, each having 4 options., put the answers at the buttom of all 5 questions"
+    data = {"model": "mistral", "prompt": prompt}
+    return post_request_to_mistral(data)
+
+
+def generate_text_with_mistral(topic, specific_skill, skill_level):
+    # Prompt for module-based content
+    prompt = prompt = f"""
+As a virtual mentor, I'm here to guide you through the fascinating world of {topic}. Today, we'll dive into the essentials of {specific_skill}, a crucial aspect of {topic} that offers a range of possibilities and applications. 
+
+1. **Introduction to {specific_skill}**: Let's start with a broad overview. What is {specific_skill}, and why is it important in the context of {topic}? We'll explore its significance and the fundamental concepts that underpin {specific_skill}.
+
+2. **Key Concepts and Principles**: Understanding the building blocks of {specific_skill} is essential. I'll break down the core concepts for you, using clear explanations and relatable examples to make sure you grasp the basics.
+
+3. **Practical Applications**: Knowing how to apply {specific_skill} in real-world scenarios is where things get exciting. I'll introduce you to some common applications of {specific_skill} within {topic}, showing you how it's used to solve problems, enhance projects, or create new opportunities.
+
+4. **Interactive Exercise**: Let's put theory into practice. I'll guide you through a simple exercise designed to give you hands-on experience with {specific_skill}. This activity will help solidify your understanding and give you a taste of what you can achieve.
+
+5. **Further Exploration**: Now that you've got the basics down, where can you go from here? I'll point you towards additional resources and advanced topics in {specific_skill} for those eager to learn more and take their skills to the next level.
+
+Ready to get started? Let's embark on this educational journey together and unlock the potential of {specific_skill} in the vast landscape of {topic}.
+"""
+
+
+    data = {"model": "mistral", "prompt": prompt}
+    response = requests.post(MISTRAL_API_URL, json=data)
+    if response.status_code == 200:
+        try:
+            response_lines = response.content.decode('utf-8').strip().split('\n')
+            generated_text = ' '.join(
+                item.get('response', '') for item in (json.loads(line) for line in response_lines))
+            return generated_text
+        except Exception as e:
+            return f"Error parsing Mistral API response: {str(e)}"
+    else:
+        return f"Error generating text with Mistral API. Status code: {response.status_code}"
+
+
+def generate_article_with_mistral(topic):
+    prompt = f"Generate an in-depth article about {topic}."
+    data = {"model": "mistral", "prompt": prompt}
+    return post_request_to_mistral(data)
+
 
 class ARSketchfabApp:
     def __init__(self, master):
@@ -140,7 +126,8 @@ class ARSketchfabApp:
         main_frame.grid(sticky='nsew', padx=10, pady=10)
         master.grid_columnconfigure(0, weight=1)
         master.grid_rowconfigure(0, weight=1)
-
+        self.results_text = scrolledtext.ScrolledText(main_frame, wrap=tk.WORD, font=FONT, fg=TEXT_COLOR,
+                                                      bg=ENTRY_BG)
         # Configure the grid to expand and fill the space
         for i in range(2):
             main_frame.grid_columnconfigure(i, weight=1)
@@ -152,9 +139,15 @@ class ARSketchfabApp:
         self.skill_label = ttk.Label(main_frame, text="Specific Skill:")
         self.skill_entry = ttk.Entry(main_frame)
         self.skill_level_label = ttk.Label(main_frame, text="Skill Level:")
-        self.skill_level_entry = ttk.Entry(main_frame)
+        self.AR_Button_button = ttk.Button(main_frame, text="Generate AR", command=self.search_free_models)
+
+        self.skill_levels = ["Beginning", "Intermediate", "Expert"]
+        self.skill_level_combobox = ttk.Combobox(main_frame, values=self.skill_levels, state="readonly")
+        self.skill_level_combobox.current(0)  # Default to the first entry
+
         self.search_button = ttk.Button(main_frame, text="Generate Content", command=self.generate_content)
-        self.results_text = scrolledtext.ScrolledText(main_frame, wrap=tk.WORD, font=FONT, fg=TEXT_COLOR, bg=ENTRY_BG)
+        self.results_text = scrolledtext.ScrolledText(main_frame, wrap=tk.WORD, font=FONT, fg=TEXT_COLOR,
+                                                      bg=ENTRY_BG)
 
         # Layout widgets
         self.search_label.grid(row=0, column=0, padx=10, pady=5, sticky="ew")
@@ -162,186 +155,90 @@ class ARSketchfabApp:
         self.skill_label.grid(row=1, column=0, padx=10, pady=5, sticky="ew")
         self.skill_entry.grid(row=1, column=1, padx=10, pady=5, sticky="ew")
         self.skill_level_label.grid(row=2, column=0, padx=10, pady=5, sticky="ew")
-        self.skill_level_entry.grid(row=2, column=1, padx=10, pady=5, sticky="ew")
+        self.skill_level_combobox.grid(row=2, column=1, padx=10, pady=5, sticky="ew")
         self.search_button.grid(row=3, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
+
         self.results_text.grid(row=4, column=0, columnspan=2, padx=10, pady=5, sticky="nsew")
-
-        self.user_answers = {}
-        self.structured_quiz = [
-            {"question": "What is the primary purpose of HTML?",
-             "options": ["Structure web content", "Style web pages", "Interactivity", "Data storage"],
-             "correct_answer": "Structure web content"},
-            # Additional questions...
-        ]
-
-        self.quiz_frame = ttk.Frame(master)  # Create a frame for quiz elements
-        self.quiz_frame.grid(row=4, column=0, columnspan=2, sticky='nsew', padx=10,
-                             pady=5)  # Adjust grid positioning as needed
-
-    def generate_article_with_mistral(self, topic):
-        prompt = f"Generate an in-depth article about {topic}."
-        data = {"model": "mistral", "prompt": prompt}
-        return self.post_request_to_mistral(data)
-
-    def generate_quiz_with_mistral(self, topic):
-        prompt = f"Generate a quiz for {topic} with 5 multiple-choice questions, each having 4 options."
-        data = {"model": "mistral", "prompt": prompt}
-        return self.post_request_to_mistral(data)
-        pass
-
-    def process_quiz_text_to_structure(self, raw_text):
-        """
-        Processes raw quiz text from Mistral to a structured format.
-        """
-        # Implementation as previously discussed
-        quizzes = [
-
-        ]
-        return quizzes
-
-    def post_request_to_mistral(self, data):
-        response = requests.post(MISTRAL_API_URL, json=data)
-        if response.status_code == 200:
-            try:
-                response_lines = response.content.decode('utf-8').strip().split('\n')
-                generated_text = ' '.join(
-                    item.get('response', '') for item in (json.loads(line) for line in response_lines))
-                return generated_text
-            except Exception as e:
-                return f"Error parsing Mistral API response: {str(e)}"
-        else:
-            return f"Error with Mistral API. Status code: {response.status_code}"
-
-    def display_quiz_button(self):
-        self.quiz_button = ttk.Button(self.master, text="Generate Quiz", command=self.generate_and_display_quiz)
+        self.AR_Button_button.grid(row=7, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
+        # Button to generate quiz
+        self.quiz_button = ttk.Button(main_frame, text="Generate Quiz", command=self.generate_quiz_window)
         self.quiz_button.grid(row=5, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
 
-    def generate_and_display_quiz(self):
-        self.display_quiz()
-
-    def display_quiz(self):
-        # Clear any existing content from the quiz area
-        for widget in self.quiz_frame.winfo_children():
-            widget.destroy()
-
-        # Assuming self.structured_quiz is filled with quiz data
-        for question_index, question in enumerate(self.structured_quiz):
-            question_label = ttk.Label(self.quiz_frame, text=question["question"], font=FONT)
-            question_label.pack(anchor="w")
-
-            # Create a StringVar for each set of radio buttons
-            answer_var = tk.StringVar(value="none")  # Default value to avoid unselected state
-            self.user_answers[question_index] = answer_var  # Store the StringVar
-
-            for option in question["options"]:
-                option_button = ttk.Radiobutton(
-                    self.quiz_frame, text=option, variable=answer_var, value=option,
-                    command=partial(self.check_answer, question_index, option)
-                )
-                option_button.pack(anchor="w")
-
-        submit_button = ttk.Button(self.quiz_frame, text="Submit Quiz", command=self.submit_quiz)
-        submit_button.pack(pady=10)
-
-    def check_answer(self, question_index, selected_option):
-        # This method now simply updates the associated StringVar
-        self.user_answers[question_index].set(selected_option)
-
-    def submit_quiz(self):
-        correct_answers = 0
-        for question_index, answer_var in self.user_answers.items():
-            if answer_var.get() == self.structured_quiz[question_index]['correct_answer']:
-                correct_answers += 1
-
-        total_questions = len(self.structured_quiz)
-        messagebox.showinfo("Quiz Results", f"You got {correct_answers} out of {total_questions} correct.")
-        # Clear the user's answers for a new quiz attempt
-        for answer_var in self.user_answers.values():
-            answer_var.set("none")
-
-    def display_article(self):
-        topic = self.search_entry.get()
-        article_content = self.generate_article_with_mistral(topic)
-        self.results_text.delete("1.0", tk.END)
-        self.results_text.insert(tk.END, "Generated Article:\n" + article_content)
-
-    def generate_text_with_mistral(self, topic, specific_skill, skill_level):
-        # Updated prompt to include detailed course structure and elements
-        prompt = f"""Create a comprehensive, self-paced online course titled "The Ultimate {topic} Journey". This course should be structured into multiple modules, each focusing on a key aspect of {topic}. Begin with a captivating introduction that outlines the course objectives and how users will benefit from it. Each module should include:
-
-    - A clear explanation of the module's topic, with text and multimedia content such as images, infographics, and videos.
-    - Interactive elements like quizzes at the end of each section to reinforce learning.
-    - Practical exercises and hands-on projects that users can complete to apply what they've learned.
-    - Gamification features, such as awarding stars for module completion and points for exercise submissions.
-    - A progress tracker that visually displays the user's progress through the course and the stars earned.
-    - A conclusion that summarizes the key takeaways and encourages further exploration.
-
-    Ensure the content is adaptive, providing simpler explanations and foundational tasks for beginners, and more complex challenges and in-depth discussions for advanced users. Incorporate real-world examples and case studies to illustrate practical applications of {topic}. The course should engage users, keeping them motivated with a mix of challenging, informative, and entertaining content tailored for {skill_level} skill level."""
-
-        data = {"model": "mistral", "prompt": prompt}
-        response = requests.post(MISTRAL_API_URL, json=data)
-        if response.status_code == 200:
-            try:
-                response_lines = response.content.decode('utf-8').strip().split('\n')
-                generated_text = ' '.join(
-                    item.get('response', '') for item in (json.loads(line) for line in response_lines))
-                return generated_text
-            except Exception as e:
-                return f"Error parsing Mistral API response: {str(e)}"
-        else:
-            return f"Error generating text with Mistral API. Status code: {response.status_code}"
-
-    def generate_quiz_based_on_content(self, content):
-        key_sentences = extract_key_sentences(content)
-        self.structured_quiz = []
-        for sentence in key_sentences:
-            question = f"What is described by: '{sentence}'?"
-            correct_answer = sentence
-            distractors = [create_distractor(correct_answer) for _ in range(3)]
-            options = distractors + [correct_answer]
-            random.shuffle(options)
-            self.structured_quiz.append({
-                "question": question,
-                "options": options,
-                "correct_answer": correct_answer
-            })
-
+    # Remember to update methods that use the skill level to retrieve the value from the Combobox
     def generate_content(self):
         topic = self.search_entry.get()
         specific_skill = self.skill_entry.get()
-        skill_level = self.skill_level_entry.get()
+        skill_level = self.skill_level_combobox.get()  # Update this line to use the Combobox's value
 
-        # Search for similar topics
-        similar_topics = search_similar_topics(topic, specific_skill, skill_level)
-
-        if similar_topics:
-            # If similar topics exist, choose how to use them. This is a simplified example.
-            # You could fetch the content associated with these topics and display it,
-            # or compare the content's similarity more thoroughly before deciding.
-            messagebox.showinfo("Similar Content Found", "Similar content already exists in the database.")
-            # Fetch and display the first similar topic's content for demonstration
-            content_id = similar_topics[0][0]  # Assuming the first column is the ID
-            quizzes = fetch_quizzes(content_id)  # Assuming quizzes are related to content
-            # Display quizzes or content as needed
+        generated_content = generate_text_with_mistral(topic, specific_skill, skill_level)
+        if generated_content:
+            self.results_text.delete("1.0", tk.END)
+            self.results_text.insert(tk.END, "Generated Content:\n" + generated_content)
         else:
-            # No similar content found, proceed to generate new content
-            topic_id = insert_topic(topic, specific_skill, skill_level)
-            generated_content = self.generate_text_with_mistral(topic, specific_skill, skill_level)
-            if generated_content:
-                content_id = insert_content(topic_id, generated_content)
-                self.results_text.delete("1.0", tk.END)
-                self.results_text.insert(tk.END, "Generated Content:\n" + generated_content)
-                self.display_quiz_button()
-                self.generate_quiz_based_on_content(generated_content, content_id)  # Pass content_id to link quizzes
-            else:
-                messagebox.showwarning("No Results", "No content generated for the given query.")
+            messagebox.showwarning("No Results", "No content generated for the given query.")
 
+    def generate_quiz_window(self):
+        topic = self.search_entry.get()
+        specific_skill = self.skill_entry.get()
+        quiz_text = generate_quiz(topic, specific_skill)
+        print(quiz_text)
+        with open("Testdoc.txt", "w") as file:
+            file.write(quiz_text)
+        file.close()
+        subprocess.run(['python', script_path])
+    def submit_quiz(self, quiz_text):
+        # Implement submission of the quiz
+        pass
 
+    def search_free_models(self):
+        query = self.search_entry.get()
+
+        # Define Sketchfab API endpoint
+        api_endpoint = 'https://api.sketchfab.com/v3/search'
+
+        # Set up request parameters
+        params = {
+            'type': 'models',
+            'q': query,
+            'price': 'free',
+            'token': os.environ['SKETCHFAB_API_TOKEN']
+        }
+
+        # Send GET request to Sketchfab API
+        response = requests.get(api_endpoint, params=params)
+
+        # Check if request was successful
+        if response.status_code == 200:
+            # Clear previous search results
+            self.results_text.delete("1.0", tk.END)
+
+            self.results_text.insert(tk.END, "\n\nFree 3D Models from Sketchfab:\n")
+            for result in response.json()['results']:
+                # Insert model information
+                self.results_text.insert(tk.END, f"Name: {result['name']}\n")
+                self.results_text.insert(tk.END, f"URL: {result['viewerUrl']}\n")
+                self.results_text.insert(tk.END, f"Description: {result['description']}\n\n")
+
+                # Add a button to view the model
+                # It's tricky to manage lambda functions in loops due to variable scoping issues.
+                # Make sure the lambda captures the current URL value correctly.
+                view_button = tk.Button(self.results_text, text="View Model",
+                                        command=lambda url=result['viewerUrl']: self.view_model(url))
+                self.results_text.window_create(tk.END, window=view_button)
+                self.results_text.insert(tk.END, "\n")
+        else:
+            # Display error message if request was unsuccessful
+            self.results_text.insert(tk.END,
+                                     f"\n\nError: Unable to fetch search results from Sketchfab. Status code: {response.status_code}")
+
+    def view_model(self, url):
+        webbrowser.open_new(url)
 def main():
-    setup_database()  # Ensure the database is set up
     root = tk.Tk()
     app = ARSketchfabApp(root)
     root.mainloop()
 
 if __name__ == "__main__":
     main()
+
+
