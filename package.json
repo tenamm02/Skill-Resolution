@@ -1,38 +1,5 @@
 {
-  "name": "skill-resolution",
-  "version": "1.0.0",
-  "description": "An immersive AR-based e-learning platform.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tenamm02/Skill-Resolution.git"
-  },
-  "keywords": [
-    "e-learning",
-    "AR",
-    "e-learning"
-  ],
-  "author": "Michael Tenam, Declan Coleman, Chris Seccafico, Julia Schuerlein",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/tenamm02/Skill-Resolution/issues"
-  },
-  "homepage": "https://github.com/tenamm02/Skill-Resolution#readme",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.20.2",
-    "express": "^4.18.2",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^7.6.3",
-    "passport": "^0.6.0",
-    "passport-jwt": "^4.0.1",
-    "passport-local": "^1.0.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.0.3"
+    "axios": "^1.6.8"
   }
 }
