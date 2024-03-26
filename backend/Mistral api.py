@@ -7,7 +7,7 @@ import nltk
 from nltk.tokenize import sent_tokenize
 import subprocess
 import webbrowser
-
+import sqlite3
 # Define the path to the script you want to run
 script_path = 'Quiz parser (1).py'
 
@@ -18,6 +18,20 @@ nltk.download('punkt')
 def list_strip(lst):
     return [item.strip() for item in lst]
 
+def setup_database():
+    conn = sqlite3.connect('generated_content.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS generated_content (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            topic TEXT,
+            specific_skill TEXT,
+            content TEXT
+        )
+    ''')
+    conn.commit()
+    conn.close()
+setup_database()
 def list_rstrip(lst, char="-"):
     return [item.rstrip(char) for item in lst]
 
@@ -113,7 +127,23 @@ def generate_article_with_mistral(topic):
     data = {"model": "mistral", "prompt": prompt}
     return post_request_to_mistral(data)
 
+class MistralAPI:
 
+    # ...
+
+    @staticmethod
+    def get_from_database(topic, specific_skill):
+        conn = sqlite3.connect('generated_content.db')
+        cursor = conn.cursor()
+        query = '''
+            SELECT * FROM generated_content
+            WHERE topic = ? AND specific_skill = ?
+        '''
+        cursor.execute(query, (topic, specific_skill))
+        content = cursor.fetchone()
+        conn.close()
+        if content:
+            return content[3]
 class ARSketchfabApp:
     def __init__(self, master):
         self.master = master
@@ -170,13 +200,32 @@ class ARSketchfabApp:
         specific_skill = self.skill_entry.get()
         skill_level = self.skill_level_combobox.get()  # Update this line to use the Combobox's value
 
-        generated_content = generate_text_with_mistral(topic, specific_skill, skill_level)
+        generated_content = MistralAPI.get_from_database(topic, specific_skill)
         if generated_content:
             self.results_text.delete("1.0", tk.END)
             self.results_text.insert(tk.END, "Generated Content:\n" + generated_content)
         else:
+            generated_content = generate_text_with_mistral(topic,specific_skill,skill_level)
+            if generated_content:
+
+                content = generated_content
+                self.results_text.delete("1.0",tk.END)
+                self.results_text.insert(tk.END,"Generated Content:\n" + generated_content)
+                self.save_to_database(topic,specific_skill,content)
+            
             messagebox.showwarning("No Results", "No content generated for the given query.")
 
+    def save_to_database(self, topic, specific_skill,content):
+        conn = sqlite3.connect('generated_content.db')
+        cursor = conn.cursor()
+
+        query = '''
+            INSERT INTO generated_content (topic, specific_skill, content)
+            VALUES (?, ?, ?)
+        '''
+        cursor.execute(query, (topic, specific_skill, content))
+        conn.commit()
+        conn.close()
     def generate_quiz_window(self):
         topic = self.search_entry.get()
         specific_skill = self.skill_entry.get()
