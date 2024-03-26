@@ -10,7 +10,6 @@ import webbrowser
 import sqlite3
 # Define the path to the script you want to run
 script_path = 'Quiz parser (1).py'
-
 # Run the script
 os.environ['SKETCHFAB_API_TOKEN'] = '0e57c8a592a44347b8c9cf9cbee7bc5a'
 nltk.download('punkt')
