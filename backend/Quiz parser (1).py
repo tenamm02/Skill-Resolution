@@ -16,7 +16,9 @@ with open(file_path, "r") as file:
     for line in file:
         if line.strip().startswith('Question'):
             if current_question:
+                Toppic = ''
                 current_question['options'] = options.copy()
+                current_question['topic'] = Toppic
                 questions.append(current_question)
             
             current_question = {'question': line.split(':', 1)[1].strip()}
@@ -27,7 +29,11 @@ with open(file_path, "r") as file:
         elif line.strip().startswith('An swer'):
             answer_letter = line.split(':', 1)[1].strip()[0] 
             current_question['answer'] = answer_letter
-            
+        elif line.strip().startswith('Topic'):
+            Topic = line.strip()
+            Toppic = Topic.strip("Topic")
+            current_question['topic'] = Toppic
+
 
 if current_question:
     if 'options' not in current_question:
@@ -41,31 +47,33 @@ for index, question in enumerate(questions, start=1):
         print(option)
     print("Answer:", question.get('answer', 'No answer provided'))
     print()  # Add a blank line for clarity
-
-
-
 def save_questions(questions):
     conn = sqlite3.connect('quiz_database.db')
     c = conn.cursor()
 
-    for question in questions:
-        q_text = question.pop('question')
-        a = question.pop('answer')
+    for questionz in questions:
+        q_text = questionz.pop('question')
+        a = questionz.pop('answer')
 
-        o = question.pop('options')
+        to = questionz.pop('topic')
+
+        o = questionz.pop('options')
 
         t = ''.join(str(x) for x in o)
-        print(t)
+        print(o)
 
-        question_data = (q_text, t, a)
+        question_data = (q_text, t, a,to)
 
         c.execute('''
-        INSERT INTO questions (question, options, answer)
-        VALUES (?, ?, ?)
+        INSERT INTO questions (question, options, answer, topic)
+        VALUES (?, ?, ?, ?)
         ''', question_data)
 
     conn.commit()
     conn.close()
+
+
+
 class QuizApplication:
 
     def __init__(self, master, questions):

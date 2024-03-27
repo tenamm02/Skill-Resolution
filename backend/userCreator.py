@@ -6,8 +6,8 @@ cursor = conn.cursor()
 
 # Delete the options column
 cursor.execute('''
-    ALTER TABLE questions
-    ADD COLUMN options TEXT
+    ALTER TABLE questions 
+    ADD COLUMN topic text;
 ''')
 
 

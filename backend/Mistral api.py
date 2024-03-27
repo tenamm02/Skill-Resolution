@@ -17,20 +17,8 @@ nltk.download('punkt')
 def list_strip(lst):
     return [item.strip() for item in lst]
 
-def setup_database():
-    conn = sqlite3.connect('generated_content.db')
-    cursor = conn.cursor()
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS generated_content (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            topic TEXT,
-            specific_skill TEXT,
-            content TEXT
-        )
-    ''')
-    conn.commit()
-    conn.close()
-setup_database()
+
+
 def list_rstrip(lst, char="-"):
     return [item.rstrip(char) for item in lst]
 
@@ -83,16 +71,18 @@ def post_request_to_mistral(data):
 
 
 def generate_quiz(topic, specific_skill):
-    conn = sqlite3.connect('generated_quiz.db')
+    conn = sqlite3.connect('quiz_database.db')
     cursor = conn.cursor()
     query = '''
-                SELECT * FROM generated_content
-                WHERE topic = ? AND specific_skill = ?
+                SELECT question FROM questions
+                WHERE topic = ?
             '''
-    cursor.execute(query, (topic, specific_skill))
+    cursor.execute(query, ("" + topic))
     content = cursor.fetchone()
+
     conn.close()
     if content:
+        print(content)
         return content[3]
     prompt = f"make me a quiz about {topic} focusing on {specific_skill} with 5 multiple-choice questions, each having 4 options., put the answers at the buttom of all 5 questions"
     data = {"model": "mistral", "prompt": prompt}
@@ -242,7 +232,9 @@ class ARSketchfabApp:
         quiz_text = generate_quiz(topic, specific_skill)
         print(quiz_text)
         with open("Testdoc.txt", "w") as file:
+
             file.write(quiz_text)
+            file.write("Topic" + topic)
         file.close()
         subprocess.run(['python', script_path])
     def submit_quiz(self, quiz_text):

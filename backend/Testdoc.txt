@@ -1,58 +1,40 @@
- ** Question   1 :**  Which  built - in  Python  data  structure  is  used  for  st oring  an  ordered  collection  of  unique  elements ? 
+Question   1 :  Which  of  the  following  is  not  a  data  type  in  Python ?
  
  A )  List 
  B )  T uple 
- C )  Dictionary 
- D )  Set 
+ C )  D ict 
+ D )  String 
+ An swer :  A  ( List  is  a  data  type ,  but  it ' s  also  a  collection  data  type .  The  other  options  are  all  fundamental  data  types .) 
  
- An swer :  D .  A  set  in  Python  is  an  un ordered  collection  of  unique  elements .  However ,  a  set  maint ains  the  order  of  its  elements  when  added  one  by  one ,  making  it  an  ordered  collection  for  this  specific  question . 
+ Question   2 :  Which  operator  in  Python  is  used  for  integer  division ? 
  
- ** Question   2 :**  Which  Python  keyword  is  used  to  define  a  function ? 
+ A )  + 
+ B )  * 
+ C )  / 
+ D )  % 
+ An swer :  C  ( /  represents  float  division  in  Python ,  //  represents  true  integer  division .) 
  
- A )  def 
- B )  class 
- C )  import 
- D )  if 
+ Question   3 :  What  does  the  keyword  ' pass '  do  in  Python ? 
  
- An swer :  A .  The  ' def '  keyword  is  used  in  Python  to  define  a  function . 
+ A )  Ass ign s  a  value  to  a  variable 
+ B )  Def ines  a  function 
+ C )  Creates  an  empty  list 
+ D )  Sign ifies  an  empty  statement  or  block 
+ An swer :  D 
  
- ** Question   3 :**  Given  the  code  sn ippet  below ,  which  part  of  it  defines  and  assign s  a  value  to  the  variable  " x "? 
+ Question   4 :  Which  module  in  Python  is  used  for  handling  input  and  output  operations ? 
  
- `` ` python 
- a  =   1 0 
- x  =  a  *   2 
- `` ` 
+ A )  Math 
+ B )  String 
+ C )  Random 
+ D )  I / O 
+ An swer :  D  ( Py thon ' s  built - in  I / O  module  is  called  io .) 
  
- A )  The  first  line 
- B )  The  second  line 
- C )  Both  lines 
- D )  Neither  lines 
+ Question   5 :  What  does  the  ' range () '  function  in  Python  return ? 
  
- An swer :  C .  Both  lines  are  execut ing  parts  of  the  code .  The  first  line  assign s  the  value   1 0  to  variable  ' a ',  and  the  second  line  multi plies  the  variable  ' a '  by   2 ,  resulting  in   2 0 ,  which  is  then  assigned  to  variable  ' x '. 
- 
- ** Question   4 :**  What  does  the  following  Python  code  sn ippet  print ? 
- 
- `` ` python 
- for  i  in  range ( 5 ): 
-      print ( i ) 
- `` ` 
- 
- A )  It  prints  " range ( 5 )"  five  times . 
- B )  It  prints  numbers  from   0  to   4 . 
- C )  It  prints  numbers  from   1  to   5 . 
- D )  It  prints  the  value  of  ' i '  after  each  loop  iteration . 
- 
- An swer :  D .  The  for  loop  in  this  sn ippet  iter ates  through  the  range ( 5 ),  so  it  runs  five  times ,  and  on  each  iteration ,  it  assign s  the  current  index  ( i )  to  itself  and  then  execut es  the  print  statement ,  thus  printing  the  value  of  ' i '  after  each  iteration . 
- 
- ** Question   5 :**  In  what  data  type  is  this  Python  representation  stored ? 
- 
- `` ` python 
- num bers  =  [1 ,   2 ,   3 ,   4 ,   5 ] 
- `` ` 
- 
- A )  List 
- B )  T uple 
- C )  Set 
- D )  Dictionary 
- 
- An swer :  A .  The  given  Python  code  sn ippet  defines  a  list  called  ' num bers '  which  contains  the  elements   1 ,   2 ,   3 ,   4 ,  and   5 . 
+ A )  A  single  value 
+ B )  An  empty  list 
+ C )  A  sequence  of  numbers 
+ D )  An  error 
+ An swer :  C .  ( The  range  function  returns  a  sequence  of  numbers  starting  from  zero  by  default  and  incre ments  by  one  until  reaching  the  specified  stop  value .)
+ Topic Python
