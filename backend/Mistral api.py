@@ -84,6 +84,17 @@ def post_request_to_mistral(data):
 
 
 def generate_quiz(topic, specific_skill):
+    conn = sqlite3.connect('generated_quiz.db')
+    cursor = conn.cursor()
+    query = '''
+                SELECT * FROM generated_content
+                WHERE topic = ? AND specific_skill = ?
+            '''
+    cursor.execute(query, (topic, specific_skill))
+    content = cursor.fetchone()
+    conn.close()
+    if content:
+        return content[3]
     prompt = f"make me a quiz about {topic} focusing on {specific_skill} with 5 multiple-choice questions, each having 4 options., put the answers at the buttom of all 5 questions"
     data = {"model": "mistral", "prompt": prompt}
     return post_request_to_mistral(data)

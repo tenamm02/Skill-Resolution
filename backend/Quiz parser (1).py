@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
-
+import sqlite3
 # Define a structure to hold the parsed data
 questions = []
 
@@ -42,7 +42,32 @@ for index, question in enumerate(questions, start=1):
     print("Answer:", question.get('answer', 'No answer provided'))
     print()  # Add a blank line for clarity
 
+
+
+def save_questions(questions):
+    conn = sqlite3.connect('quiz_database.db')
+    c = conn.cursor()
+
+    for question in questions:
+        q_text = question.pop('question')
+        a = question.pop('answer')
+
+        o = question.pop('options')
+
+        t = ''.join(str(x) for x in o)
+        print(t)
+
+        question_data = (q_text, t, a)
+
+        c.execute('''
+        INSERT INTO questions (question, options, answer)
+        VALUES (?, ?, ?)
+        ''', question_data)
+
+    conn.commit()
+    conn.close()
 class QuizApplication:
+
     def __init__(self, master, questions):
         self.master = master
         self.questions = questions
@@ -104,3 +129,4 @@ if __name__ == "__main__":
     root.title("Quiz Application")
     app = QuizApplication(root, questions)
     root.mainloop()
+save_questions(questions)
