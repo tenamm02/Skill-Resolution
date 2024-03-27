@@ -1,39 +1,58 @@
- Question   1 :  What  is  the  default  data  type  for  a  variable  in  Python ? 
- A )  Integer 
- B )  Float 
- C )  String 
- D )  List 
+ ** Question   1 :**  Which  built - in  Python  data  structure  is  used  for  st oring  an  ordered  collection  of  unique  elements ? 
  
- An swer   1 :  C .  String  ( However ,  Python  is  dynam ically  typed  and  can  be  reass igned  to  other  data  types .) 
+ A )  List 
+ B )  T uple 
+ C )  Dictionary 
+ D )  Set 
  
- Question   2 :  In  Python ,  what  does  the  " :"  symbol  sign ify ? 
- A )  Division  operator 
- B )  Multi plication  operator 
- C )  Ass ignment  operator 
- D )  Col on  is  used  to  denote  blocks  of  code  and  functions . 
+ An swer :  D .  A  set  in  Python  is  an  un ordered  collection  of  unique  elements .  However ,  a  set  maint ains  the  order  of  its  elements  when  added  one  by  one ,  making  it  an  ordered  collection  for  this  specific  question . 
  
- An swer   2 :  D .  Col on 
+ ** Question   2 :**  Which  Python  keyword  is  used  to  define  a  function ? 
  
- Question   3 :  Which  built - in  Python  function  returns  a  list  containing  all  the  elements  in  iter able 1  followed  by  all  the  elements  in  iter able 2 ? 
- A )  append () 
- B )  extend () 
- C )  zip () 
- D )  conc at () 
+ A )  def 
+ B )  class 
+ C )  import 
+ D )  if 
  
- An swer   3 :  B .  extend () 
+ An swer :  A .  The  ' def '  keyword  is  used  in  Python  to  define  a  function . 
  
- Question   4 :  What  is  the  output  of  printing  " Hello ,  {} "  using  Python ' s  format  string ? 
- A )  Hello ,  World 
- B )  Hello ,  Python 
- C )  Hello ,  None 
- D )  Hello ,  { }. format (" World ") 
+ ** Question   3 :**  Given  the  code  sn ippet  below ,  which  part  of  it  defines  and  assign s  a  value  to  the  variable  " x "? 
  
- An swer   4 :  D .  The  correct  answer  depends  on  passing  an  argument  to  the  . format ()  method  in  the  print  statement . 
+ `` ` python 
+ a  =   1 0 
+ x  =  a  *   2 
+ `` ` 
  
- Question   5 :  Which  of  these  keywords  is  used  for  defining  a  list  in  Python ? 
- A )  int 
- B )  var 
- C )  define 
- D )  list 
+ A )  The  first  line 
+ B )  The  second  line 
+ C )  Both  lines 
+ D )  Neither  lines 
  
- An swer   5 :  D .  list 
+ An swer :  C .  Both  lines  are  execut ing  parts  of  the  code .  The  first  line  assign s  the  value   1 0  to  variable  ' a ',  and  the  second  line  multi plies  the  variable  ' a '  by   2 ,  resulting  in   2 0 ,  which  is  then  assigned  to  variable  ' x '. 
+ 
+ ** Question   4 :**  What  does  the  following  Python  code  sn ippet  print ? 
+ 
+ `` ` python 
+ for  i  in  range ( 5 ): 
+      print ( i ) 
+ `` ` 
+ 
+ A )  It  prints  " range ( 5 )"  five  times . 
+ B )  It  prints  numbers  from   0  to   4 . 
+ C )  It  prints  numbers  from   1  to   5 . 
+ D )  It  prints  the  value  of  ' i '  after  each  loop  iteration . 
+ 
+ An swer :  D .  The  for  loop  in  this  sn ippet  iter ates  through  the  range ( 5 ),  so  it  runs  five  times ,  and  on  each  iteration ,  it  assign s  the  current  index  ( i )  to  itself  and  then  execut es  the  print  statement ,  thus  printing  the  value  of  ' i '  after  each  iteration . 
+ 
+ ** Question   5 :**  In  what  data  type  is  this  Python  representation  stored ? 
+ 
+ `` ` python 
+ num bers  =  [1 ,   2 ,   3 ,   4 ,   5 ] 
+ `` ` 
+ 
+ A )  List 
+ B )  T uple 
+ C )  Set 
+ D )  Dictionary 
+ 
+ An swer :  A .  The  given  Python  code  sn ippet  defines  a  list  called  ' num bers '  which  contains  the  elements   1 ,   2 ,   3 ,   4 ,  and   5 . 
