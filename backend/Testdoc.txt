@@ -1,9 +1,20 @@
-Question: 'Which  dog  breed  is  known  for  having  a  distinctive  wr ink led  skin  and  short  legs ?')
-An swer: 'A')
- None)
- 'A )  Box erB )  S iber ian  Hus kyC )  Do ber man  P ins cherD )  Be agle')60Which  dog  breed  is  known  for  having  a  distinctive  wr ink led  skin  and  short  legs ?ANone
-A ) Box er
-B ) S iber ian  Hus ky
-C ) Do ber man  P ins cher
-D ) Be agleDog
-TopicDog
+Question: (90, "' Which  cow  breed  is  known  for  producing  the  highest  quantity  of  milk  per  year ?'", 'A None, 'A )  Ang usB )  Here fordC )  Char ol aisD )  Sim ment al 'Cows'))
+An swer: (91, "' Which  part  of  a  cow  is  used  to  make  G he e ?'", 'A None, 'A )  Ho ofB )  Te ethC )  Mil kD )  Fat 'Cows'))
+ (92, "' Which  of  these  cow  breed s  origin ated  in  India ?'", 'A None, 'A )  JerseyB )  F ries ianC )  Ang usD )  Hol stein 'Cows'))(89, "' Which  type  of  cow  is  known  for  providing  us  with  Cam el  milk ?'", 'A', None, '
+A ) A yr shire
+B ) Jersey
+C ) Gu ern sey
+D ) F ries ian', 'Cows')(90, "' Which  cow  breed  is  known  for  producing  the  highest  quantity  of  milk  per  year ?'", 'A', None, '
+A ) Ang us
+B ) Here ford
+C ) Char ol ais
+D ) Sim ment al', 'Cows')(91, "' Which  part  of  a  cow  is  used  to  make  G he e ?'", 'A', None, '
+A ) Ho of
+B ) Te eth
+C ) Mil k
+D ) Fat', 'Cows')(92, "' Which  of  these  cow  breed s  origin ated  in  India ?'", 'A', None, '
+A ) Jersey
+B ) F ries ian
+C ) Ang us
+D ) Hol stein', 'Cows')
+TopicCows

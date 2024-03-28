@@ -76,13 +76,15 @@ def generate_quiz(topic, specific_skill):
     toppic = " " + topic
     query = '''
                 SELECT * FROM questions 
-                WHERE topic = ? LIMIT 5 
+                WHERE topic = ? 
+                LIMIT 4
         
             '''
 
     cursor.execute(query, (topic,))
-    content = cursor.fetchone()
-    print(content)
+
+    content = cursor.fetchall()
+
 
     conn.close()
     if content:
@@ -93,14 +95,42 @@ def generate_quiz(topic, specific_skill):
                         WHERE topic = ?
                     '''
         cursor.execute(query, (topic,))
+
         options = cursor.fetchone()
         conn.close()
+
+
+        conn = sqlite3.connect('quiz_database.db')
+        cursor = conn.cursor()
+        query = '''
+                                SELECT question FROM questions 
+                                WHERE topic = ?
+                            '''
+        cursor.execute(query, (topic,))
+
+        questions = cursor.fetchone()
+        conn.close()
+
+        conn = sqlite3.connect('quiz_database.db')
+        cursor = conn.cursor()
+        query = '''
+                                SELECT answer FROM questions 
+                                WHERE topic = ?
+                            '''
+        cursor.execute(query, (topic,))
+
+        ans = cursor.fetchone()
+        conn.close()
+
+
+
+
         options = ("").join(map(str, content))
         options = options.replace('A ) ','\nA )')
         options = options.replace('B ) ', '\nB )')
         options = options.replace('C ) ', '\nC )')
         options = options.replace('D ) ', '\nD )')
-
+        newcontent = [questions, options, ans]
         labels = ("","Question:","An swer:","","")
         content = tuple(zip(labels, content))
         content = ('''
@@ -110,12 +140,22 @@ def generate_quiz(topic, specific_skill):
         lines = content.splitlines()
 
         content = "\n".join(lines[1:])
-        #content = content.replace(') ',')\n')
         content = content + options
-        print(content)
         return content
     else:
-        prompt = f"make me a quiz about {topic} focusing on {specific_skill} with 5 multiple-choice questions, each having 4 options., put the answers at the buttom of all 5 questions"
+        prompt = f"""make me a quiz about {topic} focusing on {specific_skill} with 5 multiple-choice questions, each having 4 options., put the answers at the buttom of all 5 questions" 
+
+MAKE EACH QUESTION IN THE FOLLOWING FORMAT!!!
+Question: 'Which  dog  breed  is  known  for  having  a  distinctive  wr ink led  skin  and  short  legs ?')
+An swer: A)
+ None)
+ 'A )  Box erB )  S iber ian  Hus kyC )  Do ber man  P ins cherD )  Be agle')60Which  dog  breed  is  known  for  having  a  distinctive  wr ink led  skin  and  short  legs ?ANone
+A ) Box er
+B ) S iber ian  Hus ky
+C ) Do ber man  P ins cher
+D ) Be agleDog
+"""
+
         data = {"model": "mistral", "prompt": prompt}
         return post_request_to_mistral(data)
 
