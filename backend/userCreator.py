@@ -1,18 +1,8 @@
-import sqlite3
+options = "'A )  A  single  valueB )  An  empty  listC )  A  sequence  of  numbersD )  An  error'"
 
-# Connect to the database
-conn = sqlite3.connect('quiz_database.db')
-cursor = conn.cursor()
+# Split the options into a list of lines
+lines = options.splitlines()
 
-# Delete the options column
-cursor.execute('''
-    ALTER TABLE questions 
-    ADD COLUMN topic text;
-''')
-
-
-# Commit the changes
-conn.commit()
-
-# Close the connection
-conn.close()
+# Print each option on a separate line
+for line in lines:
+    print(line.strip())  # Remove any leading/trailing whitespace

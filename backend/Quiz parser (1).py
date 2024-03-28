@@ -14,7 +14,7 @@ file_path = "Testdoc.txt"
 # Open the file and read line by line
 with open(file_path, "r") as file:
     for line in file:
-        if line.strip().startswith('Question'):
+        if line.strip().startswith('Question' or '*Question'):
             if current_question:
                 Toppic = ''
                 current_question['options'] = options.copy()
@@ -23,7 +23,7 @@ with open(file_path, "r") as file:
             
             current_question = {'question': line.split(':', 1)[1].strip()}
             options = []
-        elif line.strip().startswith(('A )', 'B )', 'C )', 'D )')):
+        elif line.strip().startswith(('A ) ' or 'A) ', 'B ) ' or 'B) ', 'C ) ' or 'C) ', 'D ) ' or 'D) ')):
             option_letter = line.strip()
             options.append(option_letter)
         elif line.strip().startswith('An swer'):
@@ -40,6 +40,7 @@ if current_question:
         current_question['options'] = options
     questions.append(current_question)
 
+
 for index, question in enumerate(questions, start=1):
     #print(f"Question {index}: {question['question']}")
     print("Options:")
@@ -50,12 +51,12 @@ for index, question in enumerate(questions, start=1):
 def save_questions(questions):
     conn = sqlite3.connect('quiz_database.db')
     c = conn.cursor()
-
+    to = current_question.pop('topic')
     for questionz in questions:
         q_text = questionz.pop('question')
         a = questionz.pop('answer')
 
-        to = questionz.pop('topic')
+
 
         o = questionz.pop('options')
 

@@ -73,20 +73,51 @@ def post_request_to_mistral(data):
 def generate_quiz(topic, specific_skill):
     conn = sqlite3.connect('quiz_database.db')
     cursor = conn.cursor()
+    toppic = " " + topic
     query = '''
-                SELECT question FROM questions
-                WHERE topic = ?
+                SELECT * FROM questions 
+                WHERE topic = ? LIMIT 5 
+        
             '''
-    cursor.execute(query, ("" + topic))
+
+    cursor.execute(query, (topic,))
     content = cursor.fetchone()
+    print(content)
 
     conn.close()
     if content:
+        conn = sqlite3.connect('quiz_database.db')
+        cursor = conn.cursor()
+        query = '''
+                        SELECT options FROM questions 
+                        WHERE topic = ?
+                    '''
+        cursor.execute(query, (topic,))
+        options = cursor.fetchone()
+        conn.close()
+        options = ("").join(map(str, content))
+        options = options.replace('A ) ','\nA )')
+        options = options.replace('B ) ', '\nB )')
+        options = options.replace('C ) ', '\nC )')
+        options = options.replace('D ) ', '\nD )')
+
+        labels = ("","Question:","An swer:","","")
+        content = tuple(zip(labels, content))
+        content = ('''
+''').join(map(str, content))
+        content = content.replace("'"",", "")
+        content = content.replace("('", "")
+        lines = content.splitlines()
+
+        content = "\n".join(lines[1:])
+        #content = content.replace(') ',')\n')
+        content = content + options
         print(content)
-        return content[3]
-    prompt = f"make me a quiz about {topic} focusing on {specific_skill} with 5 multiple-choice questions, each having 4 options., put the answers at the buttom of all 5 questions"
-    data = {"model": "mistral", "prompt": prompt}
-    return post_request_to_mistral(data)
+        return content
+    else:
+        prompt = f"make me a quiz about {topic} focusing on {specific_skill} with 5 multiple-choice questions, each having 4 options., put the answers at the buttom of all 5 questions"
+        data = {"model": "mistral", "prompt": prompt}
+        return post_request_to_mistral(data)
 
 
 def generate_text_with_mistral(topic, specific_skill, skill_level):
@@ -234,7 +265,7 @@ class ARSketchfabApp:
         with open("Testdoc.txt", "w") as file:
 
             file.write(quiz_text)
-            file.write("Topic" + topic)
+            file.write('\n'"Topic" + topic)
         file.close()
         subprocess.run(['python', script_path])
     def submit_quiz(self, quiz_text):

@@ -1,40 +1,9 @@
-Question   1 :  Which  of  the  following  is  not  a  data  type  in  Python ?
- 
- A )  List 
- B )  T uple 
- C )  D ict 
- D )  String 
- An swer :  A  ( List  is  a  data  type ,  but  it ' s  also  a  collection  data  type .  The  other  options  are  all  fundamental  data  types .) 
- 
- Question   2 :  Which  operator  in  Python  is  used  for  integer  division ? 
- 
- A )  + 
- B )  * 
- C )  / 
- D )  % 
- An swer :  C  ( /  represents  float  division  in  Python ,  //  represents  true  integer  division .) 
- 
- Question   3 :  What  does  the  keyword  ' pass '  do  in  Python ? 
- 
- A )  Ass ign s  a  value  to  a  variable 
- B )  Def ines  a  function 
- C )  Creates  an  empty  list 
- D )  Sign ifies  an  empty  statement  or  block 
- An swer :  D 
- 
- Question   4 :  Which  module  in  Python  is  used  for  handling  input  and  output  operations ? 
- 
- A )  Math 
- B )  String 
- C )  Random 
- D )  I / O 
- An swer :  D  ( Py thon ' s  built - in  I / O  module  is  called  io .) 
- 
- Question   5 :  What  does  the  ' range () '  function  in  Python  return ? 
- 
- A )  A  single  value 
- B )  An  empty  list 
- C )  A  sequence  of  numbers 
- D )  An  error 
- An swer :  C .  ( The  range  function  returns  a  sequence  of  numbers  starting  from  zero  by  default  and  incre ments  by  one  until  reaching  the  specified  stop  value .)
- Topic Python
+Question: 'Which  dog  breed  is  known  for  having  a  distinctive  wr ink led  skin  and  short  legs ?')
+An swer: 'A')
+ None)
+ 'A )  Box erB )  S iber ian  Hus kyC )  Do ber man  P ins cherD )  Be agle')60Which  dog  breed  is  known  for  having  a  distinctive  wr ink led  skin  and  short  legs ?ANone
+A ) Box er
+B ) S iber ian  Hus ky
+C ) Do ber man  P ins cher
+D ) Be agleDog
+TopicDog
