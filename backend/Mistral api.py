@@ -71,30 +71,29 @@ def post_request_to_mistral(data):
 
 
 def generate_quiz(topic, specific_skill):
-    conn = sqlite3.connect('quiz_database.db')
-    cursor = conn.cursor()
-    toppic = " " + topic
-    query = '''
-                SELECT question, options, answer FROM questions 
-                WHERE topic = ? 
-                LIMIT 4
-        
-            '''
+    # Connecting to the database using a context manager
+    with sqlite3.connect('quiz_database.db') as conn:
+        cursor = conn.cursor()
 
-    cursor.execute(query, (topic,))
+        # Assuming the database schema supports filtering by specific_skill
+        query = '''
+                    SELECT question, options, answer FROM questions 
+                    WHERE topic = ?
+                    LIMIT 4
+                '''
 
-    content = cursor.fetchall()
+        cursor.execute(query, (topic,))
+        content = cursor.fetchall()
 
-
-    conn.close()
+    # Check if content was fetched successfully
     if content:
-        labels = ("", "Question:", "Answer:", "", "")
         formatted_content = []
         for question, options, answer in content:
-            formatted_question = f"{labels[1]} {question.strip('\'')}"
+            formatted_question = f"Question: {question}"
             formatted_options = "\n".join(
-                f"{chr(65 + i)}) {option.strip('\'')}" for i, option in enumerate(options.split(') ')))
-            formatted_answer = f"{labels[2]} {chr(65 + str(answer.strip('\'')))}"
+                f"{chr(65 + i)}) {option}" for i, option in enumerate(options.split(') ')))
+            # Assuming answer is stored as a number (0, 1, 2, 3) corresponding to the option index
+            formatted_answer = f"An swer: {answer}"
 
             formatted_content.append(f"{formatted_question}\n{formatted_options}\n{formatted_answer}\n")
 

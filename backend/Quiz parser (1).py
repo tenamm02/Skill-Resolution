@@ -23,7 +23,7 @@ with open(file_path, "r") as file:
             
             current_question = {'question': line.split(':', 1)[1].strip()}
             options = []
-        elif line.strip().startswith(('A )' or 'A) ', 'B )' or 'B) ', 'C )' or 'C)', 'D )' or 'D) ')):
+        elif line.strip().startswith(('A )' or 'A)  ', 'B )' or 'B)  ', 'C )' or 'C)  ', 'D )' or 'D)  ')):
             option_letter = line.strip()
             options.append(option_letter)
         elif line.strip().startswith('An swer'):

@@ -1,4 +1,33 @@
-Question: ("' Which  cow  breed  is  known  for  producing  the  highest  quantity  of  milk  per  year ?'", 'A )  Ang usB )  Here fordC )  Char ol aisD )  Sim ment al 'A'))
-An swer: ("' Which  part  of  a  cow  is  used  to  make  G he e ?'", 'A )  Ho ofB )  Te ethC )  Mil kD )  Fat 'A'))
- ("' Which  of  these  cow  breed s  origin ated  in  India ?'", 'A )  JerseyB )  F ries ianC )  Ang usD )  Hol stein 'A'))
+Question: ' Which  type  of  cow  is  known  for  providing  us  with  Cam el  milk ?'
+A) A 
+B)  A yr shireB 
+C)  JerseyC 
+D)  Gu ern seyD 
+E)  F ries ian
+An swer: A
+
+Question: ' Which  cow  breed  is  known  for  producing  the  highest  quantity  of  milk  per  year ?'
+A) A 
+B)  Ang usB 
+C)  Here fordC 
+D)  Char ol aisD 
+E)  Sim ment al
+An swer: A
+
+Question: ' Which  part  of  a  cow  is  used  to  make  G he e ?'
+A) A 
+B)  Ho ofB 
+C)  Te ethC 
+D)  Mil kD 
+E)  Fat
+An swer: A
+
+Question: ' Which  of  these  cow  breed s  origin ated  in  India ?'
+A) A 
+B)  JerseyB 
+C)  F ries ianC 
+D)  Ang usD 
+E)  Hol stein
+An swer: A
+
 TopicCows
