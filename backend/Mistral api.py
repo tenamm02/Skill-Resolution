@@ -75,7 +75,7 @@ def generate_quiz(topic, specific_skill):
     cursor = conn.cursor()
     toppic = " " + topic
     query = '''
-                SELECT * FROM questions 
+                SELECT question, options, answer FROM questions 
                 WHERE topic = ? 
                 LIMIT 4
         
@@ -88,60 +88,17 @@ def generate_quiz(topic, specific_skill):
 
     conn.close()
     if content:
-        conn = sqlite3.connect('quiz_database.db')
-        cursor = conn.cursor()
-        query = '''
-                        SELECT options FROM questions 
-                        WHERE topic = ?
-                    '''
-        cursor.execute(query, (topic,))
+        labels = ("", "Question:", "Answer:", "", "")
+        formatted_content = []
+        for question, options, answer in content:
+            formatted_question = f"{labels[1]} {question.strip('\'')}"
+            formatted_options = "\n".join(
+                f"{chr(65 + i)}) {option.strip('\'')}" for i, option in enumerate(options.split(') ')))
+            formatted_answer = f"{labels[2]} {chr(65 + str(answer.strip('\'')))}"
 
-        options = cursor.fetchone()
-        conn.close()
+            formatted_content.append(f"{formatted_question}\n{formatted_options}\n{formatted_answer}\n")
 
-
-        conn = sqlite3.connect('quiz_database.db')
-        cursor = conn.cursor()
-        query = '''
-                                SELECT question FROM questions 
-                                WHERE topic = ?
-                            '''
-        cursor.execute(query, (topic,))
-
-        questions = cursor.fetchone()
-        conn.close()
-
-        conn = sqlite3.connect('quiz_database.db')
-        cursor = conn.cursor()
-        query = '''
-                                SELECT answer FROM questions 
-                                WHERE topic = ?
-                            '''
-        cursor.execute(query, (topic,))
-
-        ans = cursor.fetchone()
-        conn.close()
-
-
-
-
-        options = ("").join(map(str, content))
-        options = options.replace('A ) ','\nA )')
-        options = options.replace('B ) ', '\nB )')
-        options = options.replace('C ) ', '\nC )')
-        options = options.replace('D ) ', '\nD )')
-        newcontent = [questions, options, ans]
-        labels = ("","Question:","An swer:","","")
-        content = tuple(zip(labels, content))
-        content = ('''
-''').join(map(str, content))
-        content = content.replace("'"",", "")
-        content = content.replace("('", "")
-        lines = content.splitlines()
-
-        content = "\n".join(lines[1:])
-        content = content + options
-        return content
+        return "\n".join(formatted_content)
     else:
         prompt = f"""make me a quiz about {topic} focusing on {specific_skill} with 5 multiple-choice questions, each having 4 options., put the answers at the buttom of all 5 questions" 
 
