@@ -81,6 +81,10 @@ function App() {
       const startIndex = section.indexOf('**', 2);
       const title = section.substring(0, startIndex).trim();
       const content = section.substring(startIndex).trim();
+      // console.log all variables, prior to rendering them. Adjust the output in console prior to formatting...
+        // labels, or an ol tag in html should be used.
+        // Cast to a list 
+
 
       // Clean up the content by removing unnecessary spaces
       const cleanedContent = content.replace(/\s+/g, ' ');
