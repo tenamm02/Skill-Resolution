@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Linq;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -6,58 +8,81 @@ public class ChalkboardUpdater : MonoBehaviour
 {
     public Renderer chalkboardRenderer; // Assign the Mesh Renderer of the chalkboard in the Inspector
 
+    private Texture2D texture;
+
     void Start()
     {
+        texture = new Texture2D(256, 256);
+        chalkboardRenderer.material.mainTexture = texture;
         StartCoroutine(FetchAndUpdateChalkboard());
     }
 
     IEnumerator FetchAndUpdateChalkboard()
     {
-        while (true)
+        string url = "http://localhost:5000/generate-course";
+        var courseParams = new
         {
-            UnityWebRequest www = UnityWebRequest.Get("http://yourflaskbackend.com/api/data");
+            subject = "Math",
+            topics = "Algebra",
+            difficulty = "beginner"
+        };
+        string jsonData = JsonUtility.ToJson(courseParams);
+
+        using (UnityWebRequest www = new UnityWebRequest(url, UnityWebRequest.kHttpVerbPOST))
+        {
+            byte[] jsonToSend = new UTF8Encoding().GetBytes(jsonData);
+            www.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
+            www.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+            www.SetRequestHeader("Content-Type", "application/json");
+
             yield return www.SendWebRequest();
 
             if (www.result == UnityWebRequest.Result.Success)
             {
                 string data = www.downloadHandler.text;
-                UpdateChalkboardTexture(data);
+                Debug.Log("Received: " + data);
+                // Update the chalkboard texture or handle the data as needed
             }
             else
             {
                 Debug.LogError("Error fetching data: " + www.error);
             }
-
-            yield return new WaitForSeconds(5); // Fetch and update every 5 seconds
         }
     }
 
+
+
+
     void UpdateChalkboardTexture(string text)
     {
-        // Create a new Texture2D and fill it with the text data
-        Texture2D texture = new Texture2D(256, 256);
         FillTextureWithText(texture, text);
-        
-        // Apply the texture to the chalkboard material
+
+        // Apply the updated texture to the chalkboard material
         chalkboardRenderer.material.mainTexture = texture;
     }
 
     void FillTextureWithText(Texture2D texture, string text)
     {
-        // Here you would use text rendering methods to draw the text onto the texture
-        // For simplicity, we'll just clear the texture to a solid color
-        Color fillColor = Color.black; // Black background for chalkboard
-        Color[] fillPixels = new Color[texture.width * texture.height];
+        // Clear the texture to a solid color, here assuming a blackboard
+        Color bgColor = Color.black;
+        Color textColor = Color.white; // Text color, white like chalk
+        texture.SetPixels(Enumerable.Repeat(bgColor, texture.width * texture.height).ToArray());
+        
+        // Simulating text drawing (very basic)
+        int startX = 10; // Start position of the text on the texture
+        int startY = texture.height - 20; // Adjust as needed
+        int pixelPerChar = 6; // Width of each character in pixels
 
-        for (int i = 0; i < fillPixels.Length; i++)
+        for (int i = 0; i < text.Length && startX + i * pixelPerChar < texture.width; i++)
         {
-            fillPixels[i] = fillColor;
+            // This is a very simplistic way to represent text drawing
+            // You would replace this with actual text rendering logic
+            for (int x = 0; x < pixelPerChar; x++)
+            {
+                texture.SetPixel(startX + i * pixelPerChar + x, startY, textColor);
+            }
         }
 
-        texture.SetPixels(fillPixels);
         texture.Apply();
-
-        // Text rendering logic should go here, using Graphics.DrawTexture or similar
-        // For now, we just have a solid color
     }
 }

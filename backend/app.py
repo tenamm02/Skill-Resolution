@@ -2,9 +2,21 @@ from flask import Flask, request, jsonify
 import requests
 from flask_cors import CORS
 import json
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
+
+app.logger.setLevel('DEBUG')
+app.logger.debug("Debug message")
+
+@app.before_request
+def log_request():
+    data = request.get_data(as_text=True) if request.method != 'GET' else 'No body'
+    app.logger.debug(f"Received {request.method} request for {request.url} with body: {data} and headers: {request.headers}")
+
 
 MISTRAL_API_URL = 'http://localhost:11434/api/generate'
 
@@ -12,12 +24,11 @@ def post_request_to_mistral(data):
     headers = {'Content-Type': 'application/json'}
     url = MISTRAL_API_URL
     try:
-        print(f"Sending request to Mistral API with data: {data}")
+        app.logger.debug(f"Sending request to Mistral API with data: {data}")
         response = requests.post(url, json=data, headers=headers)
-        print("Response received")
-        response.raise_for_status()  # This will throw an exception for HTTP errors
+        app.logger.debug("Response received")
+        response.raise_for_status()
 
-        # Process each line as a separate JSON object
         response_parts = []
         for line in response.iter_lines():
             if line:
@@ -26,11 +37,10 @@ def post_request_to_mistral(data):
                 if json_line.get('done', False):
                     break
 
-        # Now response_parts contains all the separate JSON objects
         return response_parts
 
     except requests.exceptions.RequestException as e:
-        print(f"Error connecting to Mistral API: {str(e)}")
+        app.logger.error(f"Error connecting to Mistral API: {str(e)}")
         return {"error": f"Error connecting to Mistral API: {str(e)}"}
 
 
