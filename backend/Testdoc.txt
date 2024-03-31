@@ -1,39 +1,33 @@
- Question   1 :  What  is  the  default  data  type  for  a  variable  in  Python ? 
- A )  Integer 
- B )  Float 
- C )  String 
- D )  List 
- 
- An swer   1 :  C .  String  ( However ,  Python  is  dynam ically  typed  and  can  be  reass igned  to  other  data  types .) 
- 
- Question   2 :  In  Python ,  what  does  the  " :"  symbol  sign ify ? 
- A )  Division  operator 
- B )  Multi plication  operator 
- C )  Ass ignment  operator 
- D )  Col on  is  used  to  denote  blocks  of  code  and  functions . 
- 
- An swer   2 :  D .  Col on 
- 
- Question   3 :  Which  built - in  Python  function  returns  a  list  containing  all  the  elements  in  iter able 1  followed  by  all  the  elements  in  iter able 2 ? 
- A )  append () 
- B )  extend () 
- C )  zip () 
- D )  conc at () 
- 
- An swer   3 :  B .  extend () 
- 
- Question   4 :  What  is  the  output  of  printing  " Hello ,  {} "  using  Python ' s  format  string ? 
- A )  Hello ,  World 
- B )  Hello ,  Python 
- C )  Hello ,  None 
- D )  Hello ,  { }. format (" World ") 
- 
- An swer   4 :  D .  The  correct  answer  depends  on  passing  an  argument  to  the  . format ()  method  in  the  print  statement . 
- 
- Question   5 :  Which  of  these  keywords  is  used  for  defining  a  list  in  Python ? 
- A )  int 
- B )  var 
- C )  define 
- D )  list 
- 
- An swer   5 :  D .  list 
+Question: ' Which  type  of  cow  is  known  for  providing  us  with  Cam el  milk ?'
+A) A 
+B)  A yr shireB 
+C)  JerseyC 
+D)  Gu ern seyD 
+E)  F ries ian
+An swer: A
+
+Question: ' Which  cow  breed  is  known  for  producing  the  highest  quantity  of  milk  per  year ?'
+A) A 
+B)  Ang usB 
+C)  Here fordC 
+D)  Char ol aisD 
+E)  Sim ment al
+An swer: A
+
+Question: ' Which  part  of  a  cow  is  used  to  make  G he e ?'
+A) A 
+B)  Ho ofB 
+C)  Te ethC 
+D)  Mil kD 
+E)  Fat
+An swer: A
+
+Question: ' Which  of  these  cow  breed s  origin ated  in  India ?'
+A) A 
+B)  JerseyB 
+C)  F ries ianC 
+D)  Ang usD 
+E)  Hol stein
+An swer: A
+
+TopicCows

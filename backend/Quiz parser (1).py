@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
-
+import sqlite3
 # Define a structure to hold the parsed data
 questions = []
 
@@ -14,25 +14,32 @@ file_path = "Testdoc.txt"
 # Open the file and read line by line
 with open(file_path, "r") as file:
     for line in file:
-        if line.strip().startswith('Question'):
+        if line.strip().startswith('Question' or '*Question'):
             if current_question:
+                Toppic = ''
                 current_question['options'] = options.copy()
+                current_question['topic'] = Toppic
                 questions.append(current_question)
             
             current_question = {'question': line.split(':', 1)[1].strip()}
             options = []
-        elif line.strip().startswith(('A )', 'B )', 'C )', 'D )')):
+        elif line.strip().startswith(('A )' or 'A)  ', 'B )' or 'B)  ', 'C )' or 'C)  ', 'D )' or 'D)  ')):
             option_letter = line.strip()
             options.append(option_letter)
         elif line.strip().startswith('An swer'):
             answer_letter = line.split(':', 1)[1].strip()[0] 
             current_question['answer'] = answer_letter
-            
+        elif line.strip().startswith('Topic'):
+            Topic = line.strip()
+            Toppic = Topic.strip("Topic")
+            current_question['topic'] = Toppic
+
 
 if current_question:
     if 'options' not in current_question:
         current_question['options'] = options
     questions.append(current_question)
+
 
 for index, question in enumerate(questions, start=1):
     #print(f"Question {index}: {question['question']}")
@@ -41,8 +48,35 @@ for index, question in enumerate(questions, start=1):
         print(option)
     print("Answer:", question.get('answer', 'No answer provided'))
     print()  # Add a blank line for clarity
+def save_questions(questions):
+    conn = sqlite3.connect('quiz_database.db')
+    c = conn.cursor()
+    to = current_question.pop('topic')
+    for questionz in questions:
+        q_text = questionz.pop('question')
+        a = questionz.pop('answer')
+
+
+
+        o = questionz.pop('options')
+
+        t = ''.join(str(x) for x in o)
+        print(o)
+
+        question_data = (q_text, t, a,to)
+
+        c.execute('''
+        INSERT INTO questions (question, options, answer, topic)
+        VALUES (?, ?, ?, ?)
+        ''', question_data)
+
+    conn.commit()
+    conn.close()
+
+
 
 class QuizApplication:
+
     def __init__(self, master, questions):
         self.master = master
         self.questions = questions
@@ -104,3 +138,4 @@ if __name__ == "__main__":
     root.title("Quiz Application")
     app = QuizApplication(root, questions)
     root.mainloop()
+save_questions(questions)
