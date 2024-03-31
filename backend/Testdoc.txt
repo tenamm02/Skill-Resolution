@@ -1,33 +1,29 @@
-Question: ' Which  type  of  cow  is  known  for  providing  us  with  Cam el  milk ?'
-A) A 
-B)  A yr shireB 
-C)  JerseyC 
-D)  Gu ern seyD 
-E)  F ries ian
+Question: " Which  type  of  chicken  is  known  for  having  blue - black  fe athers  and  a  distinctive  e arl obe  fold ?"
+A) A ) Sil kie 
+B) B ) Rh ode Island Red 
+C) C ) Le gh orn 
+D) D ) A ra uc ana
 An swer: A
 
-Question: ' Which  cow  breed  is  known  for  producing  the  highest  quantity  of  milk  per  year ?'
-A) A 
-B)  Ang usB 
-C)  Here fordC 
-D)  Char ol aisD 
-E)  Sim ment al
-An swer: A
+Question: " Which  part  of  the  chicken  an at omy  is  typically  used  to  determine  its  age ?"
+A) A ) W ings 
+B) B ) Fe et 
+C) C ) Comb 
+D) D ) Leg s
+An swer: C
 
-Question: ' Which  part  of  a  cow  is  used  to  make  G he e ?'
-A) A 
-B)  Ho ofB 
-C)  Te ethC 
-D)  Mil kD 
-E)  Fat
-An swer: A
+Question: " Which  type  of  chicken  l ays  the  largest  eggs ?"
+A) A ) Le gh orn 
+B) B ) P ly mouth Rock 
+C) C ) Or ping ton 
+D) D ) Jersey G iant
+An swer: D
 
-Question: ' Which  of  these  cow  breed s  origin ated  in  India ?'
-A) A 
-B)  JerseyB 
-C)  F ries ianC 
-D)  Ang usD 
-E)  Hol stein
-An swer: A
+Question: " Which  breed  of  chicken  is  known  for  having  fe athers  on  its  sh ins  and  feet ?"
+A) A ) Co ch in 
+B) B ) F aver ol le 
+C) C ) Wy and otte 
+D) D ) Polish
+An swer: B
 
-TopicCows
+Topic chicken

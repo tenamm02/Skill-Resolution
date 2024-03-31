@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 import sqlite3
+
 # Define a structure to hold the parsed data
 questions = []
 
@@ -14,65 +15,57 @@ file_path = "Testdoc.txt"
 # Open the file and read line by line
 with open(file_path, "r") as file:
     for line in file:
-        if line.strip().startswith('Question' or '*Question'):
+        line = line.strip()
+        if line.startswith('Question'):
+            # Save the previous question if there is one
             if current_question:
-                Toppic = ''
-                current_question['options'] = options.copy()
-                current_question['topic'] = Toppic
+                current_question['options'] = options
                 questions.append(current_question)
-            
-            current_question = {'question': line.split(':', 1)[1].strip()}
-            options = []
-        elif line.strip().startswith(('A )' or 'A)  ', 'B )' or 'B)  ', 'C )' or 'C)  ', 'D )' or 'D)  ')):
-            option_letter = line.strip()
-            options.append(option_letter)
-        elif line.strip().startswith('An swer'):
-            answer_letter = line.split(':', 1)[1].strip()[0] 
-            current_question['answer'] = answer_letter
-        elif line.strip().startswith('Topic'):
-            Topic = line.strip()
-            Toppic = Topic.strip("Topic")
-            current_question['topic'] = Toppic
+                options = []  # Reset options list for the next question
+            # Start a new question
+            current_question = {'question': line.split(':', 1)[1].strip(), 'options': []}
+        elif line.startswith(('A )', 'B )', 'C )', 'D )')):
+            # Normalize spacing within options and add them to the options list
+            option_text = ' '.join(line.split())
+            options.append(option_text)
+        elif line.startswith('An swer'):
+            # The answer is appended as is; normalization of spaces is optional
+            answer_text = ' '.join(line.split(':', 1)[1].strip().split())
+            current_question['answer'] = answer_text
 
-
-if current_question:
-    if 'options' not in current_question:
+    # Don't forget to rint(current_questionadd the last question
+    if current_question and options:
         current_question['options'] = options
-    questions.append(current_question)
+        questions.append(current_question)
+    print(current_question)
 
 
-for index, question in enumerate(questions, start=1):
-    #print(f"Question {index}: {question['question']}")
-    print("Options:")
-    for option in question['options']:
-        print(option)
-    print("Answer:", question.get('answer', 'No answer provided'))
-    print()  # Add a blank line for clarity
 def save_questions(questions):
+
     conn = sqlite3.connect('quiz_database.db')
     c = conn.cursor()
-    to = current_question.pop('topic')
-    for questionz in questions:
-        q_text = questionz.pop('question')
-        a = questionz.pop('answer')
-
-
-
-        o = questionz.pop('options')
-
-        t = ''.join(str(x) for x in o)
-        print(o)
-
-        question_data = (q_text, t, a,to)
-
+    c.execute('''
+    CREATE TABLE IF NOT EXISTS questions (
+        id INTEGER PRIMARY KEY,
+        question TEXT,
+        options TEXT,
+        answer TEXT,
+        topic TEXT
+    )
+    ''')
+    for question in questions:
+        question_data = (
+            question['question'],
+            ' ,'.join(question['options']),
+            question['answer'],
+            question.get('topic', 'No topic')
+        )
         c.execute('''
         INSERT INTO questions (question, options, answer, topic)
         VALUES (?, ?, ?, ?)
         ''', question_data)
-
     conn.commit()
     conn.close()
-
 
 
 class QuizApplication:
@@ -94,7 +87,8 @@ class QuizApplication:
         self.selected_option_var = tk.StringVar(value="")  # This tracks the selected option
         self.option_buttons = []  # Keep track of the radiobuttons to update their text
         for _ in range(4):  # Assuming there are always 4 options
-            btn = tk.Radiobutton(self.options_frame, text="", variable=self.selected_option_var, value="", wraplength=250)
+            btn = tk.Radiobutton(self.options_frame, text="", variable=self.selected_option_var, value="",
+                                 wraplength=250)
             btn.pack(anchor="w")
             self.option_buttons.append(btn)
 
@@ -104,38 +98,36 @@ class QuizApplication:
         self.update_question()
 
     def update_question(self):
-        question = self.questions[self.current_question_index]
-        self.question_label.config(text=question['question'])
-        options = question.get('options', [])  # Retrieve options for the current question
-        for btn, option in zip(self.option_buttons, options):
-            btn.config(text=option, value=option)  # Update text for each option
-        self.selected_option_var.set("")  # Reset selected option
+        if self.current_question_index < len(self.questions):
+            question = self.questions[self.current_question_index]
+            self.question_label.config(text=question['question'])
+            options = question.get('options', [])  # Retrieve options for the current question
+            for btn, option_text in zip(self.option_buttons, options):
+                btn.config(text=option_text, value=option_text)  # Update text for each option
+            self.selected_option_var.set("")  # Reset selected option
 
     def next_question(self):
         selected_option = self.selected_option_var.get()  # Get the selected option's value
-        correct_answer = self.questions[self.current_question_index]['answer']
-        
-        # Extract the answer letter from the selected option
-        if selected_option:
-            selected_answer = selected_option.strip()[0]
-        else:
-            selected_answer = None
+        print(selected_option[0])
+        correct_answer = self.questions[self.current_question_index].get('answer', '')
+        print(correct_answer)
 
-        if selected_answer == correct_answer:
+        # Compare the selected option's first character to the correct answer
+        if selected_option[0] == correct_answer[0]:
             self.correct_answers += 1
 
         if self.current_question_index < len(self.questions) - 1:
             self.current_question_index += 1
             self.update_question()
         else:
-            messagebox.showinfo("Quiz Complete", f"You answered {self.correct_answers} out of {len(self.questions)} questions correctly.")
+            messagebox.showinfo("Quiz Complete",
+                                f"You answered {self.correct_answers} out of {len(self.questions)} questions correctly.")
             self.master.quit()
-    
+
 
 if __name__ == "__main__":
-    # Assuming 'questions' is your list of question dictionaries
+    save_questions(questions)  # Save questions to the database before starting the app
     root = tk.Tk()
     root.title("Quiz Application")
     app = QuizApplication(root, questions)
     root.mainloop()
-save_questions(questions)

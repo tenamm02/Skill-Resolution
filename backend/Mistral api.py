@@ -8,6 +8,7 @@ from nltk.tokenize import sent_tokenize
 import subprocess
 import webbrowser
 import sqlite3
+import sys
 # Define the path to the script you want to run
 script_path = 'Quiz parser (1).py'
 # Run the script
@@ -89,9 +90,10 @@ def generate_quiz(topic, specific_skill):
     if content:
         formatted_content = []
         for question, options, answer in content:
+            print(options)
             formatted_question = f"Question: {question}"
             formatted_options = "\n".join(
-                f"{chr(65 + i)}) {option}" for i, option in enumerate(options.split(') ')))
+                f"{chr(65 + i)}) {option}" for i, option in enumerate(options.split(',')))
             # Assuming answer is stored as a number (0, 1, 2, 3) corresponding to the option index
             formatted_answer = f"An swer: {answer}"
 
@@ -103,13 +105,15 @@ def generate_quiz(topic, specific_skill):
 
 MAKE EACH QUESTION IN THE FOLLOWING FORMAT!!!
 Question: 'Which  dog  breed  is  known  for  having  a  distinctive  wr ink led  skin  and  short  legs ?')
-An swer: A)
- None)
- 'A )  Box erB )  S iber ian  Hus kyC )  Do ber man  P ins cherD )  Be agle')60Which  dog  breed  is  known  for  having  a  distinctive  wr ink led  skin  and  short  legs ?ANone
 A ) Box er
-B ) S iber ian  Hus ky
+
+B ) fiber ian  Hus ky
+
 C ) Do ber man  P ins cher
+
 D ) Be agleDog
+
+An swer: A)
 """
 
         data = {"model": "mistral", "prompt": prompt}
@@ -261,9 +265,9 @@ class ARSketchfabApp:
         with open("Testdoc.txt", "w") as file:
 
             file.write(quiz_text)
-            file.write('\n'"Topic" + topic)
+            file.write('\n'"Topic " + topic)
         file.close()
-        subprocess.run(['python', script_path])
+        subprocess.run([sys.executable, script_path])
     def submit_quiz(self, quiz_text):
         # Implement submission of the quiz
         pass
