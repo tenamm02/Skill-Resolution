@@ -24,24 +24,23 @@ with open(file_path, "r") as file:
                 options = []  # Reset options list for the next question
             # Start a new question
             current_question = {'question': line.split(':', 1)[1].strip(), 'options': []}
-        elif line.startswith(('A )', 'B )', 'C )', 'D )')):
+        elif line.startswith(('A ','B ','C ','D ')):
             # Normalize spacing within options and add them to the options list
             option_text = ' '.join(line.split())
             options.append(option_text)
+
         elif line.startswith('An swer'):
             # The answer is appended as is; normalization of spaces is optional
             answer_text = ' '.join(line.split(':', 1)[1].strip().split())
             current_question['answer'] = answer_text
+            print(answer_text)
 
-    # Don't forget to rint(current_questionadd the last question
+    # Don't forget to add the last question if it has options
     if current_question and options:
         current_question['options'] = options
         questions.append(current_question)
-    print(current_question)
-
 
 def save_questions(questions):
-
     conn = sqlite3.connect('quiz_database.db')
     c = conn.cursor()
     c.execute('''
@@ -67,9 +66,7 @@ def save_questions(questions):
     conn.commit()
     conn.close()
 
-
 class QuizApplication:
-
     def __init__(self, master, questions):
         self.master = master
         self.questions = questions
@@ -108,10 +105,7 @@ class QuizApplication:
 
     def next_question(self):
         selected_option = self.selected_option_var.get()  # Get the selected option's value
-        print(selected_option[0])
         correct_answer = self.questions[self.current_question_index].get('answer', '')
-        print(correct_answer)
-
         # Compare the selected option's first character to the correct answer
         if selected_option[0] == correct_answer[0]:
             self.correct_answers += 1
@@ -123,7 +117,6 @@ class QuizApplication:
             messagebox.showinfo("Quiz Complete",
                                 f"You answered {self.correct_answers} out of {len(self.questions)} questions correctly.")
             self.master.quit()
-
 
 if __name__ == "__main__":
     save_questions(questions)  # Save questions to the database before starting the app

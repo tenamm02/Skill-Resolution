@@ -80,7 +80,7 @@ def generate_quiz(topic, specific_skill):
         query = '''
                     SELECT question, options, answer FROM questions 
                     WHERE topic = ?
-                    LIMIT 4
+                    LIMIT 5
                 '''
 
         cursor.execute(query, (topic,))
@@ -93,7 +93,7 @@ def generate_quiz(topic, specific_skill):
             print(options)
             formatted_question = f"Question: {question}"
             formatted_options = "\n".join(
-                f"{chr(65 + i)}) {option}" for i, option in enumerate(options.split(',')))
+                f"{option}" for option in options.split(','))
             # Assuming answer is stored as a number (0, 1, 2, 3) corresponding to the option index
             formatted_answer = f"An swer: {answer}"
 
