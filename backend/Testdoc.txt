@@ -1,36 +1,13 @@
-Question: Which  type  of  animal  is  " B aa  B aa  Black  She ep "  fam ously  known  from  nur ser y  rh ym es  for  having  over  two  pounds  ( one  kil ogram )  of  wool ?
-A )  Go at
-B )  Cow
-C )  She ep
-D )  Horse
-An swer: C
+Question: "What  does  the  ' range () '  function  in  Python  return ?")
+A ) A  single  valueB ) An  empty  listC ) A  sequence  of  numbersD ) An  error Python
+An swer: '
 
-Question: In  which  continent  are  most  sheep  raised ?
-A )  Asia
-B )  Africa
-C )  Europe
-D )  North  America
-An swer: C
+Question: '"What  does  the  \' range () \'  function  in  Python  return ?")')
 
-Question: Which  breed  of  sheep  is  known  for  having  a  distinctive  cur led  horn s ?
-A )  S uff olk
-B )  Dor set
-C )  Rom ney  Mar sh
-D )  South down
-An swer: A
+An swer: "
 
-Question: What  is  the  primary  use  of  sheep  in  agriculture ?
-A )  For  meat  production
-B )  For  milk  production
-C )  For  their  wool  and  fiber
-D )  For  transportation
-An swer: C
+Question: '"What  does  the  \' range () \'  function  in  Python  return ?")')
+A )A  single  valueB )An  empty  listC )A  sequence  of  numbersD )An  error PythonPython
+An swer: "
 
-Question: Which  breed  of  sheep  origin ated  in  England ,  having  white  fle e ce  and  known  for  its  high  productivity  in  both  wool  and  meat ?
-A )  Mer ino
-B )  Tex el
-C )  Dor per
-D )  Le ices ter  Long w ool
-An swer: B
-
-Topic Sheep
+Topic Python
