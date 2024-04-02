@@ -618,29 +618,45 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Unity.Timeline.Player.csproj">
-      <Project>{edd54a63-50b0-3b06-1043-74b418d1490a}</Project>
-      <Name>Unity.Timeline.Player</Name>
+    <ProjectReference Include="Unity.XR.Management.Player.csproj">
+      <Project>{f0eee9ee-18db-198f-fecc-d7735a79444a}</Project>
+      <Name>Unity.XR.Management.Player</Name>
     </ProjectReference>
-    <ProjectReference Include="UnityEngine.UI.Player.csproj">
-      <Project>{a9a1fc4e-aaf1-9fda-bc37-52408286bc46}</Project>
-      <Name>UnityEngine.UI.Player</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.TextMeshPro.Player.csproj">
-      <Project>{12729064-0444-0e74-1aef-a440c862573f}</Project>
-      <Name>Unity.TextMeshPro.Player</Name>
+    <ProjectReference Include="UnityEngine.XR.LegacyInputHelpers.Player.csproj">
+      <Project>{872b4c17-a885-50fa-e8f5-dc02c266dfa2}</Project>
+      <Name>UnityEngine.XR.LegacyInputHelpers.Player</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.VisualScripting.Core.Player.csproj">
       <Project>{a7a6d8cb-8104-5076-c2f5-84a381092840}</Project>
       <Name>Unity.VisualScripting.Core.Player</Name>
     </ProjectReference>
-    <ProjectReference Include="Unity.VisualScripting.State.Player.csproj">
-      <Project>{0781d866-6c94-3b9b-ee5e-a09e831ec049}</Project>
-      <Name>Unity.VisualScripting.State.Player</Name>
+    <ProjectReference Include="UnityEngine.SpatialTracking.Player.csproj">
+      <Project>{ffc7286c-9383-7e90-12e0-cb55e22ee5cb}</Project>
+      <Name>UnityEngine.SpatialTracking.Player</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEngine.UI.Player.csproj">
+      <Project>{a9a1fc4e-aaf1-9fda-bc37-52408286bc46}</Project>
+      <Name>UnityEngine.UI.Player</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.VisualScripting.Flow.Player.csproj">
       <Project>{7f78136f-6ec2-9a84-6669-52e99e17a4f4}</Project>
       <Name>Unity.VisualScripting.Flow.Player</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Timeline.Player.csproj">
+      <Project>{edd54a63-50b0-3b06-1043-74b418d1490a}</Project>
+      <Name>Unity.Timeline.Player</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.XR.Oculus.Player.csproj">
+      <Project>{776e440c-d388-18ea-c43b-c73385bff4f8}</Project>
+      <Name>Unity.XR.Oculus.Player</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.TextMeshPro.Player.csproj">
+      <Project>{12729064-0444-0e74-1aef-a440c862573f}</Project>
+      <Name>Unity.TextMeshPro.Player</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.VisualScripting.State.Player.csproj">
+      <Project>{0781d866-6c94-3b9b-ee5e-a09e831ec049}</Project>
+      <Name>Unity.VisualScripting.State.Player</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
