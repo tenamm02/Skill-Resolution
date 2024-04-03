@@ -1,25 +1,25 @@
 m_ProjectFiles:
   m_ManifestFileStatus:
-    m_FilePath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Packages/manifest.json
+    m_FilePath: D:/GitHub/Skill-Resolution/Packages/manifest.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638476947090000000
-    m_Hash: 2904838387
+      ticks: 638477066829068836
+    m_Hash: 3945975684
   m_LockFileStatus:
-    m_FilePath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Packages/packages-lock.json
+    m_FilePath: D:/GitHub/Skill-Resolution/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638476947090000000
-    m_Hash: 3569296124
+      ticks: 638477066829073796
+    m_Hash: 2337339414
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:
   m_LocalFileStatus: []
-m_ProjectPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Packages
+m_ProjectPath: D:/GitHub/Skill-Resolution/Packages
 m_EditorVersion: 2022.3.21f1 (bf09ca542b87)
 m_ResolvedPackages:
 - packageId: com.meta.xr.sdk.all@63.0.0
@@ -27,7 +27,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 63.0.0
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.meta.xr.sdk.all@63.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.meta.xr.sdk.all@63.0.0
   assetPath: Packages/com.meta.xr.sdk.all
   name: com.meta.xr.sdk.all
   displayName: Meta XR All-in-One SDK
@@ -155,7 +155,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 2.3.1
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.collab-proxy@2.3.1
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.collab-proxy@2.3.1
   assetPath: Packages/com.unity.collab-proxy
   name: com.unity.collab-proxy
   displayName: Version Control
@@ -296,7 +296,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.1
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.feature.development@1.0.1
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.feature.development@1.0.1
   assetPath: Packages/com.unity.feature.development
   name: com.unity.feature.development
   displayName: Engineering
@@ -389,7 +389,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 3.0.6
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.textmeshpro@3.0.6
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.textmeshpro@3.0.6
   assetPath: Packages/com.unity.textmeshpro
   name: com.unity.textmeshpro
   displayName: TextMeshPro
@@ -580,7 +580,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.7.6
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.timeline@1.7.6
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.timeline@1.7.6
   assetPath: Packages/com.unity.timeline
   name: com.unity.timeline
   displayName: Timeline
@@ -747,7 +747,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 2.0.6
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.toolchain.linux-x86_64@2.0.6
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.toolchain.linux-x86_64@2.0.6
   assetPath: Packages/com.unity.toolchain.linux-x86_64
   name: com.unity.toolchain.linux-x86_64
   displayName: Toolchain Linux x64
@@ -834,7 +834,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.ugui@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.ugui@1.0.0
   assetPath: Packages/com.unity.ugui
   name: com.unity.ugui
   displayName: Unity UI
@@ -905,7 +905,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.9.1
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.visualscripting@1.9.1
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.visualscripting@1.9.1
   assetPath: Packages/com.unity.visualscripting
   name: com.unity.visualscripting
   displayName: Visual Scripting
@@ -1003,7 +1003,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 4.4.1
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.xr.management@4.4.1
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.xr.management@4.4.1
   assetPath: Packages/com.unity.xr.management
   name: com.unity.xr.management
   displayName: XR Plugin Management
@@ -1139,7 +1139,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 4.2.0
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.xr.oculus@4.2.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.xr.oculus@4.2.0
   assetPath: Packages/com.unity.xr.oculus
   name: com.unity.xr.oculus
   displayName: Oculus XR Plugin
@@ -1295,7 +1295,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.ai@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.ai@1.0.0
   assetPath: Packages/com.unity.modules.ai
   name: com.unity.modules.ai
   displayName: AI
@@ -1350,7 +1350,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.androidjni@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.androidjni@1.0.0
   assetPath: Packages/com.unity.modules.androidjni
   name: com.unity.modules.androidjni
   displayName: Android JNI
@@ -1404,7 +1404,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.animation@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.animation@1.0.0
   assetPath: Packages/com.unity.modules.animation
   name: com.unity.modules.animation
   displayName: Animation
@@ -1459,7 +1459,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.assetbundle@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.assetbundle@1.0.0
   assetPath: Packages/com.unity.modules.assetbundle
   name: com.unity.modules.assetbundle
   displayName: Asset Bundle
@@ -1514,7 +1514,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.audio@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.audio@1.0.0
   assetPath: Packages/com.unity.modules.audio
   name: com.unity.modules.audio
   displayName: Audio
@@ -1569,7 +1569,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.cloth@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.cloth@1.0.0
   assetPath: Packages/com.unity.modules.cloth
   name: com.unity.modules.cloth
   displayName: Cloth
@@ -1628,7 +1628,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.director@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.director@1.0.0
   assetPath: Packages/com.unity.modules.director
   name: com.unity.modules.director
   displayName: Director
@@ -1691,7 +1691,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.imageconversion@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.imageconversion@1.0.0
   assetPath: Packages/com.unity.modules.imageconversion
   name: com.unity.modules.imageconversion
   displayName: Image Conversion
@@ -1747,7 +1747,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.imgui@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.imgui@1.0.0
   assetPath: Packages/com.unity.modules.imgui
   name: com.unity.modules.imgui
   displayName: IMGUI
@@ -1802,7 +1802,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.jsonserialize@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.jsonserialize@1.0.0
   assetPath: Packages/com.unity.modules.jsonserialize
   name: com.unity.modules.jsonserialize
   displayName: JSONSerialize
@@ -1857,7 +1857,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.particlesystem@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.particlesystem@1.0.0
   assetPath: Packages/com.unity.modules.particlesystem
   name: com.unity.modules.particlesystem
   displayName: Particle System
@@ -1912,7 +1912,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.physics@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.physics@1.0.0
   assetPath: Packages/com.unity.modules.physics
   name: com.unity.modules.physics
   displayName: Physics
@@ -1967,7 +1967,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.physics2d@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.physics2d@1.0.0
   assetPath: Packages/com.unity.modules.physics2d
   name: com.unity.modules.physics2d
   displayName: Physics 2D
@@ -2022,7 +2022,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.screencapture@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.screencapture@1.0.0
   assetPath: Packages/com.unity.modules.screencapture
   name: com.unity.modules.screencapture
   displayName: Screen Capture
@@ -2081,7 +2081,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.terrain@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.terrain@1.0.0
   assetPath: Packages/com.unity.modules.terrain
   name: com.unity.modules.terrain
   displayName: Terrain
@@ -2136,7 +2136,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.terrainphysics@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.terrainphysics@1.0.0
   assetPath: Packages/com.unity.modules.terrainphysics
   name: com.unity.modules.terrainphysics
   displayName: Terrain Physics
@@ -2199,7 +2199,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.tilemap@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.tilemap@1.0.0
   assetPath: Packages/com.unity.modules.tilemap
   name: com.unity.modules.tilemap
   displayName: Tilemap
@@ -2257,7 +2257,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.ui@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.ui@1.0.0
   assetPath: Packages/com.unity.modules.ui
   name: com.unity.modules.ui
   displayName: UI
@@ -2312,7 +2312,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.uielements@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.uielements@1.0.0
   assetPath: Packages/com.unity.modules.uielements
   name: com.unity.modules.uielements
   displayName: UIElements
@@ -2379,7 +2379,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.umbra@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.umbra@1.0.0
   assetPath: Packages/com.unity.modules.umbra
   name: com.unity.modules.umbra
   displayName: Umbra
@@ -2434,7 +2434,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.unityanalytics@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.unityanalytics@1.0.0
   assetPath: Packages/com.unity.modules.unityanalytics
   name: com.unity.modules.unityanalytics
   displayName: Unity Analytics
@@ -2497,7 +2497,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.unitywebrequest@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.unitywebrequest@1.0.0
   assetPath: Packages/com.unity.modules.unitywebrequest
   name: com.unity.modules.unitywebrequest
   displayName: Unity Web Request
@@ -2552,7 +2552,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.unitywebrequestassetbundle@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.unitywebrequestassetbundle@1.0.0
   assetPath: Packages/com.unity.modules.unitywebrequestassetbundle
   name: com.unity.modules.unitywebrequestassetbundle
   displayName: Unity Web Request Asset Bundle
@@ -2615,7 +2615,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.unitywebrequestaudio@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.unitywebrequestaudio@1.0.0
   assetPath: Packages/com.unity.modules.unitywebrequestaudio
   name: com.unity.modules.unitywebrequestaudio
   displayName: Unity Web Request Audio
@@ -2678,7 +2678,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.unitywebrequesttexture@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.unitywebrequesttexture@1.0.0
   assetPath: Packages/com.unity.modules.unitywebrequesttexture
   name: com.unity.modules.unitywebrequesttexture
   displayName: Unity Web Request Texture
@@ -2741,7 +2741,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.unitywebrequestwww@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.unitywebrequestwww@1.0.0
   assetPath: Packages/com.unity.modules.unitywebrequestwww
   name: com.unity.modules.unitywebrequestwww
   displayName: Unity Web Request WWW
@@ -2820,7 +2820,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.vehicles@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.vehicles@1.0.0
   assetPath: Packages/com.unity.modules.vehicles
   name: com.unity.modules.vehicles
   displayName: Vehicles
@@ -2879,7 +2879,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.video@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.video@1.0.0
   assetPath: Packages/com.unity.modules.video
   name: com.unity.modules.video
   displayName: Video
@@ -2946,7 +2946,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.vr@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.vr@1.0.0
   assetPath: Packages/com.unity.modules.vr
   name: com.unity.modules.vr
   displayName: VR
@@ -3015,7 +3015,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.wind@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.wind@1.0.0
   assetPath: Packages/com.unity.modules.wind
   name: com.unity.modules.wind
   displayName: Wind
@@ -3070,7 +3070,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.xr@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.xr@1.0.0
   assetPath: Packages/com.unity.modules.xr
   name: com.unity.modules.xr
   displayName: XR
@@ -3137,7 +3137,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.0.0
   source: 2
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.modules.subsystems@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.modules.subsystems@1.0.0
   assetPath: Packages/com.unity.modules.subsystems
   name: com.unity.modules.subsystems
   displayName: Subsystems
@@ -3196,7 +3196,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 2.1.10
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.xr.legacyinputhelpers@2.1.10
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.xr.legacyinputhelpers@2.1.10
   assetPath: Packages/com.unity.xr.legacyinputhelpers
   name: com.unity.xr.legacyinputhelpers
   displayName: XR Legacy Input Helpers
@@ -3298,7 +3298,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 2.0.7
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.sysroot@2.0.7
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.sysroot@2.0.7
   assetPath: Packages/com.unity.sysroot
   name: com.unity.sysroot
   displayName: Sysroot Base
@@ -3377,7 +3377,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 2.0.6
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.sysroot.linux-x86_64@2.0.6
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.sysroot.linux-x86_64@2.0.6
   assetPath: Packages/com.unity.sysroot.linux-x86_64
   name: com.unity.sysroot.linux-x86_64
   displayName: Sysroot Linux x64
@@ -3457,7 +3457,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 2.0.22
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.ide.visualstudio@2.0.22
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.ide.visualstudio@2.0.22
   assetPath: Packages/com.unity.ide.visualstudio
   name: com.unity.ide.visualstudio
   displayName: Visual Studio Editor
@@ -3546,7 +3546,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 3.0.27
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.ide.rider@3.0.27
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.ide.rider@3.0.27
   assetPath: Packages/com.unity.ide.rider
   name: com.unity.ide.rider
   displayName: JetBrains Rider Editor
@@ -3648,7 +3648,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.2.5
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.ide.vscode@1.2.5
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.ide.vscode@1.2.5
   assetPath: Packages/com.unity.ide.vscode
   name: com.unity.ide.vscode
   displayName: Visual Studio Code Editor
@@ -3716,7 +3716,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.0.0
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.editorcoroutines@1.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.editorcoroutines@1.0.0
   assetPath: Packages/com.unity.editorcoroutines
   name: com.unity.editorcoroutines
   displayName: Editor Coroutines
@@ -3725,7 +3725,7 @@ m_ResolvedPackages:
     email: 
     url: 
   category: 
-  type: asset
+  type: 
   description: 'The editor coroutines package allows developers to start constructs
     similar to Unity''s monobehaviour based coroutines within the editor using abitrary
     objects. '
@@ -3781,7 +3781,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.2.2
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.performance.profile-analyzer@1.2.2
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.performance.profile-analyzer@1.2.2
   assetPath: Packages/com.unity.performance.profile-analyzer
   name: com.unity.performance.profile-analyzer
   displayName: Profile Analyzer
@@ -3852,7 +3852,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.1.33
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.test-framework@1.1.33
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.test-framework@1.1.33
   assetPath: Packages/com.unity.test-framework
   name: com.unity.test-framework
   displayName: Test Framework
@@ -3987,7 +3987,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.2.5
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.testtools.codecoverage@1.2.5
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.testtools.codecoverage@1.2.5
   assetPath: Packages/com.unity.testtools.codecoverage
   name: com.unity.testtools.codecoverage
   displayName: Code Coverage
@@ -4092,7 +4092,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 63.0.0
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.meta.xr.mrutilitykit@63.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.meta.xr.mrutilitykit@63.0.0
   assetPath: Packages/com.meta.xr.mrutilitykit
   name: com.meta.xr.mrutilitykit
   displayName: Meta MR Utility Kit
@@ -4184,7 +4184,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 63.0.0
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.meta.xr.sdk.audio@63.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.meta.xr.sdk.audio@63.0.0
   assetPath: Packages/com.meta.xr.sdk.audio
   name: com.meta.xr.sdk.audio
   displayName: Meta XR Audio SDK
@@ -4254,7 +4254,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 63.0.0
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.meta.xr.sdk.core@63.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.meta.xr.sdk.core@63.0.0
   assetPath: Packages/com.meta.xr.sdk.core
   name: com.meta.xr.sdk.core
   displayName: Meta XR Core SDK
@@ -4321,7 +4321,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 63.0.0
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.meta.xr.sdk.haptics@63.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.meta.xr.sdk.haptics@63.0.0
   assetPath: Packages/com.meta.xr.sdk.haptics
   name: com.meta.xr.sdk.haptics
   displayName: Meta XR Haptics SDK
@@ -4390,7 +4390,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 63.0.0
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.meta.xr.sdk.interaction@63.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.meta.xr.sdk.interaction@63.0.0
   assetPath: Packages/com.meta.xr.sdk.interaction
   name: com.meta.xr.sdk.interaction
   displayName: Meta XR Interaction SDK
@@ -4473,7 +4473,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 63.0.0
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.meta.xr.sdk.interaction.ovr@63.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.meta.xr.sdk.interaction.ovr@63.0.0
   assetPath: Packages/com.meta.xr.sdk.interaction.ovr
   name: com.meta.xr.sdk.interaction.ovr
   displayName: Meta XR Interaction SDK OVR Integration
@@ -4561,7 +4561,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 63.0.0
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.meta.xr.sdk.platform@63.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.meta.xr.sdk.platform@63.0.0
   assetPath: Packages/com.meta.xr.sdk.platform
   name: com.meta.xr.sdk.platform
   displayName: Meta XR Platform SDK
@@ -4645,7 +4645,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 63.0.0
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.meta.xr.sdk.voice@63.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.meta.xr.sdk.voice@63.0.0
   assetPath: Packages/com.meta.xr.sdk.voice
   name: com.meta.xr.sdk.voice
   displayName: Meta - Voice SDK - Immersive Voice Commands
@@ -4711,7 +4711,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 63.0.0
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.meta.xr.sdk.voice.composer@63.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.meta.xr.sdk.voice.composer@63.0.0
   assetPath: Packages/com.meta.xr.sdk.voice.composer
   name: com.meta.xr.sdk.voice.composer
   displayName: Meta - Voice SDK - Composer
@@ -4781,7 +4781,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 63.0.0
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.meta.xr.sdk.voice.dictation@63.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.meta.xr.sdk.voice.dictation@63.0.0
   assetPath: Packages/com.meta.xr.sdk.voice.dictation
   name: com.meta.xr.sdk.voice.dictation
   displayName: Meta - Voice SDK - Dictation
@@ -4852,7 +4852,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 63.0.0
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.meta.xr.sdk.voice.telemetry@63.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.meta.xr.sdk.voice.telemetry@63.0.0
   assetPath: Packages/com.meta.xr.sdk.voice.telemetry
   name: com.meta.xr.sdk.voice.telemetry
   displayName: Meta - Voice SDK - Telemetry
@@ -4916,7 +4916,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 62.0.0
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.meta.xr.simulator@62.0.0
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.meta.xr.simulator@62.0.0
   assetPath: Packages/com.meta.xr.simulator
   name: com.meta.xr.simulator
   displayName: Meta XR Simulator
@@ -4981,7 +4981,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 2.0.1
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.settings-manager@2.0.1
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.settings-manager@2.0.1
   assetPath: Packages/com.unity.settings-manager
   name: com.unity.settings-manager
   displayName: Settings Manager
@@ -4990,7 +4990,7 @@ m_ResolvedPackages:
     email: 
     url: 
   category: 
-  type: asset
+  type: 
   description: A framework for making any serializable field a setting, complete
     with a pre-built settings interface.
   status: 0
@@ -5043,7 +5043,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.0.6
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.ext.nunit@1.0.6
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.ext.nunit@1.0.6
   assetPath: Packages/com.unity.ext.nunit
   name: com.unity.ext.nunit
   displayName: Custom NUnit
@@ -5114,7 +5114,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.1.5
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.ai.navigation@1.1.5
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.ai.navigation@1.1.5
   assetPath: Packages/com.unity.ai.navigation
   name: com.unity.ai.navigation
   displayName: AI Navigation
@@ -5123,26 +5123,14 @@ m_ResolvedPackages:
     email: 
     url: 
   category: 
-  type: assets
+  type: 
   description: High-level NavMesh components for building and using NavMeshes at
     runtime and at edit time.
   status: 0
   errors: []
   versions:
     all:
-    - 1.0.0-exp.1
-    - 1.0.0-exp.2
-    - 1.0.0-exp.3
-    - 1.0.0-exp.4
-    - 1.1.0-pre.1
-    - 1.1.0-pre.2
-    - 1.1.1
-    - 1.1.3
-    - 1.1.4
     - 1.1.5
-    - 2.0.0-pre.3
-    - 2.0.0-pre.4
-    - 2.0.0
     compatible:
     - 1.1.5
     recommended: 1.1.5
@@ -5164,7 +5152,7 @@ m_ResolvedPackages:
     configSource: 0
   hideInEditor: 1
   isAssetStorePackage: 0
-  datePublishedTicks: 638319373850000000
+  datePublishedTicks: 0
   documentationUrl: https://docs.unity3d.com/Packages/com.unity.ai.navigation@1.1/manual/index.html
   hasRepository: 1
   repository:
@@ -5185,7 +5173,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 3.2.1
   source: 1
-  resolvedPath: /Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.nuget.newtonsoft-json@3.2.1
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.unity.nuget.newtonsoft-json@3.2.1
   assetPath: Packages/com.unity.nuget.newtonsoft-json
   name: com.unity.nuget.newtonsoft-json
   displayName: Newtonsoft Json

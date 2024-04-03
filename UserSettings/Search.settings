@@ -11,6 +11,9 @@ scopes = {
 	"last_search.FD7A1EDD" = "ref=\"Assets/New Terrain.asset\""
 	"OpenInspectorPreview.FD7A1EDD" = "0"
 	"currentGroup.FD7A1EDD" = "all"
+	"last_search.310DEAF3" = "h:#sprite=GlobalObjectId_V1-4-0000000000000000f000000000000000-10907-0"
+	"OpenInspectorPreview.310DEAF3" = "0"
+	"currentGroup.310DEAF3" = "all"
 }
 providers = {
 	adb = {
