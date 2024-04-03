@@ -119,8 +119,8 @@
     <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/Manipulators/Sequence/TrackZoom.cs" />
     <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/Animation/BindingSelector.cs" />
     <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/Window/TimelineNavigator.cs" />
-    <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/Utilities/DisplayNameHelper.cs" />
     <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/treeview/Drawers/AnimationTrackDrawer.cs" />
+    <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/Utilities/DisplayNameHelper.cs" />
     <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/Utilities/ObjectReferenceField.cs" />
     <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/Actions/TrackActions.cs" />
     <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/Window/TimelineWindow_TrackGui.cs" />
@@ -199,10 +199,10 @@
     <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/CustomEditors/MarkerEditor.cs" />
     <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/Items/ItemsUtils.cs" />
     <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/inspectors/TimelinePreferences.cs" />
-    <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/Actions/IAction.cs" />
     <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/treeview/ItemGui/TimelineMarkerGUI.cs" />
     <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/Actions/TimelineAction.cs" />
     <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/Window/TimelineWindow_TimeArea.cs" />
+    <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/Actions/IAction.cs" />
     <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/treeview/TrackGui/TimelineTrackGUI.cs" />
     <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/Animation/CurvesProxy.cs" />
     <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/treeview/Drawers/Layers/MarkersLayer.cs" />
@@ -284,8 +284,8 @@
     <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/Manipulators/Utils/EditModeReplaceUtils.cs" />
     <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/Actions/Invoker.cs" />
     <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/Utilities/ControlPlayableUtility.cs" />
-    <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/inspectors/ClipInspector/ClipInspector.cs" />
     <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/Attributes/ShortcutAttribute.cs" />
+    <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/inspectors/ClipInspector/ClipInspector.cs" />
     <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/inspectors/TrackAssetInspector.cs" />
     <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/Utilities/Scopes/PropertyScope.cs" />
     <Compile Include="Library/PackageCache/com.unity.timeline@1.7.6/Editor/treeview/TimelineDragging.cs" />
@@ -581,6 +581,9 @@
     <Reference Include="UnityEditor.OSXStandalone.Extensions">
       <HintPath>/Applications/Unity/Hub/Editor/2022.3.21f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEditor.Android.Extensions">
+      <HintPath>/Applications/Unity/Hub/Editor/2022.3.21f1/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>/Applications/Unity/Hub/Editor/2022.3.21f1/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
@@ -608,11 +611,23 @@
     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
       <HintPath>/Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.visualscripting@1.9.1/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>/Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.nuget.newtonsoft-json@3.2.1/Runtime/Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VisualScripting.TextureAssets">
       <HintPath>/Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.visualscripting@1.9.1/Editor/VisualScripting.Core/EditorAssetResources/Unity.VisualScripting.TextureAssets.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>/Users/michaeltenam/Documents/GitHub/Skill-Resolution/Library/PackageCache/com.unity.ext.nunit@1.0.6/net35/unity-custom/nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Android.Types">
+      <HintPath>/Applications/Unity/Hub/Editor/2022.3.21f1/PlaybackEngines/AndroidPlayer/Unity.Android.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Android.Gradle">
+      <HintPath>/Applications/Unity/Hub/Editor/2022.3.21f1/PlaybackEngines/AndroidPlayer/Unity.Android.Gradle.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Android.GradleProject">
+      <HintPath>/Applications/Unity/Hub/Editor/2022.3.21f1/PlaybackEngines/AndroidPlayer/Unity.Android.GradleProject.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>/Applications/Unity/Hub/Editor/2022.3.21f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
