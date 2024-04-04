@@ -3,7 +3,7 @@ import requests
 from flask_cors import CORS
 import json
 import logging
-
+import _sqlite3
 logging.basicConfig(level=logging.INFO)
 
 app = Flask(__name__)
@@ -84,36 +84,87 @@ def parse_mistral_response(response_parts):
 
 @app.route('/generate-quiz', methods=['POST'])
 def generate_quiz():
-    data = request.json
-    if not all(key in data for key in ['subject', 'topics', 'difficulty']):
-        return jsonify({"error": "Missing required parameters"}), 400
+    import sqlite3
+    course_params = request.json
 
-    prompt = f"make me a quiz about {data['subject']} focusing on {data['topics']} with 5 multiple-choice questions, each having 4 options., put the answers at the bottom of all 5 questions"
-    data_payload = {
-        "model": "mistral",
-        "prompt": prompt
-    }
+    # Connecting to the database using a context manager
+    with sqlite3.connect('quiz_database.db') as conn:
+        cursor = conn.cursor()
 
-    mistral_response = post_request_to_mistral(data_payload)
-    structured_quiz = parse_mistral_response(mistral_response)
-    return jsonify({"quiz": structured_quiz})
+        # Assuming the database schema supports filtering by specific_skill
+        query = '''
+                    SELECT question, options, answer FROM questions 
+                    WHERE topic = ?
+                    LIMIT 5
+                '''
+
+        cursor.execute(query, (course_params['subject'],))
+        content = cursor.fetchall()
+
+    # Check if content was fetched successfully
+    if content:
+        formatted_content = []
+        for question, options, answer in content:
+            print(options)
+            formatted_question = f"Question: {question}"
+            formatted_options = "\n".join(
+                f"{option}" for option in options.split(','))
+            # Assuming answer is stored as a number (0, 1, 2, 3) corresponding to the option index
+            formatted_answer = f"An swer: {answer}"
+
+            formatted_content.append(f"{formatted_question}\n{formatted_options}\n{formatted_answer}\n")
+
+        return "\n".join(formatted_content)
+    else:
+        prompt = f"""make me a quiz about {course_params['subject']} focusing on {course_params['topics']} with 5 multiple-choice questions, each having 4 options., put the answers at the buttom of all 5 questions" 
+
+MAKE EACH QUESTION IN THE FOLLOWING FORMAT!!!
+Question: 'Which  dog  breed  is  known  for  having  a  distinctive  wr ink led  skin  and  short  legs ?')
+A ) Box er
+
+B ) fiber ian  Hus ky
+
+C ) Do ber man  P ins cher
+
+D ) Be agleDog
+
+An swer: A)
+"""
+
+        data = {"model": "mistral", "prompt": prompt}
+        return post_request_to_mistral(data)
 
 @app.route('/generate-course', methods=['POST'])
 def generate_course():
+    import sqlite3
+
     course_params = request.json
     if not all(key in course_params for key in ['subject', 'topics', 'difficulty']):
         return jsonify({"error": "Missing required parameters"}), 400
+    conn = sqlite3.connect('generated_content.db')
+    cursor = conn.cursor()
+    query = '''
+                SELECT content FROM generated_content
+                WHERE topic = ? AND specific_skill = ?
+            '''
+    cursor.execute(query, (course_params['subject'], course_params['topics']))
+    content = cursor.fetchone()
+    conn.close()
+    if content:
+        print(content)
+        return jsonify({"courseContent":content})
 
-    data = {
-        "model": "mistral",
-        "prompt": f"Generate a course outline for {course_params['subject']} covering {course_params['topics']} at {course_params['difficulty']} level"
+    else:
+        data = {
+            "model": "mistral",
+            "prompt": f"Generate a course outline for {course_params['subject']} covering {course_params['topics']} at {course_params['difficulty']} level"
     }
 
-    mistral_response = post_request_to_mistral(data)
-    if 'error' in mistral_response:
-        return jsonify({"error": mistral_response['error']}), 500
+        mistral_response = post_request_to_mistral(data)
+        if 'error' in mistral_response:
+            return jsonify({"error": mistral_response['error']}), 500
 
-    return jsonify({"courseContent": mistral_response})
+        return jsonify({"courseContent": mistral_response})
 
 @app.route('/test', methods=['GET'])
 def test():
