@@ -3,7 +3,7 @@ import requests
 from flask_cors import CORS
 import json
 import logging
-import _sqlite3
+import sqlite3
 logging.basicConfig(level=logging.INFO)
 
 app = Flask(__name__)
@@ -158,6 +158,21 @@ def generate_course():
         data = {
             "model": "mistral",
             "prompt": f"Generate a course outline for {course_params['subject']} covering {course_params['topics']} at {course_params['difficulty']} level"
+                      f"""
+        As a virtual mentor, I'm here to guide you through the fascinating world of {course_params['subject']}. Today, we'll dive into the essentials of {course_params['topics']}, a crucial aspect of {course_params['subject']} that offers a range of possibilities and applications. 
+
+        1. **Introduction to {course_params['subject']}**: Let's start with a broad overview. What is {course_params['topics']}, and why is it important in the context of {course_params['subject']}? We'll explore its significance and the fundamental concepts that underpin {course_params['topics']}.
+
+        2. **Key Concepts and Principles**: Understanding the building blocks of {course_params['topics']} is essential. I'll break down the core concepts for you, using clear explanations and relatable examples to make sure you grasp the basics.
+
+        3. **Practical Applications**: Knowing how to apply {course_params['topics']} in real-world scenarios is where things get exciting. I'll introduce you to some common applications of {course_params['topics']} within {course_params['subject']} showing you how it's used to solve problems, enhance projects, or create new opportunities.
+
+        4. **Interactive Exercise**: Let's put theory into practice. I'll guide you through a simple exercise designed to give you hands-on experience with {course_params['topics']}. This activity will help solidify your understanding and give you a taste of what you can achieve.
+
+        5. **Further Exploration**: Now that you've got the basics down, where can you go from here? I'll point you towards additional resources and advanced topics in  {course_params['topics']} for those eager to learn more and take their skills to the next level.
+
+        Ready to get started? Let's embark on this educational journey together and unlock the potential of {course_params['topics']} in the vast landscape of {course_params['subject']}.
+        """
     }
 
         mistral_response = post_request_to_mistral(data)
