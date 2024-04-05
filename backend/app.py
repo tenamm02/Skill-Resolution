@@ -141,13 +141,14 @@ def generate_course():
     course_params = request.json
     if not all(key in course_params for key in ['subject', 'topics', 'difficulty']):
         return jsonify({"error": "Missing required parameters"}), 400
+    topics_json = json.dumps(course_params['topics'])
     conn = sqlite3.connect('generated_content.db')
     cursor = conn.cursor()
     query = '''
                 SELECT content FROM generated_content
                 WHERE topic = ? AND specific_skill = ?
             '''
-    cursor.execute(query, (course_params['subject'], course_params['topics']))
+    cursor.execute(query, (course_params['subject'], topics_json))
     content = cursor.fetchone()
     conn.close()
     if content:
@@ -186,4 +187,4 @@ def test():
     return jsonify({"message": "Flask is running"})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=8000)

@@ -1,47 +1,72 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
+
 
 public class ChalkboardUpdater : MonoBehaviour
 {
-    public Renderer chalkboardRenderer; // Assign the Mesh Renderer of the chalkboard in the Inspector
+    public TMP_InputField subjectInputField; // Assign this in the Inspector
+    public TMP_InputField topicsInputField; // Assign this in the Inspector
+    public TMP_Dropdown difficultyDropdown; // Assign this in the Inspector
+    public TextMeshProUGUI chalkboardText; // Assign this in the Inspector
 
-    private Texture2D texture;
-
-    void Start()
+    [System.Serializable]
+    public class CourseContentItem
     {
-        texture = new Texture2D(256, 256);
-        chalkboardRenderer.material.mainTexture = texture;
+        public string created_at;
+        public bool done;
+        public string model;
+        public string response;
+    }
+
+    [System.Serializable]
+    public class CourseContent
+    {
+        public List<CourseContentItem> courseContent;
+    }
+    
+    public void StartFetchingCourseContent()
+    {
         StartCoroutine(FetchAndUpdateChalkboard());
+        Debug.Log("Starting to fetch and update chalkboard...");
     }
 
     IEnumerator FetchAndUpdateChalkboard()
     {
-        string url = "http://localhost:5000/generate-course";
-        var courseParams = new
-        {
-            subject = "Math",
-            topics = "Algebra",
-            difficulty = "beginner"
-        };
-        string jsonData = JsonUtility.ToJson(courseParams);
+        string subject = subjectInputField.text;
+        string[] topicsArray = topicsInputField.text.Split(',').Select(t => t.Trim()).Where(t => !string.IsNullOrEmpty(t)).ToArray();
+        string difficulty = difficultyDropdown.options[difficultyDropdown.value].text;
 
-        using (UnityWebRequest www = new UnityWebRequest(url, UnityWebRequest.kHttpVerbPOST))
+        // Convert topics array to JSON array format
+        string topicsJsonArray = "[\"" + string.Join("\", \"", topicsArray) + "\"]";
+
+        // Manually construct the JSON data with user inputs
+        string jsonData = "{\"subject\":\"" + subject + "\", \"topics\":" + topicsJsonArray + ", \"difficulty\":\"" + difficulty + "\"}";
+
+        string url = "http://localhost:8000/generate-course";
+        Debug.Log($"Sending request to {url} with data: {jsonData}");
+
+        using (UnityWebRequest www = UnityWebRequest.PostWwwForm(url, UnityWebRequest.kHttpVerbPOST))
         {
-            byte[] jsonToSend = new UTF8Encoding().GetBytes(jsonData);
-            www.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
-            www.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+            byte[] jsonToSend = Encoding.UTF8.GetBytes(jsonData);
+            www.uploadHandler = new UploadHandlerRaw(jsonToSend);
+            www.downloadHandler = new DownloadHandlerBuffer();
             www.SetRequestHeader("Content-Type", "application/json");
 
             yield return www.SendWebRequest();
 
             if (www.result == UnityWebRequest.Result.Success)
             {
-                string data = www.downloadHandler.text;
-                Debug.Log("Received: " + data);
-                // Update the chalkboard texture or handle the data as needed
+                string receivedData = www.downloadHandler.text;
+                Debug.Log("Received data: " + receivedData);
+                string parsedContent = ParseCourseContent(receivedData);
+                Debug.Log("Parsed content: " + parsedContent);
+                UpdateChalkboardText(parsedContent);
             }
             else
             {
@@ -51,38 +76,47 @@ public class ChalkboardUpdater : MonoBehaviour
     }
 
 
+[System.Serializable]
+private struct CourseRequestData
+{
+    public string subject;
+    public List<string> topics;
+    public string difficulty;
+}
 
 
-    void UpdateChalkboardTexture(string text)
+
+    private string ParseCourseContent(string json)
     {
-        FillTextureWithText(texture, text);
+        Debug.Log("Parsing course content...");
+        CourseContent content = JsonUtility.FromJson<CourseContent>(json);
+        StringBuilder fullText = new StringBuilder();
 
-        // Apply the updated texture to the chalkboard material
-        chalkboardRenderer.material.mainTexture = texture;
-    }
-
-    void FillTextureWithText(Texture2D texture, string text)
-    {
-        // Clear the texture to a solid color, here assuming a blackboard
-        Color bgColor = Color.black;
-        Color textColor = Color.white; // Text color, white like chalk
-        texture.SetPixels(Enumerable.Repeat(bgColor, texture.width * texture.height).ToArray());
-        
-        // Simulating text drawing (very basic)
-        int startX = 10; // Start position of the text on the texture
-        int startY = texture.height - 20; // Adjust as needed
-        int pixelPerChar = 6; // Width of each character in pixels
-
-        for (int i = 0; i < text.Length && startX + i * pixelPerChar < texture.width; i++)
+        foreach (var item in content.courseContent)
         {
-            // This is a very simplistic way to represent text drawing
-            // You would replace this with actual text rendering logic
-            for (int x = 0; x < pixelPerChar; x++)
+            if (!string.IsNullOrEmpty(item.response.Trim()))
             {
-                texture.SetPixel(startX + i * pixelPerChar + x, startY, textColor);
+                if (fullText.Length > 0 && !fullText.ToString().EndsWith(" ") && !item.response.StartsWith(" ") && !item.response.StartsWith("\n"))
+                {
+                    fullText.Append(" ");
+                }
+                fullText.Append(item.response.Trim());
             }
         }
 
-        texture.Apply();
+        return fullText.ToString();
+    }
+
+    void UpdateChalkboardText(string text)
+    {
+        Debug.Log($"Updating chalkboard text: {text.Substring(0, Mathf.Min(text.Length, 200))}..."); // Show only first 200 characters to avoid flooding the log
+        if (chalkboardText != null)
+        {
+            chalkboardText.text = text;
+        }
+        else
+        {
+            Debug.LogError("ChalkboardText is not assigned in the inspector.");
+        }
     }
 }
