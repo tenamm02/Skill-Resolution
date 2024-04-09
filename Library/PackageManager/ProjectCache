@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638478799575263036
-    m_Hash: 2904838387
+      ticks: 638482942680162831
+    m_Hash: 4197209578
   m_LockFileStatus:
     m_FilePath: D:/GitHub/Skill-Resolution/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638478799575784532
-    m_Hash: 3569296124
+      ticks: 638482942681045967
+    m_Hash: 1415302444
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:
@@ -136,6 +136,97 @@ m_ResolvedPackages:
   isAssetStorePackage: 1
   datePublishedTicks: 638471043900000000
   documentationUrl: https://developer.oculus.com/documentation/unity/
+  hasRepository: 0
+  repository:
+    type: 
+    url: 
+    revision: 
+    path: 
+  unityLifecycle:
+    version: 
+    nextVersion: 
+    recommendedVersion: 
+    isDeprecated: 0
+    deprecationMessage: 
+  isDeprecated: 0
+  deprecationMessage: 
+- packageId: com.meta.xr.sdk.interaction.ovr.samples@63.0.0
+  testable: 0
+  isDirectDependency: 1
+  version: 63.0.0
+  source: 1
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.meta.xr.sdk.interaction.ovr.samples@63.0.0
+  assetPath: Packages/com.meta.xr.sdk.interaction.ovr.samples
+  name: com.meta.xr.sdk.interaction.ovr.samples
+  displayName: Meta XR Interaction SDK OVR Samples
+  author:
+    name: Meta Platforms, Inc.
+    email: 
+    url: https://developer.oculus.com/
+  category: 
+  type: 
+  description: Contains sample scenes, prefabs, and art assets for Interaction SDK,
+    using OVR variants of the player rig.
+  status: 0
+  errors: []
+  versions:
+    all:
+    - 57.0.0-preview
+    - 59.0.0
+    - 60.0.0
+    - 62.0.0
+    - 63.0.0
+    compatible:
+    - 57.0.0-preview
+    - 59.0.0
+    - 60.0.0
+    - 62.0.0
+    - 63.0.0
+    recommended: 
+    deprecated: []
+  dependencies:
+  - name: com.meta.xr.sdk.interaction.ovr
+    version: 63.0.0
+  - name: com.meta.xr.sdk.sharedassets
+    version: 63.0.0
+  resolvedDependencies:
+  - name: com.meta.xr.sdk.interaction.ovr
+    version: 63.0.0
+  - name: com.meta.xr.sdk.core
+    version: 63.0.0
+  - name: com.meta.xr.sdk.interaction
+    version: 63.0.0
+  - name: com.unity.textmeshpro
+    version: 3.0.6
+  - name: com.unity.ugui
+    version: 1.0.0
+  - name: com.unity.modules.ui
+    version: 1.0.0
+  - name: com.unity.modules.imgui
+    version: 1.0.0
+  - name: com.meta.xr.sdk.sharedassets
+    version: 63.0.0
+  keywords:
+  - Interaction
+  - Oculus
+  - XR
+  - SDK
+  - Samples
+  - OVR
+  - Meta
+  - Quest
+  registry:
+    id: main
+    name: 
+    url: https://packages.unity.com
+    scopes: []
+    isDefault: 1
+    capabilities: 7
+    configSource: 0
+  hideInEditor: 1
+  isAssetStorePackage: 1
+  datePublishedTicks: 638471040840000000
+  documentationUrl: https://developer.oculus.com/documentation/unity/unity-isdk-interaction-sdk-overview/
   hasRepository: 0
   repository:
     type: 
@@ -4087,6 +4178,176 @@ m_ResolvedPackages:
     deprecationMessage: 
   isDeprecated: 0
   deprecationMessage: 
+- packageId: com.meta.xr.sdk.interaction.ovr@63.0.0
+  testable: 0
+  isDirectDependency: 0
+  version: 63.0.0
+  source: 1
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.meta.xr.sdk.interaction.ovr@63.0.0
+  assetPath: Packages/com.meta.xr.sdk.interaction.ovr
+  name: com.meta.xr.sdk.interaction.ovr
+  displayName: Meta XR Interaction SDK OVR Integration
+  author:
+    name: Meta Platforms, Inc.
+    email: 
+    url: https://developer.oculus.com/
+  category: 
+  type: 
+  description: This package allows Interaction SDK to interface with OVRPlugin. Use
+    this package if you are using OVRPlugin or the Core SDK package.
+  status: 0
+  errors: []
+  versions:
+    all:
+    - 56.0.0-preview
+    - 57.0.0-preview
+    - 59.0.0
+    - 60.0.0
+    - 62.0.0
+    - 63.0.0
+    compatible:
+    - 56.0.0-preview
+    - 57.0.0-preview
+    - 59.0.0
+    - 60.0.0
+    - 62.0.0
+    - 63.0.0
+    recommended: 
+    deprecated: []
+  dependencies:
+  - name: com.meta.xr.sdk.core
+    version: 63.0.0
+  - name: com.meta.xr.sdk.interaction
+    version: 63.0.0
+  resolvedDependencies:
+  - name: com.meta.xr.sdk.core
+    version: 63.0.0
+  - name: com.meta.xr.sdk.interaction
+    version: 63.0.0
+  - name: com.unity.textmeshpro
+    version: 3.0.6
+  - name: com.unity.ugui
+    version: 1.0.0
+  - name: com.unity.modules.ui
+    version: 1.0.0
+  - name: com.unity.modules.imgui
+    version: 1.0.0
+  keywords:
+  - SDK
+  - Meta
+  - OVR
+  - XR
+  - Interaction
+  - Oculus
+  - Quest
+  registry:
+    id: main
+    name: 
+    url: https://packages.unity.com
+    scopes: []
+    isDefault: 1
+    capabilities: 7
+    configSource: 0
+  hideInEditor: 1
+  isAssetStorePackage: 1
+  datePublishedTicks: 638471041130000000
+  documentationUrl: https://developer.oculus.com/documentation/unity/unity-isdk-interaction-sdk-overview/
+  hasRepository: 0
+  repository:
+    type: 
+    url: 
+    revision: 
+    path: 
+  unityLifecycle:
+    version: 
+    nextVersion: 
+    recommendedVersion: 
+    isDeprecated: 0
+    deprecationMessage: 
+  isDeprecated: 0
+  deprecationMessage: 
+- packageId: com.meta.xr.sdk.sharedassets@63.0.0
+  testable: 0
+  isDirectDependency: 0
+  version: 63.0.0
+  source: 1
+  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.meta.xr.sdk.sharedassets@63.0.0
+  assetPath: Packages/com.meta.xr.sdk.sharedassets
+  name: com.meta.xr.sdk.sharedassets
+  displayName: Meta XR SDK Shared Assets
+  author:
+    name: Meta Platforms, Inc.
+    email: 
+    url: https://developer.oculus.com/
+  category: 
+  type: 
+  description: This packages provides the Meta XR SDK Shared Assets
+  status: 0
+  errors: []
+  versions:
+    all:
+    - 56.0.0-preview
+    - 57.0.0-preview
+    - 59.0.0
+    - 60.0.0
+    - 62.0.0
+    - 63.0.0
+    compatible:
+    - 56.0.0-preview
+    - 57.0.0-preview
+    - 59.0.0
+    - 60.0.0
+    - 62.0.0
+    - 63.0.0
+    recommended: 
+    deprecated: []
+  dependencies:
+  - name: com.unity.textmeshpro
+    version: 3.0.6
+  - name: com.unity.ugui
+    version: 1.0.0
+  resolvedDependencies:
+  - name: com.unity.textmeshpro
+    version: 3.0.6
+  - name: com.unity.ugui
+    version: 1.0.0
+  - name: com.unity.modules.ui
+    version: 1.0.0
+  - name: com.unity.modules.imgui
+    version: 1.0.0
+  keywords:
+  - Oculus
+  - Meta
+  - XR
+  - Quest
+  - Assets
+  - SDK
+  registry:
+    id: main
+    name: 
+    url: https://packages.unity.com
+    scopes: []
+    isDefault: 1
+    capabilities: 7
+    configSource: 0
+  hideInEditor: 1
+  isAssetStorePackage: 1
+  datePublishedTicks: 638471042040000000
+  documentationUrl: https://developer.oculus.com/documentation/unity/
+  hasRepository: 0
+  repository:
+    type: 
+    url: 
+    revision: 
+    path: 
+  unityLifecycle:
+    version: 
+    nextVersion: 
+    recommendedVersion: 
+    isDeprecated: 0
+    deprecationMessage: 
+  isDeprecated: 0
+  deprecationMessage: 
 - packageId: com.meta.xr.mrutilitykit@63.0.0
   testable: 0
   isDirectDependency: 0
@@ -4453,94 +4714,6 @@ m_ResolvedPackages:
   hideInEditor: 1
   isAssetStorePackage: 1
   datePublishedTicks: 638471039750000000
-  documentationUrl: https://developer.oculus.com/documentation/unity/unity-isdk-interaction-sdk-overview/
-  hasRepository: 0
-  repository:
-    type: 
-    url: 
-    revision: 
-    path: 
-  unityLifecycle:
-    version: 
-    nextVersion: 
-    recommendedVersion: 
-    isDeprecated: 0
-    deprecationMessage: 
-  isDeprecated: 0
-  deprecationMessage: 
-- packageId: com.meta.xr.sdk.interaction.ovr@63.0.0
-  testable: 0
-  isDirectDependency: 0
-  version: 63.0.0
-  source: 1
-  resolvedPath: D:\GitHub\Skill-Resolution\Library\PackageCache\com.meta.xr.sdk.interaction.ovr@63.0.0
-  assetPath: Packages/com.meta.xr.sdk.interaction.ovr
-  name: com.meta.xr.sdk.interaction.ovr
-  displayName: Meta XR Interaction SDK OVR Integration
-  author:
-    name: Meta Platforms, Inc.
-    email: 
-    url: https://developer.oculus.com/
-  category: 
-  type: 
-  description: This package allows Interaction SDK to interface with OVRPlugin. Use
-    this package if you are using OVRPlugin or the Core SDK package.
-  status: 0
-  errors: []
-  versions:
-    all:
-    - 56.0.0-preview
-    - 57.0.0-preview
-    - 59.0.0
-    - 60.0.0
-    - 62.0.0
-    - 63.0.0
-    compatible:
-    - 56.0.0-preview
-    - 57.0.0-preview
-    - 59.0.0
-    - 60.0.0
-    - 62.0.0
-    - 63.0.0
-    recommended: 
-    deprecated: []
-  dependencies:
-  - name: com.meta.xr.sdk.core
-    version: 63.0.0
-  - name: com.meta.xr.sdk.interaction
-    version: 63.0.0
-  resolvedDependencies:
-  - name: com.meta.xr.sdk.core
-    version: 63.0.0
-  - name: com.meta.xr.sdk.interaction
-    version: 63.0.0
-  - name: com.unity.textmeshpro
-    version: 3.0.6
-  - name: com.unity.ugui
-    version: 1.0.0
-  - name: com.unity.modules.ui
-    version: 1.0.0
-  - name: com.unity.modules.imgui
-    version: 1.0.0
-  keywords:
-  - SDK
-  - Meta
-  - OVR
-  - XR
-  - Interaction
-  - Oculus
-  - Quest
-  registry:
-    id: main
-    name: 
-    url: https://packages.unity.com
-    scopes: []
-    isDefault: 1
-    capabilities: 7
-    configSource: 0
-  hideInEditor: 1
-  isAssetStorePackage: 1
-  datePublishedTicks: 638471041130000000
   documentationUrl: https://developer.oculus.com/documentation/unity/unity-isdk-interaction-sdk-overview/
   hasRepository: 0
   repository:

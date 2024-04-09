@@ -367,6 +367,7 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/Meta.XR.GuidedSetups.Editor.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/meta.xr.mrutilitykit.editor.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/meta.xr.mrutilitykit.ref.dll"
+-r:"Library/Bee/artifacts/1900b0aE.dag/meta.xr.sdk.sharedassets.editor.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/MetaXrSimulator.Editor.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/Oculus.Haptics.Editor.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/Oculus.Haptics.ref.dll"
@@ -374,7 +375,9 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/Oculus.Interaction.InterfaceSupport.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/Oculus.Interaction.OVR.Editor.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/Oculus.Interaction.OVR.ref.dll"
+-r:"Library/Bee/artifacts/1900b0aE.dag/Oculus.Interaction.OVR.Samples.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/Oculus.Interaction.ref.dll"
+-r:"Library/Bee/artifacts/1900b0aE.dag/Oculus.Interaction.Samples.Editor.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/Oculus.Platform.Editor.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/Oculus.Platform.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/Oculus.VR.Editor.ref.dll"
@@ -425,9 +428,11 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/VoiceSDK.Runtime.Composer.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/VoiceSDK.Runtime.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/VoiceSDK.Telemetry.ref.dll"
+-r:"Library/Bee/artifacts/1900b0aE.dag/xr.sdk.sharedassets.runtime.ref.dll"
 -analyzer:"D:/Unity Installs/Unity 2022.3.21f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.Properties.SourceGenerator.dll"
 -analyzer:"D:/Unity Installs/Unity 2022.3.21f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
 "Assets/Scripts/ChalkBoardUpdater.cs"
+"Assets/Scripts/VirtualKeyboardInput.cs"
 -langversion:9.0
 
 /deterministic
