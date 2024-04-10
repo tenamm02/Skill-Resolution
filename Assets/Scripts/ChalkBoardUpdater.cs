@@ -10,8 +10,8 @@ using UnityEngine.UI;
 
 public class ChalkboardUpdater : MonoBehaviour
 {
-    public TMP_InputField subjectInputField; // Assign this in the Inspector
-    public TMP_InputField topicsInputField; // Assign this in the Inspector
+    public InputField subjectInputField; // Assign this in the Inspector
+    public InputField topicsInputField; // Assign this in the Inspector
     public TMP_Dropdown difficultyDropdown; // Assign this in the Inspector
     public TextMeshProUGUI chalkboardText; // Assign this in the Inspector
 
