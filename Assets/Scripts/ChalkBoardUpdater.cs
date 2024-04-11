@@ -14,6 +14,7 @@ public class ChalkboardUpdater : MonoBehaviour
     public InputField topicsInputField; // Assign this in the Inspector
     public TMP_Dropdown difficultyDropdown; // Assign this in the Inspector
     public TextMeshProUGUI chalkboardText; // Assign this in the Inspector
+    public GameObject canvas;
 
     [System.Serializable]
     public class CourseContentItem
@@ -34,6 +35,7 @@ public class ChalkboardUpdater : MonoBehaviour
     {
         StartCoroutine(FetchAndUpdateChalkboard());
         Debug.Log("Starting to fetch and update chalkboard...");
+        canvas.SetActive(false);
     }
 
     IEnumerator FetchAndUpdateChalkboard()
