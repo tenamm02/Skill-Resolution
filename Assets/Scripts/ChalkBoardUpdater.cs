@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ public class ChalkboardUpdater : MonoBehaviour
     public TMP_Dropdown difficultyDropdown; // Assign this in the Inspector
     public TextMeshProUGUI chalkboardText; // Assign this in the Inspector
     public GameObject canvas;
-
+    
     [System.Serializable]
     public class CourseContentItem
     {
@@ -30,7 +31,15 @@ public class ChalkboardUpdater : MonoBehaviour
     {
         public List<CourseContentItem> courseContent;
     }
-    
+
+    public void Awake()
+    {
+        // Add this at the beginning of your script
+        System.Net.ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, sslPolicyErrors) => true;
+        System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+        System.Net.ServicePointManager.ServerCertificateValidationCallback = (a, b, c, d) => true;
+    }
+
     public void StartFetchingCourseContent()
     {
         StartCoroutine(FetchAndUpdateChalkboard());
@@ -50,10 +59,10 @@ public class ChalkboardUpdater : MonoBehaviour
         // Manually construct the JSON data with user inputs
         string jsonData = "{\"subject\":\"" + subject + "\", \"topics\":" + topicsJsonArray + ", \"difficulty\":\"" + difficulty + "\"}";
 
-        string url = "http://127.0.0.1:8000/generate-course";
+        string url = "https://192.168.1.187:8000/generate-course";
         Debug.Log($"Sending request to {url} with data: {jsonData}");
 
-        using (UnityWebRequest www = UnityWebRequest.PostWwwForm(url, UnityWebRequest.kHttpVerbPOST))
+        using (UnityWebRequest www = new UnityWebRequest(url, "POST"))
         {
             byte[] jsonToSend = Encoding.UTF8.GetBytes(jsonData);
             www.uploadHandler = new UploadHandlerRaw(jsonToSend);
