@@ -1,2 +1,62 @@
 node_modules/
 .DS_Store/
+
+# This .gitignore file should be placed at the root of your Unity project directory
+
+# Ignore all files in the Temp directory
+Temp/
+
+# Ignore all files in the Library directory
+Library/
+
+# Ignore all files in the Build directory
+Build/
+
+# Ignore all files in the Build directory
+Builds/
+
+# Ignore all files in the Logs directory
+Logs/
+
+# Ignore all files in the MemoryCaptures directory
+MemoryCaptures/
+
+# Ignore all files in the Obj directory
+obj/
+
+# Ignore all .csproj files
+*.csproj
+
+# Ignore all .sln files
+*.sln
+
+# Ignore user-specific files like the .userprefs
+*.userprefs
+
+# Ignore Visual Studio cache files
+.vs/
+
+# Ignore Gradle files
+.gradle/
+
+# Ignore Unity3D generated meta files
+*.pidb.meta
+*.pdb.meta
+
+# Ignore MonoDevelop Solution files
+*.suo
+*.user
+*.userprefs
+*.unityproj
+*.booproj
+
+# Ignore JetBrains Rider cache directory
+.idea/
+
+# Ignore VS Code directory
+.vscode/
+
+# Ignore OS generated files
+.DS_Store
+._*
+Thumbs.db

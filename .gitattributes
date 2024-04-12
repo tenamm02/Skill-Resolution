@@ -1,1 +1,4 @@
 * text=auto
+.so filter=lfs diff=lfs merge=lfs -text
+Library/*.asset filter=lfs diff=lfs merge=lfs -text
+Library/*.prefab filter=lfs diff=lfs merge=lfs -text

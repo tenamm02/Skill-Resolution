@@ -97,7 +97,7 @@ function App() {
 
 const handleCourseGeneration = async () => {
     try {
-        const response = await axios.post('http://localhost:5000/generate-course', {
+        const response = await axios.post('http://127.0.0.1:8000/generate-course', {
             subject,
             topics: topic,
             difficulty

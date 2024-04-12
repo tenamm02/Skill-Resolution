@@ -50,7 +50,7 @@ public class ChalkboardUpdater : MonoBehaviour
         // Manually construct the JSON data with user inputs
         string jsonData = "{\"subject\":\"" + subject + "\", \"topics\":" + topicsJsonArray + ", \"difficulty\":\"" + difficulty + "\"}";
 
-        string url = "http://localhost:8000/generate-course";
+        string url = "http://127.0.0.1:8000/generate-course";
         Debug.Log($"Sending request to {url} with data: {jsonData}");
 
         using (UnityWebRequest www = UnityWebRequest.PostWwwForm(url, UnityWebRequest.kHttpVerbPOST))
