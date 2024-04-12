@@ -2,6 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -31,14 +34,38 @@ public class ChalkboardUpdater : MonoBehaviour
     {
         public List<CourseContentItem> courseContent;
     }
-
-    public void Awake()
+    
+    public class CertificateBypass : CertificateHandler
     {
-        // Add this at the beginning of your script
-        System.Net.ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, sslPolicyErrors) => true;
-        System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
-        System.Net.ServicePointManager.ServerCertificateValidationCallback = (a, b, c, d) => true;
+        protected override bool ValidateCertificate(byte[] certificateData)
+        {
+            // Always accept
+            return true;
+        }
     }
+
+
+    void Awake()
+    {
+        // Set the security protocol (optional, depends on server configuration)
+        System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+
+        // Force all certificates to be accepted
+        void Awake() {
+            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, error) => {
+                Debug.Log($"ServerCertificateValidationCallback: {error}");
+                return true;  // Forcefully accept all certificates
+            };
+        }
+        
+        System.Net.ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => 
+        {
+            Debug.Log("SSL Policy Errors: " + sslPolicyErrors);  // Log the SSL errors
+            return true;  // Return true to ignore any SSL errors
+        };
+    }
+
+
 
     public void StartFetchingCourseContent()
     {
@@ -68,6 +95,7 @@ public class ChalkboardUpdater : MonoBehaviour
             www.uploadHandler = new UploadHandlerRaw(jsonToSend);
             www.downloadHandler = new DownloadHandlerBuffer();
             www.SetRequestHeader("Content-Type", "application/json");
+            www.certificateHandler = new CertificateBypass();
 
             yield return www.SendWebRequest();
 
