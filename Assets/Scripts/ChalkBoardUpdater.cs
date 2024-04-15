@@ -44,37 +44,23 @@ public class ChalkboardUpdater : MonoBehaviour
         }
     }
 
-
     void Awake()
     {
-        // Set the security protocol (optional, depends on server configuration)
-        System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+        // Set the security protocol
+        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;  // Default to TLS 1.2
+#if NETCOREAPP3_0_OR_GREATER || NET5_0_OR_GREATER
+    ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls13;  // Add TLS 1.3 if available
+#endif
 
-        // Force all certificates to be accepted
-        void Awake() {
-            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, error) => {
-                Debug.Log($"ServerCertificateValidationCallback: {error}");
-                return true;  // Forcefully accept all certificates
-            };
-        }
-        
-        System.Net.ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => 
-        {
-            Debug.Log("SSL Policy Errors: " + sslPolicyErrors);  // Log the SSL errors
-            return true;  // Return true to ignore any SSL errors
+        // Certificate validation bypass
+        ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, error) => {
+            Debug.Log($"ServerCertificateValidationCallback: {error}");
+            return true;  // Forcefully accept all certificates
         };
     }
 
-
-
-    public void StartFetchingCourseContent()
-    {
-        StartCoroutine(FetchAndUpdateChalkboard());
-        Debug.Log("Starting to fetch and update chalkboard...");
-        canvas.SetActive(false);
-    }
-
-    IEnumerator FetchAndUpdateChalkboard()
+    
+    private string BuildJsonDataFromInput()
     {
         string subject = subjectInputField.text;
         string[] topicsArray = topicsInputField.text.Split(',').Select(t => t.Trim()).Where(t => !string.IsNullOrEmpty(t)).ToArray();
@@ -84,9 +70,20 @@ public class ChalkboardUpdater : MonoBehaviour
         string topicsJsonArray = "[\"" + string.Join("\", \"", topicsArray) + "\"]";
 
         // Manually construct the JSON data with user inputs
-        string jsonData = "{\"subject\":\"" + subject + "\", \"topics\":" + topicsJsonArray + ", \"difficulty\":\"" + difficulty + "\"}";
+        return "{\"subject\":\"" + subject + "\", \"topics\":" + topicsJsonArray + ", \"difficulty\":\"" + difficulty + "\"}";
 
-        string url = "https://192.168.1.187:8000/generate-course";
+    }
+    
+    public void StartFetchingCourseContent()
+    {
+        StartCoroutine(FetchAndUpdateChalkboard(BuildJsonDataFromInput()));
+        Debug.Log("Starting to fetch and update chalkboard...");
+        canvas.SetActive(false);
+    }
+
+    IEnumerator FetchAndUpdateChalkboard(string jsonData)
+    {
+        string url = "https://192.168.1.186:8000/generate-course";
         Debug.Log($"Sending request to {url} with data: {jsonData}");
 
         using (UnityWebRequest www = new UnityWebRequest(url, "POST"))
@@ -145,7 +142,7 @@ private struct CourseRequestData
 
         return fullText.ToString();
     }
-
+    
     void UpdateChalkboardText(string text)
     {
         Debug.Log($"Updating chalkboard text: {text.Substring(0, Mathf.Min(text.Length, 200))}..."); // Show only first 200 characters to avoid flooding the log
@@ -158,4 +155,5 @@ private struct CourseRequestData
             Debug.LogError("ChalkboardText is not assigned in the inspector.");
         }
     }
+    
 }
