@@ -3,6 +3,7 @@ import requests
 from flask_cors import CORS
 import json
 import logging
+import requests
 import sqlite3
 logging.basicConfig(level=logging.INFO)
 
@@ -176,16 +177,24 @@ def generate_course():
         """
     }
 
-        mistral_response = post_request_to_mistral(data)
-        if 'error' in mistral_response:
-            return jsonify({"error": mistral_response['error']}), 500
 
-        return jsonify({"courseContent": mistral_response})
+        response = requests.post(MISTRAL_API_URL, json=data)
+        if response.status_code == 200:
+            try:
+                response_lines = response.content.decode('utf-8').strip().split('\n')
+                generated_text = ' '.join(
+                    item.get('response ','') for item in (json.loads(line) for line in response_lines))
+                print(generated_text)
+                return generated_text
+            except Exception as e:
+                return f"Error parsing Mistral API Response: {str(e)}"
+
 
 @app.route('/test', methods=['GET'])
 def test():
     return jsonify({"message": "Flask is running"})
 
 if __name__ == '__main__':
+
     app.run(debug=True, host='0.0.0.0', port=8000, ssl_context=('cert.pem', 'key.pem'))
 
