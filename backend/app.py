@@ -177,18 +177,22 @@ def generate_course():
         """
     }
 
+        mistral_response = post_request_to_mistral(data)
+        if 'error' in mistral_response:
+            return jsonify({"error": mistral_response['error']}), 500
+        return jsonify({"courseContent": mistral_response})
 
-        response = requests.post(MISTRAL_API_URL, json=data)
-        if response.status_code == 200:
-            try:
-                response_lines = response.content.decode('utf-8').strip().split('\n')
-                generated_text = ' '.join(
-                    item.get('response ','') for item in (json.loads(line) for line in response_lines))
-                print(generated_text)
-                return generated_text
-            except Exception as e:
-                return f"Error parsing Mistral API Response: {str(e)}"
-
+        #response = requests.post(MISTRAL_API_URL, json=data)
+        #if response.status_code == 200:
+            #try:
+                #response_lines = response.content.decode('utf-8').strip().split('\n')
+                #generated_text = ' '.join(
+                    #item.get('response ','') for item in (json.loads(line) for line in response_lines))
+                #print(generated_text)
+                #return generated_text
+            #except Exception as e:
+                #return f"Error parsing Mistral API Response: {str(e)}"
+    #return response
 
 @app.route('/test', methods=['GET'])
 def test():
