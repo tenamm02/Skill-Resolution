@@ -22,6 +22,7 @@ public class Quiz : MonoBehaviour
     public Button submitButton; // Assign in Inspector
     public Transform optionsContainer; // Parent GameObject where option buttons/toggles will be instantiated
     public GameObject prefabOptionButton; // Assign this in the Unity Inspector
+    public TextMeshProUGUI scoreText; 
     
     
     [System.Serializable]
@@ -216,6 +217,12 @@ void DisplayCurrentQuestion()
             }
         }
         Debug.Log($"Quiz Completed. Score: {score} out of {quizContent.questions.Count}");
-        // Optionally display the score in the UI or handle it according to your game design
+        scoreText.text = $"Your Score: {score} out of {quizContent.questions.Count}";
+
+        // Hide the quiz question text and the options container
+        quizBoardText.gameObject.SetActive(false);
+        optionsContainer.gameObject.SetActive(false);
+        scoreText.gameObject.SetActive(true);
     }
+
 }
