@@ -22,6 +22,7 @@ public class Quiz : MonoBehaviour
     public Button submitButton; // Assign in Inspector
     public Transform optionsContainer; // Parent GameObject where option buttons/toggles will be instantiated
     public GameObject prefabOptionButton; // Assign this in the Unity Inspector
+    public TextMeshProUGUI scoreText; 
     
     
     [System.Serializable]
@@ -85,7 +86,7 @@ public class Quiz : MonoBehaviour
     string[] topicsArray = topicsInputField.text.Split(',').Select(t => t.Trim()).Where(t => !string.IsNullOrEmpty(t)).ToArray();
     string jsonData = $"{{\"subject\":\"{subject}\", \"topics\":\"{string.Join(",", topicsArray)}\"}}";
 
-    string url = "https://192.168.1.186:8000/generate-quiz";
+    string url = "https://192.168.1.187:8000/generate-quiz";
     Debug.Log($"Sending request to {url} with data: {jsonData}");
 
     using (UnityWebRequest www = UnityWebRequest.PostWwwForm(url, UnityWebRequest.kHttpVerbPOST))
@@ -111,47 +112,48 @@ public class Quiz : MonoBehaviour
     }
 }
 
-void ParseAndDisplayQuiz(string text)
-{
-    string[] questionBlocks = text.Split(new string[] { "Question:" }, StringSplitOptions.RemoveEmptyEntries);
-    List<QuestionItem> questions = new List<QuestionItem>();
-
-    foreach (string block in questionBlocks)
+    void ParseAndDisplayQuiz(string text)
     {
-        if (string.IsNullOrWhiteSpace(block))
-            continue;
+        // Split the text into individual questions
+        string[] questionsData = text.Split(new string[] { "Question:" }, StringSplitOptions.RemoveEmptyEntries);
+        quizContent.questions = new List<QuestionItem>();
 
-        string[] parts = block.Split(new string[] { "An swer:" }, StringSplitOptions.RemoveEmptyEntries);
-        if (parts.Length < 2)
-            continue;
-
-        string questionPart = parts[0].Trim();
-        string answerPart = parts[1].Trim();
-
-        // Split the question part further to extract options
-        string questionText = questionPart.Split(new[] { 'A' })[0].Trim();
-        List<string> options = new List<string>
+        foreach (string questionData in questionsData)
         {
-            questionPart.Split(new[] { 'A' })[1].Split('B')[0].Trim(),
-            questionPart.Split(new[] { 'B' })[1].Split('C')[0].Trim(),
-            questionPart.Split(new[] { 'C' })[1].Split('D')[0].Trim(),
-            questionPart.Split(new[] { 'D' })[1].Trim()
-        };
+            string trimmedQuestion = questionData.Trim();
+            string[] parts = trimmedQuestion.Split(new string[] { "An swer:" }, StringSplitOptions.RemoveEmptyEntries);
+        
+            if (parts.Length < 2) continue; // Ensure there are two parts
+        
+            string questionText = parts[0].Trim();
+            string answerLetter = parts[1].Trim().Substring(0, 1);
+        
+            // Split the question into question text and options using the answer options identifiers
+            string[] splitOptions = questionText.Split(new string[] { "A )", "B )", "C )", "D )" }, StringSplitOptions.RemoveEmptyEntries);
+            questionText = splitOptions[0].Trim();
+        
+            List<string> options = new List<string>();
+            for (int i = 1; i < splitOptions.Length; i++) // Start at 1 to skip the question part
+            {
+                options.Add(splitOptions[i].Trim());
+            }
+        
+            int correctAnswerIndex = "ABCD".IndexOf(answerLetter); // Get the index of the answer letter
+        
+            // Create the QuestionItem and add it to the quiz content
+            quizContent.questions.Add(new QuestionItem
+            {
+                question = questionText,
+                options = options,
+                correctAnswerIndex = correctAnswerIndex,
+                selectedAnswerIndex = -1
+            });
+        }
 
-        int correctAnswerIndex = answerPart[0] - 'A';
-
-        questions.Add(new QuestionItem
-        {
-            question = questionText,
-            options = options,
-            correctAnswerIndex = correctAnswerIndex,
-            selectedAnswerIndex = -1  // Default to -1, indicating no selection
-        });
+        // Now that the quizContent is populated, display the first question
+        DisplayCurrentQuestion();
     }
 
-    quizContent = new QuizContent { questions = questions };
-    DisplayCurrentQuestion();
-}
 
 void DisplayCurrentQuestion()
 {
@@ -215,6 +217,12 @@ void DisplayCurrentQuestion()
             }
         }
         Debug.Log($"Quiz Completed. Score: {score} out of {quizContent.questions.Count}");
-        // Optionally display the score in the UI or handle it according to your game design
+        scoreText.text = $"Your Score: {score} out of {quizContent.questions.Count}";
+
+        // Hide the quiz question text and the options container
+        quizBoardText.gameObject.SetActive(false);
+        optionsContainer.gameObject.SetActive(false);
+        scoreText.gameObject.SetActive(true);
     }
+
 }

@@ -7,7 +7,7 @@ node_modules/
 Temp/
 
 # Ignore all files in the Library directory
-Library/
+[Ll]ibrary/
 
 # Ignore all files in the Build directory
 Build/
