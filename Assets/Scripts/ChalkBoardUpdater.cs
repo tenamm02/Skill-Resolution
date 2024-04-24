@@ -83,7 +83,7 @@ public class ChalkboardUpdater : MonoBehaviour
 
     IEnumerator FetchAndUpdateChalkboard(string jsonData)
     {
-        string url = "https://192.168.1.186:8000/generate-course";
+        string url = "https://192.168.1.187:8000/generate-course";
         Debug.Log($"Sending request to {url} with data: {jsonData}");
 
         using (UnityWebRequest www = new UnityWebRequest(url, "POST"))
@@ -122,26 +122,55 @@ private struct CourseRequestData
 
 
 
-    private string ParseCourseContent(string json)
-    {
-        Debug.Log("Parsing course content...");
-        CourseContent content = JsonUtility.FromJson<CourseContent>(json);
-        StringBuilder fullText = new StringBuilder();
+private string ParseCourseContent(string json)
+{
+    Debug.Log("Parsing course content...");
+    CourseContent content = JsonUtility.FromJson<CourseContent>(json);
+    StringBuilder fullText = new StringBuilder();
+    bool newSentence = true;
 
-        foreach (var item in content.courseContent)
+    foreach (var item in content.courseContent)
+    {
+        string response = item.response.Trim();
+
+        if (!string.IsNullOrEmpty(response))
         {
-            if (!string.IsNullOrEmpty(item.response.Trim()))
+            // Replace [' '] with the actual term if known, or an appropriate placeholder
+            response = response.Replace("[' ']", "the specified term");
+
+            // Check if the last character of the accumulated text is a space or punctuation
+            if (fullText.Length > 0 && !char.IsWhiteSpace(fullText[fullText.Length - 1]) && !char.IsPunctuation(fullText[fullText.Length - 1]))
             {
-                if (fullText.Length > 0 && !fullText.ToString().EndsWith(" ") && !item.response.StartsWith(" ") && !item.response.StartsWith("\n"))
+                // If the response is not starting with a punctuation, add a space
+                if (!char.IsPunctuation(response[0]))
                 {
                     fullText.Append(" ");
                 }
-                fullText.Append(item.response.Trim());
             }
-        }
 
-        return fullText.ToString();
+            // Check for the start of a new sentence
+            if (newSentence && char.IsLetter(response[0]))
+            {
+                response = char.ToUpper(response[0]) + response.Substring(1);
+                newSentence = false;
+            }
+
+            // Check if the response ends with a sentence-ending punctuation
+            if (response.EndsWith(".") || response.EndsWith("!") || response.EndsWith("?"))
+            {
+                newSentence = true;
+            }
+
+            // Append the response to the accumulated text
+            fullText.Append(response);
+        }
     }
+
+    // Convert the StringBuilder to a string and remove any double spaces
+    return System.Text.RegularExpressions.Regex.Replace(fullText.ToString(), @"\s+", " ");
+}
+
+
     
     void UpdateChalkboardText(string text)
     {
