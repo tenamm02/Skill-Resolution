@@ -149,12 +149,15 @@ def generate_course():
                 SELECT content FROM generated_content
                 WHERE topic = ? AND specific_skill = ?
             '''
-    cursor.execute(query, (course_params['subject'], topics_json))
-    content = cursor.fetchone()
+    cursor.execute(query, (course_params['subject'], course_params['topics']))
+    raw_content = cursor.fetchone()
+    #print(raw_content)
     conn.close()
-    if content:
-        print(content)
-        return jsonify({"courseContent":content})
+    if raw_content:
+        json_string = raw_content[0]
+        structured_content = json.loads(json_string)
+
+        return jsonify({"courseContent": structured_content})
 
     else:
         data = {
@@ -178,11 +181,32 @@ def generate_course():
     }
 
         mistral_response = post_request_to_mistral(data)
+        passthrough = mistral_response
+        print(passthrough)
+        full_response = ''.join(item['response'] for item in mistral_response if 'response' in item)
+        if isinstance(passthrough, (list, dict)):
+            mistral_response = json.dumps(passthrough)
+
+        conn = sqlite3.connect('generated_content.db')
+        cursor = conn.cursor()
+
+        query = '''
+                   INSERT INTO generated_content (topic, specific_skill, content)
+                   VALUES (?, ?, ?)
+               '''
+        cursor.execute(query, (course_params['subject'], course_params['topics'], mistral_response))
+        conn.commit()
+        conn.close()
+        #response_lines = mistral_response.decode('utf-8').strip().split('\n')
+        #generated_txt = ' '.join(
+                    #item.get('response ','') for item in (json.loads(line) for line in response_lines))
+
         if 'error' in mistral_response:
             return jsonify({"error": mistral_response['error']}), 500
-        return jsonify({"courseContent": mistral_response})
 
-        #response = requests.post(MISTRAL_API_URL, json=data)
+        return jsonify({"courseContent": passthrough})
+
+
         #if response.status_code == 200:
             #try:
                 #response_lines = response.content.decode('utf-8').strip().split('\n')
@@ -200,5 +224,5 @@ def test():
 
 if __name__ == '__main__':
 
-    app.run(debug=True, host='0.0.0.0', port=8000, ssl_context=('cert.pem', 'key.pem'))
+    app.run(debug=True, host='0.0.0.0', port=8000)
 

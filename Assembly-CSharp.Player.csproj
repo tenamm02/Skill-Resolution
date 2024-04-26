@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets/Scripts/ChalkBoardUpdater.cs" />
+    <Compile Include="Assets/Scripts/Quiz.cs" />
     <Compile Include="Assets/Scripts/VirtualKeyboardInput.cs" />
     <Reference Include="UnityEngine">
       <HintPath>/Applications/Unity/Hub/Editor/2022.3.21f1/PlaybackEngines/AndroidPlayer/Variations/il2cpp/Managed/UnityEngine.dll</HintPath>
