@@ -86,7 +86,7 @@ public class Quiz : MonoBehaviour
     string[] topicsArray = topicsInputField.text.Split(',').Select(t => t.Trim()).Where(t => !string.IsNullOrEmpty(t)).ToArray();
     string jsonData = $"{{\"subject\":\"{subject}\", \"topics\":\"{string.Join(",", topicsArray)}\"}}";
 
-    string url = "https://192.168.1.186:8000/generate-quiz";
+    string url = "https://148.166.166.16:8000/generate-quiz";
     Debug.Log($"Sending request to {url} with data: {jsonData}");
 
     using (UnityWebRequest www = UnityWebRequest.PostWwwForm(url, UnityWebRequest.kHttpVerbPOST))

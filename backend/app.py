@@ -186,6 +186,7 @@ def generate_course():
         #if response.status_code == 200:
             #try:
                 #response_lines = response.content.decode('utf-8').strip().split('\n')
+
                 #generated_text = ' '.join(
                     #item.get('response ','') for item in (json.loads(line) for line in response_lines))
                 #print(generated_text)

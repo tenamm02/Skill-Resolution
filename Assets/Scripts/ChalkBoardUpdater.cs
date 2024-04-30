@@ -83,7 +83,7 @@ public class ChalkboardUpdater : MonoBehaviour
 
     IEnumerator FetchAndUpdateChalkboard(string jsonData)
     {
-        string url = "https://192.168.1.187:8000/generate-course";
+        string url = "https://148.166.166.16:8000/generate-course";
         Debug.Log($"Sending request to {url} with data: {jsonData}");
 
         using (UnityWebRequest www = new UnityWebRequest(url, "POST"))
